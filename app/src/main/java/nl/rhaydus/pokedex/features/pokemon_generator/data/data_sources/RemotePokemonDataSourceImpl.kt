@@ -1,9 +1,9 @@
-package nl.rhaydus.pokedex.features.user_generator.data.data_sources
+package nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources
 
 import nl.rhaydus.pokedex.features.core.EmptyUser
-import nl.rhaydus.pokedex.features.user_generator.data.mapper.toPokemon
-import nl.rhaydus.pokedex.features.user_generator.data.network.PokemonApiService
-import nl.rhaydus.pokedex.features.user_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.data.mapper.toPokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.data.network.PokemonApiService
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 
 class RemotePokemonDataSourceImpl : RemotePokemonDataSource {
     private val service: PokemonApiService = PokemonApiService.getPokemonApiService()

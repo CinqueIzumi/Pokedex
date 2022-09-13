@@ -1,8 +1,8 @@
-package nl.rhaydus.pokedex.features.user_generator.domain.use_cases
+package nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases
 
 import android.util.Log
-import nl.rhaydus.pokedex.features.user_generator.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.user_generator.domain.repositories.UserRepository
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.repositories.UserRepository
 
 class GenerateRandomPokemon(private val repository: UserRepository) {
     suspend operator fun invoke(): Pokemon? {

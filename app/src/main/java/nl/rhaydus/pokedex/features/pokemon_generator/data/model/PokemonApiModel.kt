@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.features.user_generator.data.model
+package nl.rhaydus.pokedex.features.pokemon_generator.data.model
 
 data class PokemonApiModel(
     val name: String,

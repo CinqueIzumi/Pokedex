@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context="nl.rhaydus.pokedex.features.user_generator.presentation.ui.PokemonFragment">
+    tools:context="nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui.PokemonFragment">
 
     <TextView
         android:id="@+id/tvName"

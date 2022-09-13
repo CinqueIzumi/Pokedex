@@ -1,8 +1,8 @@
-package nl.rhaydus.pokedex.features.user_generator.data.repositories
+package nl.rhaydus.pokedex.features.pokemon_generator.data.repositories
 
-import nl.rhaydus.pokedex.features.user_generator.data.data_sources.RemotePokemonDataSource
-import nl.rhaydus.pokedex.features.user_generator.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.user_generator.domain.repositories.UserRepository
+import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePokemonDataSource
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.repositories.UserRepository
 
 class PokemonRepositoryImpl(
     private val remotePokemonDataSource: RemotePokemonDataSource

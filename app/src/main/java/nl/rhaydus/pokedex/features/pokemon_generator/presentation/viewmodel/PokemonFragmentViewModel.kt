@@ -1,12 +1,12 @@
-package nl.rhaydus.pokedex.features.user_generator.presentation.viewmodel
+package nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.rhaydus.pokedex.features.user_generator.data.data_sources.RemotePokemonDataSourceImpl
-import nl.rhaydus.pokedex.features.user_generator.data.repositories.PokemonRepositoryImpl
-import nl.rhaydus.pokedex.features.user_generator.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.user_generator.domain.use_cases.GenerateRandomPokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePokemonDataSourceImpl
+import nl.rhaydus.pokedex.features.pokemon_generator.data.repositories.PokemonRepositoryImpl
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GenerateRandomPokemon
 
 class PokemonFragmentViewModel : ViewModel() {
     private val remotePokemonDataSource = RemotePokemonDataSourceImpl()

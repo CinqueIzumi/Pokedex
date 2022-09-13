@@ -1,7 +1,7 @@
-package nl.rhaydus.pokedex.features.user_generator.data.network
+package nl.rhaydus.pokedex.features.pokemon_generator.data.network
 
 import nl.rhaydus.pokedex.features.core.BASE_URL
-import nl.rhaydus.pokedex.features.user_generator.data.model.PokemonApiModel
+import nl.rhaydus.pokedex.features.pokemon_generator.data.model.PokemonApiModel
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
