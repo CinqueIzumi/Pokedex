@@ -1,22 +1,19 @@
 package nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import nl.rhaydus.pokedex.features.core.DEBUG_TAG
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonFragmentViewModel
 
 @RootNavGraph(start = true)
@@ -44,14 +41,17 @@ fun PokemonScreen(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
-//                    Text("Name: Snom", style = MaterialTheme.typography.h5)
                     Text("Name: ${state.value?.name}", style = MaterialTheme.typography.h5)
-                    Text("ID: 872", style = MaterialTheme.typography.subtitle1)
+                    Text("ID: ${state.value?.id}", style = MaterialTheme.typography.subtitle1)
+                    Image(
+                        painter = rememberAsyncImagePainter(state.value?.imageUrl),
+                        contentDescription = null,
+                        modifier = Modifier.size(100.dp)
+                    )
                 }
             }
             Button(
                 onClick = {
-                    Log.d(DEBUG_TAG, "cLICKED!")
                     runBlocking {
                         withContext(Dispatchers.IO) {
                             viewModel.loadRandomPokemon()
