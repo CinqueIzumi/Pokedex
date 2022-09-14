@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonFragmentViewModel
 import kotlinx.coroutines.launch
 import nl.rhaydus.pokedex.R
@@ -21,6 +22,7 @@ class PokemonFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         vm.getCurrentPokemon().observe(this) { pokemon ->
+            Glide.with(this).load(pokemon.imageUrl).into(binding.imgPokemon)
             binding.tvName.text = pokemon.name
             binding.tvId.text = pokemon.id.toString()
         }
