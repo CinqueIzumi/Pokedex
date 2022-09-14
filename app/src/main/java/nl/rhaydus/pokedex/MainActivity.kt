@@ -1,11 +1,29 @@
 package nl.rhaydus.pokedex
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
+import nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui.NavGraphs
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            MaterialTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.LightGray
+                ) {
+                    DestinationsNavHost(navGraph = NavGraphs.root)
+                }
+            }
+        }
     }
 }
