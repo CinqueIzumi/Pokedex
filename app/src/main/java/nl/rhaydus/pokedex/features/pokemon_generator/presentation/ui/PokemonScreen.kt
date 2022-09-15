@@ -88,7 +88,7 @@ fun ShowProgressDialog() {
 @Composable
 fun BuildPokemonCard(givenPokemon: Pokemon) {
     Card(
-        backgroundColor = Color.Red
+        backgroundColor = determineColor(givenPokemon)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             AsyncImage(
@@ -103,6 +103,17 @@ fun BuildPokemonCard(givenPokemon: Pokemon) {
             )
             Text("Name: ${givenPokemon.name}", style = MaterialTheme.typography.h5)
             Text("ID: ${givenPokemon.id}", style = MaterialTheme.typography.subtitle1)
+            Text("Type: ${givenPokemon.mainType}", style = MaterialTheme.typography.body1)
         }
+    }
+}
+
+fun determineColor(givenPokemon: Pokemon): Color {
+    // TODO: Implement proper colors
+    return when (givenPokemon.mainType) {
+        "bug" -> Color.Yellow
+        "ice" -> Color.White
+        "electric" -> Color.Blue
+        else -> Color.Black
     }
 }
