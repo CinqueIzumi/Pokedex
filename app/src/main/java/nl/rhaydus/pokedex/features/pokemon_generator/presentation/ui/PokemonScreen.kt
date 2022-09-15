@@ -1,19 +1,27 @@
 package nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import nl.rhaydus.pokedex.R
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonFragmentViewModel
 
 @RootNavGraph(start = true)
@@ -22,7 +30,12 @@ import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.Poke
 fun PokemonScreen(
     viewModel: PokemonFragmentViewModel = hiltViewModel()
 ) {
-    val state = viewModel.currentPokemon.observeAsState()
+    val currentPokemon = viewModel.currentPokemon.observeAsState()
+    val isLoading = viewModel.loadingState.observeAsState()
+
+    if (isLoading.value == true) {
+        ShowProgressDialog()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -37,18 +50,8 @@ fun PokemonScreen(
                 .padding(20.dp)
                 .fillMaxSize()
         ) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Text("Name: ${state.value?.name}", style = MaterialTheme.typography.h5)
-                    Text("ID: ${state.value?.id}", style = MaterialTheme.typography.subtitle1)
-                    Image(
-                        painter = rememberAsyncImagePainter(state.value?.imageUrl),
-                        contentDescription = null,
-                        modifier = Modifier.size(100.dp)
-                    )
-                }
+            currentPokemon.value?.let { pokemon ->
+                BuildPokemonCard(givenPokemon = pokemon)
             }
             Button(
                 onClick = {
@@ -61,6 +64,45 @@ fun PokemonScreen(
             ) {
                 Text("Randomize!", style = MaterialTheme.typography.button)
             }
+        }
+    }
+}
+
+@Composable
+fun ShowProgressDialog() {
+    Dialog(
+        onDismissRequest = {},
+        DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(Color.White, shape = RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+}
+
+@Composable
+fun BuildPokemonCard(givenPokemon: Pokemon) {
+    Card(
+        backgroundColor = Color.Red
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            AsyncImage(
+                model = ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(givenPokemon.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Pokemon image",
+                modifier = Modifier.size(100.dp),
+                placeholder = painterResource(R.drawable.ic_egg_sprite)
+            )
+            Text("Name: ${givenPokemon.name}", style = MaterialTheme.typography.h5)
+            Text("ID: ${givenPokemon.id}", style = MaterialTheme.typography.subtitle1)
         }
     }
 }

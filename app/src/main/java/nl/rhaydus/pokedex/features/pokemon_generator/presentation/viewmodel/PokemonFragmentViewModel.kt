@@ -5,21 +5,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import nl.rhaydus.pokedex.features.core.DEBUG_TAG
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GenerateRandomPokemon
 import javax.inject.Inject
+
 
 @HiltViewModel
 class PokemonFragmentViewModel @Inject constructor(
     private val getRandomPokemonUseCase: GenerateRandomPokemon
 ) : ViewModel() {
 
-    private val _currentPokemon = MutableLiveData<Pokemon>()
-    val currentPokemon: LiveData<Pokemon> = _currentPokemon
+    private val _currentPokemon = MutableLiveData<Pokemon?>()
+    val currentPokemon: LiveData<Pokemon?> = _currentPokemon
+
+    private val _loadingState = MutableLiveData<Boolean>()
+    val loadingState: LiveData<Boolean> = _loadingState
+
+    private val _errorState = MutableLiveData<String?>()
+    val errorState: LiveData<String?> = _errorState
+
+    fun setLoading(value: Boolean) {
+        _loadingState.postValue(value)
+    }
 
     suspend fun loadRandomPokemon() {
-        Log.d(DEBUG_TAG, "Started loading!")
+        setLoading(true)
+
         val result = getRandomPokemonUseCase()
 
         result.fold(
@@ -28,7 +41,10 @@ class PokemonFragmentViewModel @Inject constructor(
             },
             onFailure = { error ->
                 Log.e(DEBUG_TAG, error.toString())
+                _errorState.postValue(error.message.toString())
             }
         )
+
+        setLoading(false)
     }
 }
