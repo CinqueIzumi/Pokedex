@@ -10,14 +10,24 @@ data class PokemonApiModel(
 )
 
 data class PokemonSpritesApiModel(
+    val other: PokemonSpriteOtherApiModel
+)
+
+data class PokemonSpriteOtherApiModel(
+    @SerializedName("official-artwork")
+    val artwork: PokemonSpriteOfficialArtApiModel
+)
+
+data class PokemonSpriteOfficialArtApiModel(
     @SerializedName("front_default")
-    val url: String,
+    val artworkUrl: String?
 )
 
 data class PokemonTypeEntryApiModel(
     val slot: Int,
     val type: PokemonTypeApiModel
 )
+
 data class PokemonTypeApiModel(
     val name: String
 )

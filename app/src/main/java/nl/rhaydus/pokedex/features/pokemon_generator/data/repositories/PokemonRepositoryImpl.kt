@@ -19,4 +19,10 @@ class PokemonRepositoryImpl(
             remotePokemonDataSource.getSpecificPokemonFromApi(pokemonId)
         }
     }
+
+    override suspend fun getAllPokemon(): Result<List<Pokemon>> {
+        return runCatching {
+            remotePokemonDataSource.getAllPokemon()
+        }
+    }
 }

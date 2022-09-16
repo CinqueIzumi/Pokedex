@@ -6,6 +6,9 @@ import androidx.compose.ui.unit.dp
 
 const val BASE_URL = "https://pokeapi.co/api/v2/"
 const val DEBUG_TAG = "CustomTag"
+const val DEFAULT_EGG_SPRITE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mystery-egg.png"
+
+const val HIGHEST_POKEMON_ID = 905
 
 val CARD_PADDING: Dp = 8.dp
 val CARD_CORNERS: Dp = 8.dp

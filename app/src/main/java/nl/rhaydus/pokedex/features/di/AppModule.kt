@@ -10,6 +10,7 @@ import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePok
 import nl.rhaydus.pokedex.features.pokemon_generator.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_generator.data.repositories.PokemonRepositoryImpl
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.repositories.PokemonRepository
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GetAllPokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GetRandomPokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GetSpecificPokemon
 import retrofit2.Retrofit
@@ -54,4 +55,9 @@ object AppModule {
     @Singleton
     fun provideSpecificPokemonUseCase(pokemonRepository: PokemonRepository): GetSpecificPokemon =
         GetSpecificPokemon(pokemonRepository)
+
+    @Provides
+    @Singleton
+    fun providePokemonUntilUseCase(pokemonRepository: PokemonRepository): GetAllPokemon =
+        GetAllPokemon(pokemonRepository)
 }
