@@ -10,7 +10,7 @@ import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePok
 import nl.rhaydus.pokedex.features.pokemon_generator.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_generator.data.repositories.PokemonRepositoryImpl
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.repositories.PokemonRepository
-import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GenerateRandomPokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GetRandomPokemon
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -46,6 +46,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRandomPokemonUseCase(pokemonRepository: PokemonRepository): GenerateRandomPokemon =
-        GenerateRandomPokemon(pokemonRepository)
+    fun provideRandomPokemonUseCase(pokemonRepository: PokemonRepository): GetRandomPokemon =
+        GetRandomPokemon(pokemonRepository)
 }

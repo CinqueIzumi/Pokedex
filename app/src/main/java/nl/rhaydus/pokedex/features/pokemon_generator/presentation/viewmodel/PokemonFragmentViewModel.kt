@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import nl.rhaydus.pokedex.features.core.DEBUG_TAG
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GenerateRandomPokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GetRandomPokemon
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonFragmentViewModel @Inject constructor(
-    private val getRandomPokemonUseCase: GenerateRandomPokemon
+    private val getRandomPokemonUseCase: GetRandomPokemon
 ) : ViewModel() {
 
     private val _currentPokemon = MutableLiveData<Pokemon?>()
