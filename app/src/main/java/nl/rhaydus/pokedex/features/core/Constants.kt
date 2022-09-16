@@ -1,9 +1,14 @@
 package nl.rhaydus.pokedex.features.core
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 const val BASE_URL = "https://pokeapi.co/api/v2/"
 const val DEBUG_TAG = "CustomTag"
+
+val CARD_PADDING: Dp = 8.dp
+val CARD_CORNERS: Dp = 8.dp
 
 val COLOR_TYPE_NORMAL = Color(0xFFA8A878)
 val COLOR_TYPE_FIRE = Color(0xFFF08030)

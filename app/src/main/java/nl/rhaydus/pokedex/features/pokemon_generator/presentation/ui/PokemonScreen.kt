@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -33,6 +32,10 @@ import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.Poke
 fun PokemonScreen(
     viewModel: PokemonFragmentViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(true) {
+        viewModel.loadRandomPokemon()
+    }
+
     val currentPokemon = viewModel.currentPokemon.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
 
@@ -103,17 +106,15 @@ fun PokemonCardPreview() {
     }
 }
 
-val cardPadding: Dp = 8.dp
-
 @Composable
 fun BuildPokemonCard(givenPokemon: Pokemon) {
     Card(
         backgroundColor = determineColor(givenPokemon),
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(CARD_CORNERS)
     ) {
         Column(
-            modifier = Modifier.padding(cardPadding)
+            modifier = Modifier.padding(CARD_PADDING)
         ) {
             Row {
                 Column {

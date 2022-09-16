@@ -5,12 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import nl.rhaydus.pokedex.features.core.DEBUG_TAG
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.use_cases.GenerateRandomPokemon
 import javax.inject.Inject
-
 
 @HiltViewModel
 class PokemonFragmentViewModel @Inject constructor(
@@ -20,18 +18,14 @@ class PokemonFragmentViewModel @Inject constructor(
     private val _currentPokemon = MutableLiveData<Pokemon?>()
     val currentPokemon: LiveData<Pokemon?> = _currentPokemon
 
-    private val _loadingState = MutableLiveData<Boolean>()
+    private val _loadingState = MutableLiveData(true)
     val loadingState: LiveData<Boolean> = _loadingState
 
     private val _errorState = MutableLiveData<String?>()
     val errorState: LiveData<String?> = _errorState
 
-    fun setLoading(value: Boolean) {
-        _loadingState.postValue(value)
-    }
-
     suspend fun loadRandomPokemon() {
-        setLoading(true)
+        _loadingState.postValue(true)
 
         val result = getRandomPokemonUseCase()
 
@@ -45,6 +39,6 @@ class PokemonFragmentViewModel @Inject constructor(
             }
         )
 
-        setLoading(false)
+        _loadingState.postValue(false)
     }
 }
