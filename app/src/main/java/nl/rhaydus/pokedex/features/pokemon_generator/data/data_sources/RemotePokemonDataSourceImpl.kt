@@ -12,9 +12,11 @@ class RemotePokemonDataSourceImpl @Inject constructor(
 
     override suspend fun getRandomPokemonFromApi(): Pokemon {
         val randomId = (0..900).shuffled().last()
+        return getSpecificPokemonFromApi(randomId)
+    }
 
-        val response = pokemonApiService.getRandomPokemon(randomId)
-
+    override suspend fun getSpecificPokemonFromApi(pokemonId: Int): Pokemon {
+        val response = pokemonApiService.getSpecificPokemon(pokemonId)
         return response.body()?.toPokemon() ?: throw EmptyPokemonBody()
     }
 }

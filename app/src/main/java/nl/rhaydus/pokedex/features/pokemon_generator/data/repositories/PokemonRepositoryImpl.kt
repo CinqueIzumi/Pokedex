@@ -6,11 +6,17 @@ import nl.rhaydus.pokedex.features.pokemon_generator.domain.repositories.Pokemon
 
 class PokemonRepositoryImpl(
     private val remotePokemonDataSource: RemotePokemonDataSource
-): PokemonRepository {
+) : PokemonRepository {
     override suspend fun getRandomPokemon(): Result<Pokemon> {
         // TODO: Implement connection checker?
-        return kotlin.runCatching {
+        return runCatching {
             remotePokemonDataSource.getRandomPokemonFromApi()
+        }
+    }
+
+    override suspend fun getSpecificPokemon(pokemonId: Int): Result<Pokemon> {
+        return runCatching {
+            remotePokemonDataSource.getSpecificPokemonFromApi(pokemonId)
         }
     }
 }

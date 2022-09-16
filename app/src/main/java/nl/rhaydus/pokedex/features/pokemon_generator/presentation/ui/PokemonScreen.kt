@@ -33,7 +33,7 @@ fun PokemonScreen(
     viewModel: PokemonFragmentViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true) {
-        viewModel.loadRandomPokemon()
+        viewModel.getRandomPokemon()
     }
 
     val currentPokemon = viewModel.currentPokemon.observeAsState()
@@ -63,7 +63,7 @@ fun PokemonScreen(
                 onClick = {
                     runBlocking {
                         withContext(Dispatchers.IO) {
-                            viewModel.loadRandomPokemon()
+                            viewModel.getRandomPokemon()
                         }
                     }
                 }
