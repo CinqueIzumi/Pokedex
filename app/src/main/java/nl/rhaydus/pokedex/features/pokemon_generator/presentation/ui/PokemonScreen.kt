@@ -2,6 +2,8 @@ package nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -33,10 +35,10 @@ fun PokemonScreen(
     viewModel: PokemonFragmentViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true) {
-        viewModel.getRandomPokemon()
+        viewModel.getAllPokemon()
     }
 
-    val currentPokemon = viewModel.currentPokemon.observeAsState()
+    val currentPokemonList = viewModel.currentPokemonList.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
 
     if (isLoading.value == true) {
@@ -56,8 +58,8 @@ fun PokemonScreen(
                 .padding(20.dp)
                 .fillMaxSize()
         ) {
-            currentPokemon.value?.let { pokemon ->
-                BuildPokemonCard(givenPokemon = pokemon)
+            currentPokemonList.value?.let { pokeList ->
+                PokemonCardList(pokemon = pokeList)
             }
             Button(
                 onClick = {
@@ -70,6 +72,17 @@ fun PokemonScreen(
             ) {
                 Text("Randomize!", style = MaterialTheme.typography.button)
             }
+        }
+    }
+}
+
+@Composable
+fun PokemonCardList(pokemon: List<Pokemon>) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(pokemon) { poke ->
+            BuildPokemonCard(givenPokemon = poke)
         }
     }
 }

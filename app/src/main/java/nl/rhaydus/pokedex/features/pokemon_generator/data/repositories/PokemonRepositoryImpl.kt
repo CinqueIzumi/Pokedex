@@ -25,4 +25,10 @@ class PokemonRepositoryImpl(
             remotePokemonDataSource.getAllPokemon()
         }
     }
+
+    override suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>> {
+        return runCatching {
+            remotePokemonDataSource.getPokemonUntilId(id)
+        }
+    }
 }

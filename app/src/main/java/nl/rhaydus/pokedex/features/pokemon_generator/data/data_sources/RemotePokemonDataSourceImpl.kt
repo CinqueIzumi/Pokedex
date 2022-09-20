@@ -24,13 +24,17 @@ class RemotePokemonDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getAllPokemon(): List<Pokemon> {
+        return getPokemonUntilId(HIGHEST_POKEMON_ID)
+    }
+
+    override suspend fun getPokemonUntilId(id: Int): List<Pokemon> {
         val pokeList = mutableListOf<Pokemon>()
 
-        for (i in 1..HIGHEST_POKEMON_ID) {
+        for (i in 1..id) {
             val currentPoke = getSpecificPokemonFromApi(i)
             Log.d(DEBUG_TAG, "Current poke: $currentPoke")
 
-            pokeList.add(getSpecificPokemonFromApi(i))
+            pokeList.add(currentPoke)
         }
 
         return pokeList.toList()
