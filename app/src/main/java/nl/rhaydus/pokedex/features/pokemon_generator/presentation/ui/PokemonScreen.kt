@@ -35,7 +35,8 @@ fun PokemonScreen(
     viewModel: PokemonFragmentViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true) {
-        viewModel.getAllPokemon()
+//        viewModel.getPokemonUntilIdRoom(HIGHEST_POKEMON_ID)
+        viewModel.getPokemonFromRoom()
     }
 
     val currentPokemonList = viewModel.currentPokemonList.observeAsState()
