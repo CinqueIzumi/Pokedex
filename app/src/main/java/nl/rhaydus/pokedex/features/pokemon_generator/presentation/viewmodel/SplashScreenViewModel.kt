@@ -21,22 +21,22 @@ class SplashScreenViewModel @Inject constructor(
 
     suspend fun initializePokemonInRoom() {
         withContext(Dispatchers.IO) {
-            pokeDao.deleteAll()
+            if (pokeDao.getAll().isEmpty()) {
+                val result = getAllPokemonUseCase()
 
-            val result = getAllPokemonUseCase()
+                result.fold(
+                    onSuccess = { pokeList ->
+                        Log.d(DEBUG_TAG, "Finished loading pokes!")
 
-            result.fold(
-                onSuccess = { pokeList ->
-                    Log.d(DEBUG_TAG, "Finished loading pokes!")
+                        addToRoom(pokeList)
 
-                    addToRoom(pokeList)
-
-                    Log.d(DEBUG_TAG, "Finished adding pokes to room!")
-                },
-                onFailure = {
-                    Log.e(DEBUG_TAG, it.message.toString())
-                }
-            )
+                        Log.d(DEBUG_TAG, "Finished adding pokes to room!")
+                    },
+                    onFailure = {
+                        Log.e(DEBUG_TAG, it.message.toString())
+                    }
+                )
+            }
         }
     }
 
