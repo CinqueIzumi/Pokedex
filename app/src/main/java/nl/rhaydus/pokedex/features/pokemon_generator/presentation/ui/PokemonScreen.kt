@@ -21,21 +21,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import kotlinx.coroutines.*
 import nl.rhaydus.pokedex.R
-import nl.rhaydus.pokedex.features.core.*
+import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonFragmentViewModel
+import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonScreenViewModel
 
-@RootNavGraph(start = true)
 @Composable
 @Destination
 fun PokemonScreen(
-    viewModel: PokemonFragmentViewModel = hiltViewModel()
+    viewModel: PokemonScreenViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true) {
-//        viewModel.getPokemonUntilIdRoom(HIGHEST_POKEMON_ID)
         viewModel.getPokemonFromRoom()
     }
 
@@ -61,17 +57,6 @@ fun PokemonScreen(
         ) {
             currentPokemonList.value?.let { pokeList ->
                 PokemonCardList(pokemon = pokeList)
-            }
-            Button(
-                onClick = {
-                    runBlocking {
-                        withContext(Dispatchers.IO) {
-                            viewModel.getRandomPokemon()
-                        }
-                    }
-                }
-            ) {
-                Text("Randomize!", style = MaterialTheme.typography.button)
             }
         }
     }
@@ -123,7 +108,7 @@ fun PokemonCardPreview() {
 @Composable
 fun BuildPokemonCard(givenPokemon: Pokemon) {
     Card(
-        backgroundColor = determineColor(givenPokemon),
+        backgroundColor = PokedexHelper.determineColor(givenPokemon),
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(CARD_CORNERS)
     ) {
@@ -166,27 +151,3 @@ fun BuildPokemonCard(givenPokemon: Pokemon) {
     }
 }
 
-fun determineColor(givenPokemon: Pokemon): Color {
-    return when (givenPokemon.mainType) {
-        "Normal" -> COLOR_TYPE_NORMAL
-        "Fighting" -> COLOR_TYPE_FIGHTING
-        "Poison" -> COLOR_TYPE_POISON
-        "Ground" -> COLOR_TYPE_GROUND
-        "Rock" -> COLOR_TYPE_ROCK
-        "Bug" -> COLOR_TYPE_BUG
-        "Ghost" -> COLOR_TYPE_GHOST
-        "Steel" -> COLOR_TYPE_STEEL
-        "Fire" -> COLOR_TYPE_FIRE
-        "Water" -> COLOR_TYPE_WATER
-        "Grass" -> COLOR_TYPE_GRASS
-        "Electric" -> COLOR_TYPE_ELECTRIC
-        "Psychic" -> COLOR_TYPE_PSYCHIC
-        "Ice" -> COLOR_TYPE_ICE
-        "Dragon" -> COLOR_TYPE_DRAGON
-        "Dark" -> COLOR_TYPE_DARK
-        "Fairy" -> COLOR_TYPE_FAIRY
-        "Unknown" -> COLOR_TYPE_UNKNOWN
-        "Flying" -> COLOR_TYPE_FLYING
-        else -> Color.Black
-    }
-}

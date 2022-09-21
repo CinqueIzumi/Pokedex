@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.features.core
+package nl.rhaydus.pokedex.core
 
 import java.lang.Exception
 

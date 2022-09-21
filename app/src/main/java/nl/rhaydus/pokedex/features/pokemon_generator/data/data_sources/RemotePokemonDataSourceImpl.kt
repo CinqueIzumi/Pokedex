@@ -1,9 +1,9 @@
 package nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources
 
 import android.util.Log
-import nl.rhaydus.pokedex.features.core.DEBUG_TAG
-import nl.rhaydus.pokedex.features.core.EmptyPokemonBody
-import nl.rhaydus.pokedex.features.core.HIGHEST_POKEMON_ID
+import nl.rhaydus.pokedex.core.DEBUG_TAG
+import nl.rhaydus.pokedex.core.EmptyPokemonBody
+import nl.rhaydus.pokedex.core.HIGHEST_POKEMON_ID
 import nl.rhaydus.pokedex.features.pokemon_generator.data.mapper.toPokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon

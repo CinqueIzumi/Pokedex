@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.features.core
+package nl.rhaydus.pokedex.core
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp

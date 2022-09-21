@@ -8,8 +8,11 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemonentity")
     fun getAll(): List<PokemonEntity>
 
+    @Query("DELETE FROM pokemonentity")
+    fun deleteAll()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg pokemons: PokemonEntity)
+    fun insert(pokemon: PokemonEntity)
 
     @Delete
     fun delete(pokemon: PokemonEntity)
