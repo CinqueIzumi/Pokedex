@@ -75,7 +75,7 @@ fun PokemonScreen(
                     }
                 },
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                label = { Text("Search by name") }
+                label = { Text("Search by name, type or id") }
             )
             currentPokemonList.value?.let { pokeList ->
                 PokemonCardList(pokemon = pokeList)
