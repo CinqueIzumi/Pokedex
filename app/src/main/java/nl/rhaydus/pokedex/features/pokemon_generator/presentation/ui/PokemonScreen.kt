@@ -1,6 +1,7 @@
 package nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,17 +24,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui.destinations.DetailedPokemonScreenDestination
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonScreenViewModel
 import timber.log.Timber
 
 @Composable
 @Destination
 fun PokemonScreen(
-    viewModel: PokemonScreenViewModel = hiltViewModel()
+    viewModel: PokemonScreenViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ) {
     LaunchedEffect(true) {
         viewModel.getPokemonFromRoom()
@@ -78,19 +81,21 @@ fun PokemonScreen(
                 label = { Text("Search by name, type or id") }
             )
             currentPokemonList.value?.let { pokeList ->
-                PokemonCardList(pokemon = pokeList)
+                PokemonCardList(pokemon = pokeList, navigator)
             }
         }
     }
 }
 
 @Composable
-fun PokemonCardList(pokemon: List<Pokemon>) {
+fun PokemonCardList(pokemon: List<Pokemon>, navigator: DestinationsNavigator) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(pokemon) { poke ->
-            BuildPokemonCard(givenPokemon = poke)
+            BuildPokemonCard(givenPokemon = poke) {
+                navigator.navigate(DetailedPokemonScreenDestination(poke))
+            }
         }
     }
 }
@@ -123,15 +128,22 @@ fun PokemonCardPreview() {
     )
 
     Column(modifier = Modifier.fillMaxSize()) {
-        BuildPokemonCard(givenPokemon = pokemon)
+        BuildPokemonCard(givenPokemon = pokemon) {}
     }
 }
 
 @Composable
-fun BuildPokemonCard(givenPokemon: Pokemon) {
+fun BuildPokemonCard(
+    givenPokemon: Pokemon,
+    onClick: () -> Unit,
+) {
     Card(
         backgroundColor = PokedexHelper.determineColor(givenPokemon),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onClick.invoke()
+            },
         shape = RoundedCornerShape(CARD_CORNERS)
     ) {
         Column(

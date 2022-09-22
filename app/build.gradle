@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp' version '1.7.10-1.0.6'
     id 'dagger.hilt.android.plugin'
+    id "org.jetbrains.kotlin.plugin.parcelize"
 }
 
 kotlin.sourceSets {
