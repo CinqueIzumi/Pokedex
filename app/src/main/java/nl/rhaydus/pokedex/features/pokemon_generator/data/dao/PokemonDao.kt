@@ -11,7 +11,12 @@ interface PokemonDao {
     @Query("DELETE FROM pokemonentity")
     fun deleteAll()
 
-    @Query("SELECT * FROM pokemonentity WHERE poke_name LIKE '%' || :input || '%'")
+    @Query(
+        "SELECT * FROM pokemonentity " +
+                "WHERE poke_name LIKE '%' || :input || '%' " +
+                "OR poke_main_type LIKE :input " +
+                "OR id LIKE :input"
+    )
     fun getSpecificPokemon(input: String): List<PokemonEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
