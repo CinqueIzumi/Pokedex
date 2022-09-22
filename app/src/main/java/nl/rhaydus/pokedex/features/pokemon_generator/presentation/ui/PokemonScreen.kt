@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,10 +24,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonScreenViewModel
+import timber.log.Timber
 
 @Composable
 @Destination
@@ -34,6 +39,9 @@ fun PokemonScreen(
     LaunchedEffect(true) {
         viewModel.getPokemonFromRoom()
     }
+
+    val currentSearchFilter = remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     val currentPokemonList = viewModel.currentPokemonList.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
@@ -53,8 +61,22 @@ fun PokemonScreen(
         Column(
             modifier = Modifier
                 .padding(20.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            TextField(
+                value = currentSearchFilter.value,
+                singleLine = true,
+                onValueChange = { newValue ->
+                    Timber.d("Value has been changed to $newValue")
+                    currentSearchFilter.value = newValue
+                    runBlocking {
+                        viewModel.applyFilter(newValue)
+                    }
+                },
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                label = { Text("Search by name") }
+            )
             currentPokemonList.value?.let { pokeList ->
                 PokemonCardList(pokemon = pokeList)
             }
