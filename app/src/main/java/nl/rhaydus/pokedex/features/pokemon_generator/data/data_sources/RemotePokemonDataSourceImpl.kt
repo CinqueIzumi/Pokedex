@@ -12,28 +12,19 @@ class RemotePokemonDataSourceImpl @Inject constructor(
     private val pokemonApiService: PokemonApiService
 ) : RemotePokemonDataSource {
 
-    override suspend fun getRandomPokemonFromApi(): Pokemon {
-        val randomId = (0..905).shuffled().last()
-        return getSpecificPokemonFromApi(randomId)
-    }
-
-    override suspend fun getSpecificPokemonFromApi(pokemonId: Int): Pokemon {
+    private suspend fun getSpecificPokemonFromApi(pokemonId: Int): Pokemon {
         val response = pokemonApiService.getSpecificPokemon(pokemonId)
         return response.body()?.toPokemon() ?: throw EmptyPokemonBody()
     }
 
     override suspend fun getAllPokemon(): List<Pokemon> {
-        return getPokemonUntilId(HIGHEST_POKEMON_ID)
-    }
-
-    override suspend fun getPokemonUntilId(id: Int): List<Pokemon> {
         val pokeList = mutableListOf<Pokemon>()
 
-        for (i in 1..id) {
-            val currentPoke = getSpecificPokemonFromApi(i)
-            Timber.d("Current poke: $currentPoke")
-
-            pokeList.add(currentPoke)
+        for (i in 1..HIGHEST_POKEMON_ID) {
+            if (i % 100 == 0) {
+                Timber.d("Loaded $i pokemons!")
+            }
+            pokeList.add(getSpecificPokemonFromApi(i))
         }
 
         return pokeList.toList()

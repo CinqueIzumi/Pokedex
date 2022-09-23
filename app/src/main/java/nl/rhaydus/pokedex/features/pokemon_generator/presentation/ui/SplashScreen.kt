@@ -35,7 +35,7 @@ fun SplashScreen(
     val toNavigate = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
-        viewModel.initializePokemonInRoom()
+        viewModel.initializePokemon()
         toNavigate.value = true
     }
 

@@ -9,6 +9,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import nl.rhaydus.pokedex.core.BASE_URL
 import nl.rhaydus.pokedex.features.pokemon_generator.data.dao.PokemonDao
+import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.LocalPokemonDataSource
+import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.LocalPokemonDataSourceImpl
 import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_generator.data.data_sources.RemotePokemonDataSourceImpl
 import nl.rhaydus.pokedex.features.pokemon_generator.data.database.AppDatabase
@@ -57,8 +59,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePokemonRepository(pokemonDataSource: RemotePokemonDataSource): PokemonRepository =
-        PokemonRepositoryImpl(pokemonDataSource)
+    fun provideLocalDataSource(pokemonDao: PokemonDao): LocalPokemonDataSource =
+        LocalPokemonDataSourceImpl(pokemonDao)
+
+    @Provides
+    @Singleton
+    fun providePokemonRepository(
+        remotePokemonDataSource: RemotePokemonDataSource,
+        localPokemonDataSource: LocalPokemonDataSource
+    ): PokemonRepository =
+        PokemonRepositoryImpl(remotePokemonDataSource, localPokemonDataSource)
 
     @Provides
     @Singleton

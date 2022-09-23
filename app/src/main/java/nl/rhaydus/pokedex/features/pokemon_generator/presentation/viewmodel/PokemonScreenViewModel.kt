@@ -32,7 +32,7 @@ class PokemonScreenViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
             try {
-                val pokeEntityList: List<PokemonEntity> = pokeDao.getSpecificPokemon(filter)
+                val pokeEntityList: List<PokemonEntity> = pokeDao.getFilteredPokemons(filter)
                 Timber.d("List has been initialized! $pokeEntityList")
                 initializeList(pokeEntityList)
             } catch (e: Exception) {

@@ -17,7 +17,10 @@ interface PokemonDao {
                 "OR poke_main_type LIKE :input " +
                 "OR id LIKE :input"
     )
-    fun getSpecificPokemon(input: String): List<PokemonEntity>
+    fun getFilteredPokemons(input: String): List<PokemonEntity>
+
+    @Query("SELECT * FROM POKEMONENTITY WHERE id LIKE :id")
+    fun getPokemonById(id: Int): PokemonEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pokemon: PokemonEntity)

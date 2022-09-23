@@ -14,38 +14,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val pokeDao: PokemonDao,
     private val getAllPokemonUseCase: GetAllPokemon,
 ) : ViewModel() {
 
-    suspend fun initializePokemonInRoom() {
+    suspend fun initializePokemon() {
         withContext(Dispatchers.IO) {
-            if (pokeDao.getAll().isEmpty()) {
-                val result = getAllPokemonUseCase()
+            val result = getAllPokemonUseCase()
 
-                result.fold(
-                    onSuccess = { pokeList ->
-                        Timber.d("Finished loading pokes!")
-
-                        addToRoom(pokeList)
-
-                        Timber.d("Finished adding pokes to room!")
-                    },
-                    onFailure = { error ->
-                        Timber.e(error)
-                    }
-                )
-            }
-        }
-    }
-
-    private fun addToRoom(pokeList: List<Pokemon>) {
-        try {
-            for (poke in pokeList) {
-                pokeDao.insert(poke.toPokemonEntity())
-            }
-        } catch (e: Exception) {
-            Timber.e(e)
+            result.fold(
+                onSuccess = { pokeList ->
+                    Timber.d("Finished loading pokes!\nSize: ${pokeList.size}")
+                },
+                onFailure = { error ->
+                    Timber.e(error)
+                }
+            )
         }
     }
 }
