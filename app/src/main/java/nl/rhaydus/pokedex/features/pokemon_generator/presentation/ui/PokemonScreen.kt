@@ -1,36 +1,30 @@
 package nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.runBlocking
-import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.ui.destinations.DetailedPokemonScreenDestination
 import nl.rhaydus.pokedex.features.pokemon_generator.presentation.viewmodel.PokemonScreenViewModel
+import nl.rhaydus.pokedex.features.pokemon_generator.presentation.widgets.BuildPokemonCard
+import nl.rhaydus.pokedex.features.pokemon_generator.presentation.widgets.ShowProgressDialog
 import timber.log.Timber
 
 @Composable
@@ -57,19 +51,28 @@ fun PokemonScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(
-            backgroundColor = MaterialTheme.colors.primarySurface,
-        ) {
-            Text(text = "Pokémon Randomizer")
-        }
+            backgroundColor = COLOR_TOP_BAR,
+            title = {
+                Text(APP_TITLE, color = Color.White)
+            }
+        )
         Column(
             modifier = Modifier
                 .padding(20.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            Text(
+                "Search for a Pokémon by name or using its National Pokédex number.",
+                style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
+            )
             TextField(
+                shape = RoundedCornerShape(TEXT_FIELD_CORNERS),
                 value = currentSearchFilter.value,
+                label = { Text("Name, type or number") },
+                leadingIcon = { Icon(Icons.Default.Search, "search") },
                 singleLine = true,
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                 onValueChange = { newValue ->
                     Timber.d("Value has been changed to $newValue")
                     currentSearchFilter.value = newValue
@@ -77,8 +80,12 @@ fun PokemonScreen(
                         viewModel.applyFilter(newValue)
                     }
                 },
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                label = { Text("Search by name, type or id") }
+                colors = TextFieldDefaults.textFieldColors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
             currentPokemonList.value?.let { pokeList ->
                 PokemonCardList(pokemon = pokeList, navigator)
@@ -89,8 +96,10 @@ fun PokemonScreen(
 
 @Composable
 fun PokemonCardList(pokemon: List<Pokemon>, navigator: DestinationsNavigator) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(CARD_SPACING_GRID),
+        horizontalArrangement = Arrangement.spacedBy(CARD_SPACING_GRID)
     ) {
         items(pokemon) { poke ->
             BuildPokemonCard(givenPokemon = poke) {
@@ -99,89 +108,3 @@ fun PokemonCardList(pokemon: List<Pokemon>, navigator: DestinationsNavigator) {
         }
     }
 }
-
-@Composable
-fun ShowProgressDialog() {
-    Dialog(
-        onDismissRequest = {},
-        DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .background(Color.White, shape = RoundedCornerShape(8.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PokemonCardPreview() {
-    val pokemon = Pokemon(
-        "Snom",
-        872,
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/872.png",
-        "Ice"
-    )
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        BuildPokemonCard(givenPokemon = pokemon) {}
-    }
-}
-
-@Composable
-fun BuildPokemonCard(
-    givenPokemon: Pokemon,
-    onClick: () -> Unit,
-) {
-    Card(
-        backgroundColor = PokedexHelper.determineColor(givenPokemon),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick.invoke()
-            },
-        shape = RoundedCornerShape(CARD_CORNERS)
-    ) {
-        Column(
-            modifier = Modifier.padding(CARD_PADDING)
-        ) {
-            Row {
-                Column {
-                    Text(
-                        givenPokemon.name,
-                        style = MaterialTheme.typography.h5,
-                        color = Color.White
-                    )
-                    Text(
-                        givenPokemon.mainType,
-                        style = MaterialTheme.typography.subtitle1,
-                        color = Color.White
-                    )
-                    Text(
-                        "#${givenPokemon.id}",
-                        style = MaterialTheme.typography.subtitle1,
-                        color = Color.White
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Column {
-                    AsyncImage(
-                        model = ImageRequest
-                            .Builder(LocalContext.current)
-                            .data(givenPokemon.imageUrl)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = "Pokemon image",
-                        modifier = Modifier.size(100.dp),
-                        placeholder = painterResource(R.drawable.ic_egg_sprite)
-                    )
-                }
-            }
-        }
-    }
-}
-

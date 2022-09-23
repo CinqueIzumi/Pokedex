@@ -98,4 +98,7 @@ dependencies {
 
     // Used for logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Status bar customization
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
 }
