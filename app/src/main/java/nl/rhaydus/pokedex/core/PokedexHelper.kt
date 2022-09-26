@@ -5,7 +5,7 @@ import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 
 object PokedexHelper {
     fun determineColor(givenPokemon: Pokemon): Color {
-        return when (givenPokemon.mainType) {
+        return when (givenPokemon.types[0]) {
             "Normal" -> COLOR_TYPE_NORMAL
             "Fighting" -> COLOR_TYPE_FIGHTING
             "Poison" -> COLOR_TYPE_POISON

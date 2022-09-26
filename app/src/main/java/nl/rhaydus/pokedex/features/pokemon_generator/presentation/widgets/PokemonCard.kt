@@ -32,10 +32,18 @@ import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
 @Composable
 fun PokemonCardPreview() {
     val pokemon = Pokemon(
-        "Snom",
-        872,
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/872.png",
-        "Ice"
+        name = "Snom",
+        id = 872,
+        imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/872.png",
+        types = listOf("Ice"),
+        height = 20,
+        weight = 20,
+        hpStat = 10,
+        atkStat = 10,
+        defStat = 10,
+        spAtkStat = 10,
+        spDefStat = 10,
+        spdStat = 10
     )
     val listOfPokemon = listOf(pokemon, pokemon, pokemon, pokemon)
 

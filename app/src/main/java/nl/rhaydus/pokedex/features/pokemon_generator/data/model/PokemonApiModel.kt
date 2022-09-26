@@ -6,7 +6,10 @@ data class PokemonApiModel(
     val name: String,
     val id: Int,
     val sprites: PokemonSpritesApiModel,
-    val types: List<PokemonTypeEntryApiModel>
+    val types: List<PokemonTypeEntryApiModel>,
+    val weight: Int,
+    val height: Int,
+    val stats: List<PokemonStatsEntryApiModel>
 )
 
 data class PokemonSpritesApiModel(
@@ -30,4 +33,9 @@ data class PokemonTypeEntryApiModel(
 
 data class PokemonTypeApiModel(
     val name: String
+)
+
+data class PokemonStatsEntryApiModel(
+    @SerializedName("base_stat")
+    val baseStat: Int,
 )
