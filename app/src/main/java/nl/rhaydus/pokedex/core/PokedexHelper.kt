@@ -1,43 +1,42 @@
 package nl.rhaydus.pokedex.core
 
-import androidx.compose.ui.graphics.Color
-import nl.rhaydus.pokedex.features.pokemon_generator.domain.model.Pokemon
+import nl.rhaydus.pokedex.R
 
 object PokedexHelper {
-    fun determineTypeColor(type: String): Color {
+    fun determineTypeColor(type: String): Int {
         return when (type) {
-            "Normal" -> COLOR_TYPE_NORMAL
-            "Fighting" -> COLOR_TYPE_FIGHTING
-            "Poison" -> COLOR_TYPE_POISON
-            "Ground" -> COLOR_TYPE_GROUND
-            "Rock" -> COLOR_TYPE_ROCK
-            "Bug" -> COLOR_TYPE_BUG
-            "Ghost" -> COLOR_TYPE_GHOST
-            "Steel" -> COLOR_TYPE_STEEL
-            "Fire" -> COLOR_TYPE_FIRE
-            "Water" -> COLOR_TYPE_WATER
-            "Grass" -> COLOR_TYPE_GRASS
-            "Electric" -> COLOR_TYPE_ELECTRIC
-            "Psychic" -> COLOR_TYPE_PSYCHIC
-            "Ice" -> COLOR_TYPE_ICE
-            "Dragon" -> COLOR_TYPE_DRAGON
-            "Dark" -> COLOR_TYPE_DARK
-            "Fairy" -> COLOR_TYPE_FAIRY
-            "Unknown" -> COLOR_TYPE_UNKNOWN
-            "Flying" -> COLOR_TYPE_FLYING
-            else -> Color.Black
+            "Normal" -> R.color.color_type_normal
+            "Fighting" -> R.color.color_type_fighting
+            "Poison" -> R.color.color_type_poison
+            "Ground" -> R.color.color_type_ground
+            "Rock" -> R.color.color_type_rock
+            "Bug" -> R.color.color_type_bug
+            "Ghost" -> R.color.color_type_ghost
+            "Steel" -> R.color.color_type_steel
+            "Fire" -> R.color.color_type_fire
+            "Water" -> R.color.color_type_water
+            "Grass" -> R.color.color_type_grass
+            "Electric" -> R.color.color_type_electric
+            "Psychic" -> R.color.color_type_psychic
+            "Ice" -> R.color.color_type_ice
+            "Dragon" -> R.color.color_type_dragon
+            "Dark" -> R.color.color_type_dark
+            "Fairy" -> R.color.color_type_fairy
+            "Unknown" -> R.color.color_type_unknown
+            "Flying" -> R.color.color_type_flying
+            else -> R.color.black
         }
     }
 
-    fun determineStatColor(stat: String): Color {
+    fun determineStatColor(stat: String): Int {
         return when (stat) {
-            "HP" -> COLOR_STAT_HP
-            "ATK" -> COLOR_STAT_ATK
-            "DEF" -> COLOR_STAT_DEF
-            "SP.ATK" -> COLOR_STAT_SP_ATK
-            "SP.DEF" -> COLOR_STAT_SP_DEF
-            "SPD" -> COLOR_STAT_SPD
-            else -> Color.Black
+            "HP" -> R.color.color_stat_hp
+            "ATK" -> R.color.color_stat_atk
+            "DEF" -> R.color.color_stat_def
+            "SP.ATK" -> R.color.color_stat_sp_atk
+            "SP.DEF" -> R.color.color_stat_sp_def
+            "SPD" -> R.color.color_stat_spd
+            else -> R.color.black
         }
     }
 }

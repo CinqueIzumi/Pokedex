@@ -7,4 +7,34 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_type_normal">#FFA8A878</color>
+    <color name="color_type_fire">#FFF08030</color>
+    <color name="color_type_fighting">#FFC03028</color>
+    <color name="color_type_water">#FF6890F0</color>
+    <color name="color_type_flying">#FFA890F0</color>
+    <color name="color_type_grass">#FF78C850</color>
+    <color name="color_type_poison">#FFA040A0</color>
+    <color name="color_type_electric">#FFF8D030</color>
+    <color name="color_type_ground">#FFE0C068</color>
+    <color name="color_type_psychic">#FFF85888</color>
+    <color name="color_type_rock">#FFB8A038</color>
+    <color name="color_type_ice">#FF98D8D8</color>
+    <color name="color_type_bug">#FFB8B8D0</color>
+    <color name="color_type_dragon">#FF7038F8</color>
+    <color name="color_type_ghost">#FF705898</color>
+    <color name="color_type_dark">#FF705848</color>
+    <color name="color_type_steel">#FFB8B8D0</color>
+    <color name="color_type_fairy">#FFEE99AC</color>
+    <color name="color_type_unknown">#FF68A090</color>
+
+    <color name="color_stat_hp">#FFFF0000</color>
+    <color name="color_stat_atk">#FFF08030</color>
+    <color name="color_stat_def">#FFF8D030</color>
+    <color name="color_stat_sp_atk">#FF6890F0</color>
+    <color name="color_stat_sp_def">#FF78C850</color>
+    <color name="color_stat_spd">#FFF85888</color>
+
+    <color name="color_background">#FF2B292C</color>
+    <color name="color_top_bar">#FFD53B47</color>
 </resources>

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="image_max_size">200dp</dimen>
+
+    <dimen name="card_padding">8.dp</dimen>
+    <dimen name="card_corner_small">16.dp</dimen>
+    <dimen name="card_corner_big">32.dp</dimen>
+
+    <dimen name="grid_card_spacing">16.dp</dimen>
+
+    <dimen name="text_field_corners">16.dp</dimen>
+
+    <dimen name="dialog_corners">8.dp</dimen>
+
+    <dimen name="default_column_padding">20.dp</dimen>
 </resources>

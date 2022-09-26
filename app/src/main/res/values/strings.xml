@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
-
-    <string name="btn_pokemon_randomize">Randomize!</string>
-    <string name="placeholder_pokemon_name">Snom</string>
-    <string name="placeholder_pokemon_id">872</string>
-    <string name="img_pokemon_description">An image of the current, randomized pokemon.</string>
+    <string name="app_name">Pokédex</string>
+    <string name="api_base_url">https://pokeapi.co/api/v2/</string>
+    <string name="default_egg_sprite">https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mystery-egg.png</string>
 </resources>
