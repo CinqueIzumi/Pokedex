@@ -9,8 +9,8 @@ data class Pokemon(
     val id: Int,
     val imageUrl: String,
     val types: List<String>,
-    val weight: Int, // In hectogram -> 1 hectogram = 100 gr = 0,1 kg
-    val height: Int, // In decimetres -> 1 dm = 10 cm = 0,1 m
+    val weight: Double, // In hectogram -> 1 hectogram = 100 gr = 0,1 kg
+    val height: Double, // In decimetres -> 1 dm = 10 cm = 0,1 m
     val hpStat: Int,
     val atkStat: Int,
     val defStat: Int,

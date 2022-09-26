@@ -7,8 +7,8 @@ data class PokemonApiModel(
     val id: Int,
     val sprites: PokemonSpritesApiModel,
     val types: List<PokemonTypeEntryApiModel>,
-    val weight: Int,
-    val height: Int,
+    val weight: Double,
+    val height: Double,
     val stats: List<PokemonStatsEntryApiModel>
 )
 

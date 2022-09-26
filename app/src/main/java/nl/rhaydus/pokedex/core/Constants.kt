@@ -5,7 +5,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 const val BASE_URL = "https://pokeapi.co/api/v2/"
-const val DEFAULT_EGG_SPRITE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mystery-egg.png"
+const val DEFAULT_EGG_SPRITE =
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mystery-egg.png"
 const val APP_TITLE = "Pokédex"
 
 const val HIGHEST_POKEMON_ID = 905
@@ -36,6 +37,13 @@ val COLOR_TYPE_DARK = Color(0xFF705848)
 val COLOR_TYPE_STEEL = Color(0xFFB8B8D0)
 val COLOR_TYPE_FAIRY = Color(0xFFEE99AC)
 val COLOR_TYPE_UNKNOWN = Color(0xFF68A090)
+
+val COLOR_STAT_HP = Color(0xFFFF0000)
+val COLOR_STAT_ATK = Color(0xFFF08030)
+val COLOR_STAT_DEF = Color(0xFFF8D030)
+val COLOR_STAT_SP_ATK = Color(0xFF6890F0)
+val COLOR_STAT_SP_DEF = Color(0xFF78C850)
+val COLOR_STAT_SPD = Color(0xFFF85888)
 
 val COLOR_BACKGROUND = Color(0xFF2B292C)
 val COLOR_TOP_BAR = Color(0xFFD53B47)

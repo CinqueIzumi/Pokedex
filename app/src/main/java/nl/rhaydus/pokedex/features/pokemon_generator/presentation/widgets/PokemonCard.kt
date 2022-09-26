@@ -36,8 +36,8 @@ fun PokemonCardPreview() {
         id = 872,
         imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/872.png",
         types = listOf("Ice"),
-        height = 20,
-        weight = 20,
+        height = 20.0,
+        weight = 20.0,
         hpStat = 10,
         atkStat = 10,
         defStat = 10,
@@ -66,7 +66,7 @@ fun BuildPokemonCard(
     onClick: () -> Unit,
 ) {
     Card(
-        backgroundColor = PokedexHelper.determineColor(givenPokemon),
+        backgroundColor = PokedexHelper.determineTypeColor(givenPokemon.types[0]),
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
