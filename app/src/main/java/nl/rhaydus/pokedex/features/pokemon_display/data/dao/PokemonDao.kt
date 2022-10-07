@@ -22,6 +22,9 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemonentity WHERE id LIKE :id")
     fun getPokemonById(id: Int): PokemonEntity
 
+    @Query("SELECT COUNT(poke_name) FROM pokemonentity")
+    fun getDatabaseSize(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pokemon: PokemonEntity)
 
