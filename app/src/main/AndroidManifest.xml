@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="nl.rhaydus.pokedex">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Required to communicate with the API -->
     <uses-permission android:name="android.permission.INTERNET" />

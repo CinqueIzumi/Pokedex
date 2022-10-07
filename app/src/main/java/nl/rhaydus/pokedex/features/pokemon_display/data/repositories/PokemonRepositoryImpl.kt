@@ -5,7 +5,6 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.RemotePokem
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.repositories.PokemonRepository
 import timber.log.Timber
-import java.lang.Exception
 
 class PokemonRepositoryImpl(
     private val remotePokemonDataSource: RemotePokemonDataSource,
@@ -19,10 +18,8 @@ class PokemonRepositoryImpl(
 
     override suspend fun getAllPokemon(): Result<List<Pokemon>> {
         return runCatching {
-            try {
-                localPokemonDataSource.getAllPokemon()
-            } catch (e: Exception) {
-                Timber.d("Started loading!")
+            if (!localPokemonDataSource.isLocalDataComplete()) {
+                Timber.d("Pokemon data source was not complete!")
                 localPokemonDataSource.addPokemons(remotePokemonDataSource.getAllPokemon())
             }
 

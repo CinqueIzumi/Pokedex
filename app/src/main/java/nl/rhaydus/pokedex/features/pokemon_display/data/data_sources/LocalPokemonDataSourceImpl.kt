@@ -28,17 +28,20 @@ class LocalPokemonDataSourceImpl @Inject constructor(
         return getSpecificPokemon(randomId)
     }
 
-    override suspend fun getSpecificPokemon(pokemonId: Int): Pokemon {
-        return pokemonDao.getPokemonById(pokemonId).toPokemon()
-    }
+    override suspend fun getSpecificPokemon(pokemonId: Int) =
+        pokemonDao.getPokemonById(pokemonId).toPokemon()
 
-    override suspend fun getAllPokemon(): List<Pokemon> {
-        return getPokemonUntilId(context.resources.getInteger(R.integer.highest_pokemon_id))
-    }
+
+    override suspend fun getAllPokemon() =
+        getPokemonUntilId(context.resources.getInteger(R.integer.highest_pokemon_id))
+
 
     override suspend fun addPokemons(pokes: List<Pokemon>) {
         for (poke in pokes) {
             pokemonDao.insert(poke.toPokemonEntity())
         }
     }
+
+    override suspend fun isLocalDataComplete() =
+        pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
 }
