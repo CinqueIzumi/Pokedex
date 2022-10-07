@@ -16,24 +16,26 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import nl.rhaydus.pokedex.R
-import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.DetailedPokemonScreenViewModel
 
 @Composable
 @Destination
 fun DetailedPokemonScreen(
+    viewModel: DetailedPokemonScreenViewModel = hiltViewModel(),
     poke: Pokemon,
     navigator: NavController
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(poke.types[0])
+                id = viewModel.getPokemonTypeColor(poke.types[0])
             ),
             title = {
                 Text(stringResource(id = R.string.app_name), color = Color.White)
@@ -55,7 +57,7 @@ fun DetailedPokemonScreen(
         Card(
             modifier = Modifier.fillMaxWidth(),
             backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(poke.types[0])
+                id = viewModel.getPokemonTypeColor(poke.types[0])
             ),
             elevation = 0.dp,
             shape = RoundedCornerShape(
@@ -94,7 +96,7 @@ fun DetailedPokemonScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 for (type in poke.types) {
-                    BuildTypePill(type)
+                    BuildTypePill(type, viewModel.getPokemonTypeColor(type))
                 }
             }
 
@@ -109,9 +111,11 @@ fun DetailedPokemonScreen(
                         "${poke.weight} KG",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Weight", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        "Weight", style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
 
                 Column {
@@ -119,9 +123,11 @@ fun DetailedPokemonScreen(
                         "${poke.height} M",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Height", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        "Height", style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
             }
 
@@ -129,21 +135,41 @@ fun DetailedPokemonScreen(
 
             Text("Base Stats", style = MaterialTheme.typography.h6)
 
-            BuildStatRow(statName = "HP", value = poke.hpStat)
-            BuildStatRow(statName = "ATK", value = poke.atkStat)
-            BuildStatRow(statName = "DEF", value = poke.defStat)
-            BuildStatRow(statName = "SP.ATK", value = poke.spAtkStat)
-            BuildStatRow(statName = "SP.DEF", value = poke.spDefStat)
-            BuildStatRow(statName = "SPD", value = poke.spdStat)
+            BuildStatRow(statName = "HP", value = poke.hpStat, viewModel.getPokemonStatColor("HP"))
+            BuildStatRow(
+                statName = "ATK",
+                value = poke.atkStat,
+                viewModel.getPokemonStatColor("ATK")
+            )
+            BuildStatRow(
+                statName = "DEF",
+                value = poke.defStat,
+                viewModel.getPokemonStatColor("DEF")
+            )
+            BuildStatRow(
+                statName = "SP.ATK",
+                value = poke.spAtkStat,
+                viewModel.getPokemonStatColor("SP.ATK")
+            )
+            BuildStatRow(
+                statName = "SP.DEF",
+                value = poke.spDefStat,
+                viewModel.getPokemonStatColor("SP.DEF")
+            )
+            BuildStatRow(
+                statName = "SPD",
+                value = poke.spdStat,
+                viewModel.getPokemonStatColor("SPD")
+            )
         }
     }
 }
 
 @Composable
-fun BuildTypePill(type: String) {
+fun BuildTypePill(type: String, colorId: Int) {
     Surface(
         shape = RoundedCornerShape(20.dp),
-        color = colorResource(id = PokedexHelper.determineTypeColor(type)),
+        color = colorResource(id = colorId),
         modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.4).dp)
     ) {
         Row(horizontalArrangement = Arrangement.Center) {
@@ -157,7 +183,7 @@ fun BuildTypePill(type: String) {
 }
 
 @Composable
-fun BuildStatRow(statName: String, value: Int) {
+fun BuildStatRow(statName: String, value: Int, colorId: Int) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -169,7 +195,7 @@ fun BuildStatRow(statName: String, value: Int) {
         )
         LinearProgressIndicator(
             progress = (value / 255f),
-            color = colorResource(id = PokedexHelper.determineStatColor(statName)),
+            color = colorResource(id = colorId),
             backgroundColor = Color.White,
             modifier = Modifier.fillMaxWidth()
         )

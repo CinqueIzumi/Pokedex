@@ -1,8 +1,13 @@
 package nl.rhaydus.pokedex.core
 
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import nl.rhaydus.pokedex.R
+import javax.inject.Inject
 
-object PokedexHelper {
+class PokedexHelper @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
     fun determineTypeColor(type: String): Int {
         return when (type) {
             "Normal" -> R.color.color_type_normal
