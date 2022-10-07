@@ -62,9 +62,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     // Used for the API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -104,4 +101,18 @@ dependencies {
 
     // Status bar customization
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.1")
+
+    // Used for testing
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+
+    // Used for the assertions
+    testImplementation("io.kotest:kotest-assertions-core:5.4.2")
+
+    // Used for mocking
+    testImplementation("io.mockk:mockk:1.13.2")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
