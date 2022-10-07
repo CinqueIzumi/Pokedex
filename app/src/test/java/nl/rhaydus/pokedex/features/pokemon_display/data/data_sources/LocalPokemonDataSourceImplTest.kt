@@ -20,15 +20,12 @@ class LocalPokemonDataSourceImplTest {
     private val mockContext: Context = mockk()
     private val mockPokemonDao: PokemonDao = mockk()
 
-    private val pokemonName: String = "pokemon"
-    private val pokemonNameCapitalized: String = "Pokemon"
 
     private val pokemonId: Int = 20
     private val pokemonImageUrl: String = "url"
     private val pokemonStat: Int = 20
 
-    private val pokemonFirstType: String = "poison"
-    private val pokemonSecondaryType: String = "ghost"
+    private val pokemonNameCapitalized: String = "Pokemon"
     private val pokemonFirstTypeCapitalized: String = "Poison"
     private val pokemonSecondaryTypeCapitalized: String = "Ghost"
 
@@ -66,32 +63,6 @@ class LocalPokemonDataSourceImplTest {
         pokeStatSpAtk = pokemonStat,
         pokeStatSpDef = pokemonStat,
         pokeStatSpd = pokemonStat
-    )
-
-    private val pokemonApiModel: PokemonApiModel = PokemonApiModel(
-        name = pokemonName,
-        id = pokemonId,
-        sprites = PokemonSpritesApiModel(
-            PokemonSpriteOtherApiModel(
-                PokemonSpriteOfficialArtApiModel(
-                    pokemonImageUrl
-                )
-            )
-        ),
-        types = listOf(
-            PokemonTypeEntryApiModel(0, PokemonTypeApiModel(pokemonFirstType)),
-            PokemonTypeEntryApiModel(1, PokemonTypeApiModel(pokemonSecondaryType))
-        ),
-        weight = pokemonWeightRaw,
-        height = pokemonHeightRaw,
-        stats = listOf(
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat)
-        )
     )
 
     private val localPokemonDataSource: LocalPokemonDataSource =
