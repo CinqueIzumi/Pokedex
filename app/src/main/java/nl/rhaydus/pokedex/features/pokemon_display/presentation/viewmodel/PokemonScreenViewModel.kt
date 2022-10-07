@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import nl.rhaydus.pokedex.core.PokedexHelper
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
 import nl.rhaydus.pokedex.features.pokemon_display.data.mapper.toPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
@@ -18,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonScreenViewModel @Inject constructor(
     private val pokeDao: PokemonDao,
-    private val pokedexHelper: PokedexHelper
 ) : ViewModel() {
 
     private val _currentPokemonList = MutableLiveData<List<Pokemon>?>()
@@ -26,10 +24,6 @@ class PokemonScreenViewModel @Inject constructor(
 
     private val _loadingState = MutableLiveData(true)
     val loadingState: LiveData<Boolean> = _loadingState
-
-    fun getPokemonTypeColor(type: String): Int {
-        return pokedexHelper.determineTypeColor(type)
-    }
 
     suspend fun applyFilter(filter: String) {
         withContext(Dispatchers.IO) {

@@ -26,6 +26,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.R
+import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.ui.destinations.DetailedPokemonScreenDestination
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonScreenViewModel
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.widgets.BuildPokemonCard
@@ -93,24 +94,26 @@ fun PokemonScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             currentPokemonList.value?.let { pokeList ->
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.grid_card_spacing)
-                    ),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.grid_card_spacing)
-                    )
-                ) {
-                    items(pokeList) { poke ->
-                        BuildPokemonCard(
-                            givenPokemon = poke,
-                            colorId = viewModel.getPokemonTypeColor(poke.types[0])
-                        ) {
-                            navigator.navigate(DetailedPokemonScreenDestination(poke))
-                        }
-                    }
-                }
+                PokemonCardList(pokemon = pokeList, navigator)
+            }
+        }
+    }
+}
+
+@Composable
+fun PokemonCardList(pokemon: List<Pokemon>, navigator: DestinationsNavigator) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.grid_card_spacing)
+        ),
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.grid_card_spacing)
+        )
+    ) {
+        items(pokemon) { poke ->
+            BuildPokemonCard(givenPokemon = poke) {
+                navigator.navigate(DetailedPokemonScreenDestination(poke))
             }
         }
     }

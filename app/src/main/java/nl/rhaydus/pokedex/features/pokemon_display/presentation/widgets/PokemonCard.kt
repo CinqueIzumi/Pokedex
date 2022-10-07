@@ -24,12 +24,11 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 @Composable
 fun BuildPokemonCard(
     givenPokemon: Pokemon,
-    colorId: Int,
     onClick: () -> Unit,
-    ) {
+) {
     Card(
         backgroundColor = colorResource(
-            id = colorId
+            id = PokedexHelper.determineTypeColor(givenPokemon.types[0])
         ),
         modifier = Modifier
             .fillMaxWidth()

@@ -8,7 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import nl.rhaydus.pokedex.R
-import nl.rhaydus.pokedex.core.PokedexHelper
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSourceImpl
@@ -29,12 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Provides
-    @Singleton
-    fun providePokedexHelper(@ApplicationContext context: Context): PokedexHelper =
-        PokedexHelper(context)
-
     @Provides
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase = Room
@@ -95,11 +88,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetAllPokemonUseCase(pokemonRepository: PokemonRepository): GetAllPokemon =
+    fun provideGetAllPokemon(pokemonRepository: PokemonRepository): GetAllPokemon =
         GetAllPokemon(pokemonRepository)
 
     @Provides
     @Singleton
-    fun provideGetPokemonUntilIdUseCase(pokemonRepository: PokemonRepository): GetPokemonUntilId =
+    fun provideGetPokemonUntilId(pokemonRepository: PokemonRepository): GetPokemonUntilId =
         GetPokemonUntilId(pokemonRepository)
 }
