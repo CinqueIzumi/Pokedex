@@ -8,8 +8,9 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.*
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.fixtures.pokemon
+import nl.rhaydus.pokedex.fixtures.pokemonEntity
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -19,51 +20,6 @@ import org.junit.jupiter.api.TestInstance
 class LocalPokemonDataSourceImplTest {
     private val mockContext: Context = mockk()
     private val mockPokemonDao: PokemonDao = mockk()
-
-
-    private val pokemonId: Int = 20
-    private val pokemonImageUrl: String = "url"
-    private val pokemonStat: Int = 20
-
-    private val pokemonNameCapitalized: String = "Pokemon"
-    private val pokemonFirstTypeCapitalized: String = "Poison"
-    private val pokemonSecondaryTypeCapitalized: String = "Ghost"
-
-    private val pokemonWeightRaw: Double = 200.0
-    private val pokemonHeightRaw: Double = 200.0
-    private val pokemonWeight: Double = pokemonWeightRaw / 10
-    private val pokemonHeight: Double = pokemonHeightRaw / 10
-
-    private val pokemon: Pokemon = Pokemon(
-        name = pokemonNameCapitalized,
-        id = pokemonId,
-        imageUrl = pokemonImageUrl,
-        types = listOf(pokemonFirstTypeCapitalized, pokemonSecondaryTypeCapitalized),
-        weight = pokemonWeight,
-        height = pokemonHeight,
-        hpStat = pokemonStat,
-        atkStat = pokemonStat,
-        defStat = pokemonStat,
-        spAtkStat = pokemonStat,
-        spDefStat = pokemonStat,
-        spdStat = pokemonStat
-    )
-
-    private val pokemonEntity: PokemonEntity = PokemonEntity(
-        id = pokemonId,
-        pokeName = pokemonNameCapitalized,
-        pokeImageUrl = pokemonImageUrl,
-        pokeMainType = pokemonFirstTypeCapitalized,
-        pokeSecondaryType = pokemonSecondaryTypeCapitalized,
-        pokeWeight = pokemonWeight,
-        pokeHeight = pokemonHeight,
-        pokeStatHp = pokemonStat,
-        pokeStatAtk = pokemonStat,
-        pokeStatDef = pokemonStat,
-        pokeStatSpAtk = pokemonStat,
-        pokeStatSpDef = pokemonStat,
-        pokeStatSpd = pokemonStat
-    )
 
     private val localPokemonDataSource: LocalPokemonDataSource =
         LocalPokemonDataSourceImpl(mockPokemonDao, mockContext)

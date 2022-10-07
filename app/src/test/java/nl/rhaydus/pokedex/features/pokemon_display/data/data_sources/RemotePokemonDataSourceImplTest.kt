@@ -8,9 +8,10 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.core.EmptyPokemonBody
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.*
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.fixtures.pokemon
+import nl.rhaydus.pokedex.fixtures.pokemonApiModel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -25,64 +26,6 @@ class RemotePokemonDataSourceImplTest {
     private val remotePokemonDataSource: RemotePokemonDataSource =
         RemotePokemonDataSourceImpl(mockPokemonApiService, mockContext)
     private val emptyPokemonBodyException: EmptyPokemonBody = EmptyPokemonBody()
-
-    private val pokemonName: String = "pokemon"
-    private val pokemonNameCapitalized: String = "Pokemon"
-
-    private val pokemonId: Int = 20
-    private val pokemonImageUrl: String = "url"
-    private val pokemonStat: Int = 20
-
-    private val pokemonFirstType: String = "poison"
-    private val pokemonSecondaryType: String = "ghost"
-    private val pokemonFirstTypeCapitalized: String = "Poison"
-    private val pokemonSecondaryTypeCapitalized: String = "Ghost"
-
-    private val pokemonWeightRaw: Double = 200.0
-    private val pokemonHeightRaw: Double = 200.0
-    private val pokemonWeight: Double = pokemonWeightRaw / 10
-    private val pokemonHeight: Double = pokemonHeightRaw / 10
-
-    private val pokemon: Pokemon = Pokemon(
-        name = pokemonNameCapitalized,
-        id = pokemonId,
-        imageUrl = pokemonImageUrl,
-        types = listOf(pokemonFirstTypeCapitalized, pokemonSecondaryTypeCapitalized),
-        weight = pokemonWeight,
-        height = pokemonHeight,
-        hpStat = pokemonStat,
-        atkStat = pokemonStat,
-        defStat = pokemonStat,
-        spAtkStat = pokemonStat,
-        spDefStat = pokemonStat,
-        spdStat = pokemonStat
-    )
-
-    private val pokemonApiModel: PokemonApiModel = PokemonApiModel(
-        name = pokemonName,
-        id = pokemonId,
-        sprites = PokemonSpritesApiModel(
-            PokemonSpriteOtherApiModel(
-                PokemonSpriteOfficialArtApiModel(
-                    pokemonImageUrl
-                )
-            )
-        ),
-        types = listOf(
-            PokemonTypeEntryApiModel(0, PokemonTypeApiModel(pokemonFirstType)),
-            PokemonTypeEntryApiModel(1, PokemonTypeApiModel(pokemonSecondaryType))
-        ),
-        weight = pokemonWeightRaw,
-        height = pokemonHeightRaw,
-        stats = listOf(
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat),
-            PokemonStatsEntryApiModel(pokemonStat)
-        )
-    )
 
     @BeforeEach
     fun init() {
