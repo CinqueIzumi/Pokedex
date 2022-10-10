@@ -56,6 +56,8 @@ val pokemonEntity: PokemonEntity = PokemonEntity(
     favorite = favorite
 )
 
+val pokemonEntityFavorite: PokemonEntity = pokemonEntity.copy(favorite = 1)
+
 val pokemonApiModel: PokemonApiModel = PokemonApiModel(
     name = pokemonName,
     id = pokemonId,
