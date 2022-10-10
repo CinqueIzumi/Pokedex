@@ -52,4 +52,8 @@ class LocalPokemonDataSourceImpl @Inject constructor(
 
         return true
     }
+
+    override suspend fun unFavoritePokemon(pokemon: Pokemon): Boolean {
+        TODO("Not yet implemented")
+    }
 }
