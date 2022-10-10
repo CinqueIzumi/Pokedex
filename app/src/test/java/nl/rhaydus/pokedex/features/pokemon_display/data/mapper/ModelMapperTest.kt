@@ -2,7 +2,7 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.mapper
 
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.*
+import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.fixtures.pokemon
 import nl.rhaydus.pokedex.fixtures.pokemonApiModel
@@ -16,6 +16,20 @@ class ModelMapperTest {
     @BeforeEach
     fun init() {
         clearAllMocks()
+    }
+
+    @Test
+    fun `returns valid pokemon model list from pokemon entity list`() {
+        // ----- Arrange -----
+        val pokeEntityList: List<PokemonEntity> =
+            listOf(pokemonEntity, pokemonEntity, pokemonEntity, pokemonEntity)
+        val pokeList: List<Pokemon> = listOf(pokemon, pokemon, pokemon, pokemon)
+
+        // ----- Act -----
+        val result = pokeEntityList.toPokemonList()
+
+        // ----- Assert -----
+        result shouldBe pokeList
     }
 
     @Test

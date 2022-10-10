@@ -6,6 +6,16 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonApiModel
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
+fun List<PokemonEntity>.toPokemonList(): List<Pokemon> {
+    val pokeList = mutableListOf<Pokemon>()
+
+    this.forEach { pokeEntity ->
+        pokeList.add(pokeEntity.toPokemon())
+    }
+
+    return pokeList.toList()
+}
+
 fun PokemonApiModel.toPokemon(): Pokemon {
     val newTypeList = mutableListOf<String>()
     this.types.forEach { pokemonTypeEntry ->
