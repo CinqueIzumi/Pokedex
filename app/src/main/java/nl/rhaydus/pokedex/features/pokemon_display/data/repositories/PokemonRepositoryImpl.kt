@@ -29,4 +29,8 @@ class PokemonRepositoryImpl(
 
     override suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>> =
         kotlin.runCatching { localPokemonDataSource.getPokemonUntilId(id) }
+
+    override suspend fun favoritePokemon(pokemon: Pokemon): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
 }
