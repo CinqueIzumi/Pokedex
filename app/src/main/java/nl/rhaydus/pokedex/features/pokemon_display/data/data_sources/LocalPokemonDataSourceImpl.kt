@@ -44,4 +44,8 @@ class LocalPokemonDataSourceImpl @Inject constructor(
 
     override suspend fun isLocalDataComplete() =
         pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
+
+    override suspend fun favoritePokemon(pokemon: Pokemon): Boolean {
+        TODO("Not yet implemented")
+    }
 }
