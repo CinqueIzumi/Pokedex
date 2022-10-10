@@ -58,10 +58,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    // Used for the color resources
     implementation("com.google.android.material:material:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Used for the API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -70,7 +68,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Used to load images
-    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
     // Compose Nav Destinations
     implementation("io.github.raamcosta.compose-destinations:core:1.7.21-beta")
