@@ -32,4 +32,8 @@ class PokemonRepositoryImpl(
 
     override suspend fun favoritePokemon(pokemon: Pokemon): Result<Boolean> =
         runCatching { localPokemonDataSource.favoritePokemon(pokemon) }
+
+    override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
 }
