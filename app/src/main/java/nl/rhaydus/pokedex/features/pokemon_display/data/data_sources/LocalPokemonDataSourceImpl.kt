@@ -46,6 +46,10 @@ class LocalPokemonDataSourceImpl @Inject constructor(
         pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
 
     override suspend fun favoritePokemon(pokemon: Pokemon): Boolean {
-        TODO("Not yet implemented")
+        val pokemonToSave = pokemon.copy(favorite = 1)
+
+        pokemonDao.updatePokemon(pokemonToSave.toPokemonEntity())
+
+        return true
     }
 }
