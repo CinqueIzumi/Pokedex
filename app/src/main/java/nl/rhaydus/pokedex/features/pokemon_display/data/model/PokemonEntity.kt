@@ -19,4 +19,5 @@ data class PokemonEntity(
     @ColumnInfo(name = "poke_stat_sp_atk") val pokeStatSpAtk: Int,
     @ColumnInfo(name = "poke_stat_sp_def") val pokeStatSpDef: Int,
     @ColumnInfo(name = "poke_stat_spd") val pokeStatSpd: Int,
+    @ColumnInfo(name = "favorite") val favorite: Int,
 )

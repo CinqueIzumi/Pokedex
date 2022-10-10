@@ -27,6 +27,7 @@ fun PokemonApiModel.toPokemon(): Pokemon {
         this.stats[3].baseStat,
         this.stats[4].baseStat,
         this.stats[5].baseStat,
+        favorite = 0 // Pokemon are not favorites by default
     )
 }
 
@@ -44,7 +45,8 @@ fun Pokemon.toPokemonEntity(): PokemonEntity = PokemonEntity(
     pokeStatDef = this.defStat,
     pokeStatSpAtk = this.spAtkStat,
     pokeStatSpDef = this.spDefStat,
-    pokeStatSpd = this.spdStat
+    pokeStatSpd = this.spdStat,
+    favorite = this.favorite
 )
 
 fun PokemonEntity.toPokemon(): Pokemon {
@@ -64,6 +66,7 @@ fun PokemonEntity.toPokemon(): Pokemon {
         defStat = this.pokeStatDef,
         spAtkStat = this.pokeStatSpAtk,
         spDefStat = this.pokeStatSpDef,
-        spdStat = this.pokeStatSpd
+        spdStat = this.pokeStatSpd,
+        favorite = this.favorite
     )
 }

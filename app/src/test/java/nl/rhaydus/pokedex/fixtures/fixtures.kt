@@ -8,6 +8,8 @@ private const val pokemonId: Int = 20
 private const val pokemonImageUrl: String = "url"
 private const val pokemonStat: Int = 20
 
+private const val favorite: Int = 0
+
 private const val pokemonName: String = "pokemon"
 private const val pokemonNameCapitalized: String = "Pokemon"
 
@@ -33,7 +35,8 @@ val pokemon: Pokemon = Pokemon(
     defStat = pokemonStat,
     spAtkStat = pokemonStat,
     spDefStat = pokemonStat,
-    spdStat = pokemonStat
+    spdStat = pokemonStat,
+    favorite = favorite,
 )
 
 val pokemonEntity: PokemonEntity = PokemonEntity(
@@ -49,7 +52,8 @@ val pokemonEntity: PokemonEntity = PokemonEntity(
     pokeStatDef = pokemonStat,
     pokeStatSpAtk = pokemonStat,
     pokeStatSpDef = pokemonStat,
-    pokeStatSpd = pokemonStat
+    pokeStatSpd = pokemonStat,
+    favorite = favorite
 )
 
 val pokemonApiModel: PokemonApiModel = PokemonApiModel(
