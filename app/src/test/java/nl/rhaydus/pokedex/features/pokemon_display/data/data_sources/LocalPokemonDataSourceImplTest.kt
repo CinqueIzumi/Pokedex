@@ -31,6 +31,24 @@ class LocalPokemonDataSourceImplTest {
     }
 
     @Nested
+    inner class UnFavoritePokemon {
+        @Test
+        fun `returns true if the pokemon has been removed from the favorites`() {
+            // ----- Arrange -----
+            coEvery {
+                mockPokemonDao.updatePokemon(any())
+            }.just(runs)
+
+            // ----- Act -----
+            val result = runBlocking { localPokemonDataSource.unFavoritePokemon(pokemon) }
+
+            // ----- Assert -----
+            result shouldBe true
+            coVerify { mockPokemonDao.updatePokemon(pokemonEntity) }
+        }
+    }
+
+    @Nested
     inner class FavoritePokemon {
         @Test
         fun `returns true if the pokemon has been added to favorites`() {
