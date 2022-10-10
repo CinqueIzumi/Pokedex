@@ -45,15 +45,16 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     override suspend fun isLocalDataComplete() =
         pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
 
-    override suspend fun favoritePokemon(pokemon: Pokemon): Boolean {
-        val pokemonToSave = pokemon.copy(favorite = 1)
-
+    private fun updatePokemon(pokemon: Pokemon, favorite: Int): Boolean {
+        val pokemonToSave = pokemon.copy(favorite = favorite)
         pokemonDao.updatePokemon(pokemonToSave.toPokemonEntity())
 
         return true
     }
 
-    override suspend fun unFavoritePokemon(pokemon: Pokemon): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun favoritePokemon(pokemon: Pokemon): Boolean =
+        updatePokemon(pokemon, 1)
+
+    override suspend fun unFavoritePokemon(pokemon: Pokemon): Boolean =
+        updatePokemon(pokemon, 0)
 }
