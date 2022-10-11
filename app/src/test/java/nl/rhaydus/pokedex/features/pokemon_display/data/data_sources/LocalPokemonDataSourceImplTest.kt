@@ -2,15 +2,13 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.data_sources
 
 import android.content.Context
 import io.kotest.matchers.shouldBe
-import io.mockk.clearAllMocks
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.fixtures.pokemon
 import nl.rhaydus.pokedex.fixtures.pokemonEntity
+import nl.rhaydus.pokedex.fixtures.pokemonEntityFavorite
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -30,6 +28,42 @@ class LocalPokemonDataSourceImplTest {
         coEvery {
             mockPokemonDao.getPokemonById(any())
         }.returns(pokemonEntity)
+    }
+
+    @Nested
+    inner class UnFavoritePokemon {
+        @Test
+        fun `returns true if the pokemon has been removed from the favorites`() {
+            // ----- Arrange -----
+            coEvery {
+                mockPokemonDao.updatePokemon(any())
+            }.just(runs)
+
+            // ----- Act -----
+            val result = runBlocking { localPokemonDataSource.unFavoritePokemon(pokemon) }
+
+            // ----- Assert -----
+            result shouldBe true
+            coVerify { mockPokemonDao.updatePokemon(pokemonEntity) }
+        }
+    }
+
+    @Nested
+    inner class FavoritePokemon {
+        @Test
+        fun `returns true if the pokemon has been added to favorites`() {
+            // ----- Assert -----
+            coEvery {
+                mockPokemonDao.updatePokemon(any())
+            }.just(runs)
+
+            // ----- Act -----
+            val result = runBlocking { localPokemonDataSource.favoritePokemon(pokemon) }
+
+            // ----- Assert -----
+            result shouldBe true
+            coVerify { mockPokemonDao.updatePokemon(pokemonEntityFavorite) }
+        }
     }
 
     @Nested

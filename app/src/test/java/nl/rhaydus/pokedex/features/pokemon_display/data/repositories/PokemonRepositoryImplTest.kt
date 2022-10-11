@@ -3,9 +3,11 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.repositories
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
+import nl.rhaydus.pokedex.core.LocalDataError
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.RemotePokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.fixtures.pokemon
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -21,10 +23,93 @@ class PokemonRepositoryImplTest {
     private val pokemonRepositoryImpl: PokemonRepositoryImpl =
         PokemonRepositoryImpl(mockRemotePokemonDataSource, mockLocalPokemonDataSource)
     private val exception: Exception = Exception()
+    private val localDataError: Exception = LocalDataError()
 
     @BeforeEach
     fun init() {
         clearAllMocks()
+    }
+
+    @Nested
+    inner class UnFavoritePokemon {
+        @Test
+        fun `returns true if pokemon was removed from favorites within local data source `() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.unFavoritePokemon(any())
+            }.returns(true)
+
+            // ----- Act -----
+            val result = runBlocking { pokemonRepositoryImpl.unFavoritePokemon(mockPokemon) }
+
+            // ----- Assert -----
+            result shouldBe Result.success(true)
+            coVerify { mockLocalPokemonDataSource.unFavoritePokemon(any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+
+        @Test
+        fun `returns error if pokemon could not be removed from favorites within local data source`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.unFavoritePokemon(any())
+            }.throws(localDataError)
+
+            // ----- Act -----
+            val result = try {
+                runBlocking {
+                    pokemonRepositoryImpl.unFavoritePokemon(mockPokemon)
+                }
+            } catch (e: Exception) {
+                e
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.failure<LocalDataError>(localDataError)
+            coVerify { mockLocalPokemonDataSource.unFavoritePokemon(any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+    }
+
+    @Nested
+    inner class FavoritePokemon {
+        @Test
+        fun `returns true if pokemon was added to favorites within local data source`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.favoritePokemon(any())
+            }.returns(true)
+
+            // ----- Act -----
+            val result = runBlocking { pokemonRepositoryImpl.favoritePokemon(mockPokemon) }
+
+            // ----- Assert -----
+            result shouldBe Result.success(true)
+            coVerify { mockLocalPokemonDataSource.favoritePokemon(any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+
+        @Test
+        fun `returns error if pokemon could not be saved to local data source`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.favoritePokemon(any())
+            }.throws(localDataError)
+
+            // ----- Act -----
+            val result = try {
+                runBlocking {
+                    pokemonRepositoryImpl.favoritePokemon(mockPokemon)
+                }
+            } catch (e: Exception) {
+                e
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.failure<LocalDataError>(localDataError)
+            coVerify { mockLocalPokemonDataSource.favoritePokemon(any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
     }
 
     @Nested

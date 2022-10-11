@@ -9,4 +9,6 @@ interface LocalPokemonDataSource {
     suspend fun getAllPokemon(): List<Pokemon>
     suspend fun addPokemons(pokes: List<Pokemon>)
     suspend fun isLocalDataComplete(): Boolean
+    suspend fun favoritePokemon(pokemon: Pokemon): Boolean
+    suspend fun unFavoritePokemon(pokemon: Pokemon): Boolean
 }

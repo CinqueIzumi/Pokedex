@@ -1,6 +1,7 @@
 package nl.rhaydus.pokedex.features.pokemon_display.data.dao
 
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 
 @Dao
@@ -11,13 +12,8 @@ interface PokemonDao {
     @Query("DELETE FROM pokemonentity")
     fun deleteAll()
 
-    @Query(
-        "SELECT * FROM pokemonentity " +
-                "WHERE poke_name LIKE '%' || :input || '%' " +
-                "OR poke_main_type LIKE :input " +
-                "OR id LIKE :input"
-    )
-    fun getFilteredPokemons(input: String): List<PokemonEntity>
+    @RawQuery
+    fun getFilteredPokemons(query: SupportSQLiteQuery): List<PokemonEntity>
 
     @Query("SELECT * FROM pokemonentity WHERE id LIKE :id")
     fun getPokemonById(id: Int): PokemonEntity

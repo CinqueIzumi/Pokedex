@@ -5,7 +5,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,20 +21,39 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.launch
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.DetailedPokemonScreenViewModel
+import nl.rhaydus.pokedex.features.pokemon_display.presentation.widgets.ShowProgressDialog
 
 @Composable
 @Destination
 fun DetailedPokemonScreen(
+    viewModel: DetailedPokemonScreenViewModel = hiltViewModel(),
     poke: Pokemon,
     navigator: NavController
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    // Check whether the pokemon was added to the favorites on initial launch
+    LaunchedEffect(key1 = true) {
+        viewModel.checkIfFavorite(poke)
+    }
+
+    val isLoading = viewModel.loadingState.observeAsState()
+    val isFavorite = viewModel.isFavoriteState.observeAsState()
+
+    if (isLoading.value == true) {
+        ShowProgressDialog()
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             backgroundColor = colorResource(
@@ -41,13 +65,37 @@ fun DetailedPokemonScreen(
             elevation = 0.dp,
             navigationIcon = {
                 if (navigator.previousBackStackEntry != null) {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(onClick = {
+                        navigator.navigateUp()
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back",
                             tint = Color.White
                         )
                     }
+                }
+            },
+            actions = {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            if (isFavorite.value == true) {
+                                viewModel.unFavoritePokemon(poke)
+                            } else {
+                                viewModel.favoritePokemon(poke)
+                            }
+                        }
+                    })
+                {
+                    Icon(
+                        imageVector = if (isFavorite.value == true) {
+                            Icons.Filled.Favorite
+                        } else {
+                            Icons.Default.FavoriteBorder
+                        },
+                        contentDescription = "Favorite",
+                    )
                 }
             }
         )
@@ -109,9 +157,11 @@ fun DetailedPokemonScreen(
                         "${poke.weight} KG",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Weight", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        "Weight", style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
 
                 Column {
@@ -119,9 +169,11 @@ fun DetailedPokemonScreen(
                         "${poke.height} M",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Height", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        "Height", style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
             }
 

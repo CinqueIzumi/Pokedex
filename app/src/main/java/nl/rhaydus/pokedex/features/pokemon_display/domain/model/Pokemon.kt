@@ -16,5 +16,6 @@ data class Pokemon(
     val defStat: Int,
     val spAtkStat: Int,
     val spDefStat: Int,
-    val spdStat: Int
+    val spdStat: Int,
+    val favorite: Int, // 0 = false, 1 = true
 ) : Parcelable

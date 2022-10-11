@@ -7,4 +7,6 @@ interface PokemonRepository {
     suspend fun getSpecificPokemon(pokemonId: Int): Result<Pokemon>
     suspend fun getAllPokemon(): Result<List<Pokemon>>
     suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>>
+    suspend fun favoritePokemon(pokemon: Pokemon): Result<Boolean>
+    suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Boolean>
 }
