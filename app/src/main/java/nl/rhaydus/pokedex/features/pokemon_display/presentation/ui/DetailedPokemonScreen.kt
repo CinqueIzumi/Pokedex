@@ -95,6 +95,7 @@ fun DetailedPokemonScreen(
                             Icons.Default.FavoriteBorder
                         },
                         contentDescription = "Favorite",
+                        tint = Color.White
                     )
                 }
             }
