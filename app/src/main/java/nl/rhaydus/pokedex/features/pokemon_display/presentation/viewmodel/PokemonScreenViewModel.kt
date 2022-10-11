@@ -29,7 +29,9 @@ class PokemonScreenViewModel @Inject constructor(
 
     suspend fun applyFilter(
         givenQuery: String? = null,
-        favorites: Boolean? = null
+        favorites: Boolean? = null,
+        mainType: String? = null,
+        secondaryType: String? = null
     ) {
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
@@ -71,8 +73,38 @@ class PokemonScreenViewModel @Inject constructor(
                     args.add(fav)
                 }
 
+                // Add the main type filter if required
+                mainType?.let { mainType ->
+                    if (mainType != "All") {
+                        if (containsConditions) {
+                            queryString += " AND"
+                        } else {
+                            queryString += " WHERE"
+                            containsConditions = true
+                        }
+                        queryString += " poke_main_type = ?"
+                        args.add(mainType)
+                    }
+                }
+
+                // Add the secondary type filter if required
+                secondaryType?.let { secondaryType ->
+                    if (secondaryType != "All") {
+                        if (containsConditions) {
+                            queryString += " AND"
+                        } else {
+                            queryString += " WHERE"
+                            containsConditions = true
+                        }
+                        queryString += " poke_secondary_type = ?"
+                        args.add(secondaryType)
+                    }
+                }
+
                 // End of the query
                 queryString += ";"
+
+                Timber.d(queryString)
 
                 // Perform the query
                 val query = SimpleSQLiteQuery(queryString, args.toList().toTypedArray())

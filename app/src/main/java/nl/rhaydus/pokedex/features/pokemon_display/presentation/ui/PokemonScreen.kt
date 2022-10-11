@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -55,16 +57,65 @@ fun PokemonScreen(
     val currentPokemonList = viewModel.currentPokemonList.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
 
-    if (isLoading.value == true) {
-        ShowProgressDialog()
-    }
+    val selectedValueMain = remember { mutableStateOf("All") }
+    val selectedValueSecondary = remember { mutableStateOf("All") }
 
     suspend fun applyFilter() {
         val filterOnFav = if (favoritesFilterEnabled.value) true else null
+
         viewModel.applyFilter(
             givenQuery = currentSearchFilter.value,
-            favorites = filterOnFav
+            favorites = filterOnFav,
+            mainType = selectedValueMain.value,
+            secondaryType = selectedValueSecondary.value
         )
+    }
+
+    val isSelectedItemMain: (String) -> Boolean =
+        { givenString -> selectedValueMain.value == givenString }
+    val onChangeStateMain: (String) -> Unit =
+        { givenString ->
+            selectedValueMain.value = givenString
+            coScope.launch {
+                applyFilter()
+            }
+        }
+
+    val isSelectedItemSecondary: (String) -> Boolean =
+        { givenString -> selectedValueSecondary.value == givenString }
+    val onChangeStateSecondary: (String) -> Unit =
+        { givenString ->
+            selectedValueSecondary.value = givenString
+            coScope.launch {
+                applyFilter()
+            }
+        }
+
+    val allTypes = listOf(
+        "All",
+        "Normal",
+        "Fighting",
+        "Poison",
+        "Ground",
+        "Rock",
+        "Bug",
+        "Ghost",
+        "Steel",
+        "Fire",
+        "Water",
+        "Grass",
+        "Electric",
+        "Psychic",
+        "Ice",
+        "Dragon",
+        "Dark",
+        "Fairy",
+        "Unknown",
+        "Flying",
+    )
+
+    if (isLoading.value == true) {
+        ShowProgressDialog()
     }
 
     Scaffold(
@@ -82,13 +133,11 @@ fun PokemonScreen(
         Column(modifier = Modifier.padding(it)) {
             ModalBottomSheetLayout(
                 sheetContent = {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp)
-                    ) {
+                    Column(modifier = Modifier.padding(20.dp)) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
                             Checkbox(
                                 checked = (favoritesFilterEnabled.value),
@@ -99,12 +148,55 @@ fun PokemonScreen(
                                     }
                                 }
                             )
-                            Text(text = "Favorites only")
+                            Text("Favorites")
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column {
+                                Text("Main type", style = MaterialTheme.typography.h6)
+                                allTypes.forEach { item ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.selectable(
+                                            selected = isSelectedItemMain(item),
+                                            onClick = { onChangeStateMain(item) },
+                                            role = Role.RadioButton
+                                        )
+                                    ) {
+                                        RadioButton(
+                                            selected = isSelectedItemMain(item),
+                                            onClick = null
+                                        )
+                                        Text(item)
+                                    }
+                                }
+                            }
+                            Column {
+                                Text("Secondary type", style = MaterialTheme.typography.h6)
+                                allTypes.forEach { item ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.selectable(
+                                            selected = isSelectedItemSecondary(item),
+                                            onClick = { onChangeStateSecondary(item) },
+                                            role = Role.RadioButton
+                                        )
+                                    ) {
+                                        RadioButton(
+                                            selected = isSelectedItemSecondary(item),
+                                            onClick = null
+                                        )
+                                        Text(item)
+                                    }
+                                }
+                            }
                         }
                     }
                 },
                 sheetState = bottomSheetState,
-                scrimColor = colorResource(R.color.color_background).copy(alpha = 0.33f)
+                scrimColor = colorResource(R.color.color_background).copy(alpha = 0.33f),
             ) {
                 Column(
                     modifier = Modifier
