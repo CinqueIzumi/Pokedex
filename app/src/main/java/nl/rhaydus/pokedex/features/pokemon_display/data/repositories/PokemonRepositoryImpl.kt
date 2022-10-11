@@ -35,4 +35,18 @@ class PokemonRepositoryImpl(
 
     override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Boolean> =
         runCatching { localPokemonDataSource.unFavoritePokemon(pokemon) }
+
+    override suspend fun getPokemonWithFilter(
+        nameOrId: String?,
+        isFavorite: Boolean?,
+        mainType: String?,
+        secondaryType: String?
+    ): Result<List<Pokemon>> = runCatching {
+        localPokemonDataSource.getPokemonWithFilter(
+            nameOrId,
+            isFavorite,
+            mainType,
+            secondaryType
+        )
+    }
 }

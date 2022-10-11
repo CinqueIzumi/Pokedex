@@ -11,4 +11,10 @@ interface LocalPokemonDataSource {
     suspend fun isLocalDataComplete(): Boolean
     suspend fun favoritePokemon(pokemon: Pokemon): Boolean
     suspend fun unFavoritePokemon(pokemon: Pokemon): Boolean
+    suspend fun getPokemonWithFilter(
+        nameOrId: String?,
+        isFavorite: Boolean?,
+        mainType: String?,
+        secondaryType: String?
+    ): List<Pokemon>
 }

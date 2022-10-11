@@ -7,7 +7,6 @@ import nl.rhaydus.pokedex.core.LocalDataError
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.RemotePokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
-import nl.rhaydus.pokedex.fixtures.pokemon
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -28,6 +27,49 @@ class PokemonRepositoryImplTest {
     @BeforeEach
     fun init() {
         clearAllMocks()
+    }
+
+    @Nested
+    inner class GetPokemonWithFilter {
+        @Test
+        fun `returns pokemon from local data source`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any())
+            }.returns(pokemonList)
+
+            // ----- Act -----
+            val result = runBlocking {
+                pokemonRepositoryImpl.getPokemonWithFilter(null, null, null, null)
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.success(pokemonList)
+            coVerify { mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+
+        @Test
+        fun `returns error when pokemons could not be loaded`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any())
+            }.throws(exception)
+
+            // ----- Act -----
+            val result = try {
+                runBlocking {
+                    pokemonRepositoryImpl.getPokemonWithFilter(null, null, null, null)
+                }
+            } catch (e: Exception) {
+                e
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.failure<Exception>(exception)
+            coVerify { mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
     }
 
     @Nested
