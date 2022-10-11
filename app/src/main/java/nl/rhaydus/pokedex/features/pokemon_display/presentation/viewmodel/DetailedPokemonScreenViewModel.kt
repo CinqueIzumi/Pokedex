@@ -8,12 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.FavoritePokemon
+import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.UnFavoritePokemon
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailedPokemonScreenViewModel @Inject constructor(
-    private val favoritePokemonUseCase: FavoritePokemon
+    private val favoritePokemonUseCase: FavoritePokemon,
+    private val unFavoritePokemonUseCase: UnFavoritePokemon
 ) : ViewModel() {
 
     private val _loadingState = MutableLiveData(false)
@@ -32,6 +34,25 @@ class DetailedPokemonScreenViewModel @Inject constructor(
         }
 
         _loadingState.postValue(false)
+    }
+
+    suspend fun unFavoritePokemon(pokemon: Pokemon) {
+        withContext(Dispatchers.IO) {
+            _loadingState.postValue(true)
+
+            val result = unFavoritePokemonUseCase(pokemon)
+
+            result.fold(
+                onSuccess = {
+                    _isFavoriteState.postValue(false)
+                    Timber.d("Pokemon has been removed from favorites!")
+                },
+                onFailure = { error ->
+                    Timber.e(error)
+                }
+            )
+            _loadingState.postValue(false)
+        }
     }
 
     suspend fun favoritePokemon(pokemon: Pokemon) {

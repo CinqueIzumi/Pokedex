@@ -80,7 +80,11 @@ fun DetailedPokemonScreen(
                 IconButton(
                     onClick = {
                         coroutineScope.launch {
-                            viewModel.favoritePokemon(poke)
+                            if (isFavorite.value == true) {
+                                viewModel.unFavoritePokemon(poke)
+                            } else {
+                                viewModel.favoritePokemon(poke)
+                            }
                         }
                     })
                 {
