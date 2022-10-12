@@ -384,7 +384,7 @@ class LocalPokemonDataSourceImplTest {
     @Nested
     inner class UnFavoritePokemon {
         @Test
-        fun `returns true if the pokemon has been removed from the favorites`() {
+        fun `returns unit if the pokemon has been removed from the favorites`() {
             // ----- Arrange -----
             coEvery {
                 mockPokemonDao.updatePokemon(any())
@@ -394,7 +394,7 @@ class LocalPokemonDataSourceImplTest {
             val result = runBlocking { localPokemonDataSource.unFavoritePokemon(pokemon) }
 
             // ----- Assert -----
-            result shouldBe true
+            result shouldBe Unit
             coVerify { mockPokemonDao.updatePokemon(pokemonEntity) }
         }
     }
@@ -402,7 +402,7 @@ class LocalPokemonDataSourceImplTest {
     @Nested
     inner class FavoritePokemon {
         @Test
-        fun `returns true if the pokemon has been added to favorites`() {
+        fun `returns unit if the pokemon has been added to favorites`() {
             // ----- Assert -----
             coEvery {
                 mockPokemonDao.updatePokemon(any())
@@ -412,7 +412,7 @@ class LocalPokemonDataSourceImplTest {
             val result = runBlocking { localPokemonDataSource.favoritePokemon(pokemon) }
 
             // ----- Assert -----
-            result shouldBe true
+            result shouldBe Unit
             coVerify { mockPokemonDao.updatePokemon(pokemonEntityFavorite) }
         }
     }

@@ -75,17 +75,17 @@ class PokemonRepositoryImplTest {
     @Nested
     inner class UnFavoritePokemon {
         @Test
-        fun `returns true if pokemon was removed from favorites within local data source `() {
+        fun `returns unit if pokemon was removed from favorites within local data source `() {
             // ----- Arrange -----
             coEvery {
                 mockLocalPokemonDataSource.unFavoritePokemon(any())
-            }.returns(true)
+            }.returns(Unit)
 
             // ----- Act -----
             val result = runBlocking { pokemonRepositoryImpl.unFavoritePokemon(mockPokemon) }
 
             // ----- Assert -----
-            result shouldBe Result.success(true)
+            result shouldBe Result.success(Unit)
             coVerify { mockLocalPokemonDataSource.unFavoritePokemon(any()) }
             coVerify { mockRemotePokemonDataSource wasNot called }
         }
@@ -116,17 +116,17 @@ class PokemonRepositoryImplTest {
     @Nested
     inner class FavoritePokemon {
         @Test
-        fun `returns true if pokemon was added to favorites within local data source`() {
+        fun `returns unit if pokemon was added to favorites within local data source`() {
             // ----- Arrange -----
             coEvery {
                 mockLocalPokemonDataSource.favoritePokemon(any())
-            }.returns(true)
+            }.returns(Unit)
 
             // ----- Act -----
             val result = runBlocking { pokemonRepositoryImpl.favoritePokemon(mockPokemon) }
 
             // ----- Assert -----
-            result shouldBe Result.success(true)
+            result shouldBe Result.success(Unit)
             coVerify { mockLocalPokemonDataSource.favoritePokemon(any()) }
             coVerify { mockRemotePokemonDataSource wasNot called }
         }

@@ -30,10 +30,10 @@ class PokemonRepositoryImpl(
     override suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>> =
         runCatching { localPokemonDataSource.getPokemonUntilId(id) }
 
-    override suspend fun favoritePokemon(pokemon: Pokemon): Result<Boolean> =
+    override suspend fun favoritePokemon(pokemon: Pokemon): Result<Unit> =
         runCatching { localPokemonDataSource.favoritePokemon(pokemon) }
 
-    override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Boolean> =
+    override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Unit> =
         runCatching { localPokemonDataSource.unFavoritePokemon(pokemon) }
 
     override suspend fun getPokemonWithFilter(
