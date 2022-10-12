@@ -3,9 +3,9 @@ Pokedex is a practice/portfolio project, which is used to practice new ways of w
 
 The UI and documentation of this project was inspired by [Pokedex](https://github.com/skydoves/Pokedex). No code has been referenced while making this app.
 
-![Example](figures/demo.gif)
-
 # Tech stack / Libraries
+<img src="figures/demo.gif" align="right" width="320"/>
+
 - Minimum SDK level is 21 (Android 5.0).
 - Written in [Kotlin](https://kotlinlang.org/).
 - Architecture
