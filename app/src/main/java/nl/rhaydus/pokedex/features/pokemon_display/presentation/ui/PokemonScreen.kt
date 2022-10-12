@@ -230,6 +230,7 @@ fun PokemonScreen(
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent,
+                                textColor = Color.White,
                             ),
                             modifier = Modifier.weight(weight = 0.9f)
                         )
