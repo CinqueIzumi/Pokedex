@@ -40,31 +40,33 @@ fun PokemonScreen(
     viewModel: PokemonScreenViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
+    // When opening the screen for the first time, the pokemons from the local database should be initialized
     LaunchedEffect(true) {
-        viewModel.getPokemonFromRoom()
+        Timber.d("Started loading pokemon in overview!")
+        viewModel.initializePokemon()
     }
 
     val currentSearchFilter = remember { mutableStateOf("") }
     val favoritesFilterEnabled = remember { mutableStateOf(false) }
-
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val selectedValueMain = remember { mutableStateOf("All") }
+    val selectedValueSecondary = remember { mutableStateOf("All") }
 
     val coScope = rememberCoroutineScope()
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     val focusManager = LocalFocusManager.current
 
     val currentPokemonList = viewModel.currentPokemonList.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
 
-    val selectedValueMain = remember { mutableStateOf("All") }
-    val selectedValueSecondary = remember { mutableStateOf("All") }
-
     suspend fun applyFilter() {
+        Timber.d("Started applying filter!")
         val filterOnFav = if (favoritesFilterEnabled.value) true else null
+        val filterName = if (currentSearchFilter.value != "") currentSearchFilter.value else null
 
         viewModel.applyFilter(
-            givenQuery = currentSearchFilter.value,
+            givenQuery = filterName,
             favorites = filterOnFav,
             mainType = selectedValueMain.value,
             secondaryType = selectedValueSecondary.value
@@ -124,7 +126,7 @@ fun PokemonScreen(
             TopAppBar(
                 backgroundColor = colorResource(id = R.color.color_top_bar),
                 title = {
-                    Text(stringResource(id = R.string.app_name), color = Color.White)
+                    Text(text = stringResource(id = R.string.app_name), color = Color.White)
                 }
             )
         }
@@ -143,12 +145,13 @@ fun PokemonScreen(
                                 checked = (favoritesFilterEnabled.value),
                                 onCheckedChange = { newValue ->
                                     favoritesFilterEnabled.value = newValue
+                                    Timber.d("Favorites enabled has been changed to: ${favoritesFilterEnabled.value}")
                                     coScope.launch {
                                         applyFilter()
                                     }
                                 }
                             )
-                            Text("Favorites")
+                            Text(text = "Favorites", style = MaterialTheme.typography.body1)
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -169,7 +172,7 @@ fun PokemonScreen(
                                             selected = isSelectedItemMain(item),
                                             onClick = null
                                         )
-                                        Text(item)
+                                        Text(text = item, style = MaterialTheme.typography.body1)
                                     }
                                 }
                             }
@@ -188,7 +191,7 @@ fun PokemonScreen(
                                             selected = isSelectedItemSecondary(item),
                                             onClick = null
                                         )
-                                        Text(item)
+                                        Text(text = item, style = MaterialTheme.typography.body1)
                                     }
                                 }
                             }
@@ -220,8 +223,9 @@ fun PokemonScreen(
                             singleLine = true,
                             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                             onValueChange = { newValue ->
-                                Timber.d("Value has been changed to $newValue")
                                 currentSearchFilter.value = newValue
+                                Timber.d("Query has been changed to ${currentSearchFilter.value}")
+
                                 coScope.launch {
                                     applyFilter()
                                 }
@@ -230,6 +234,7 @@ fun PokemonScreen(
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent,
+                                textColor = Color.White,
                             ),
                             modifier = Modifier.weight(weight = 0.9f)
                         )
@@ -259,6 +264,7 @@ fun PokemonScreen(
                         ) {
                             items(pokeList) { poke ->
                                 BuildPokemonCard(givenPokemon = poke) {
+                                    Timber.d("Started navigating to: ${poke.name}")
                                     navigator.navigate(DetailedPokemonScreenDestination(poke))
                                 }
                             }

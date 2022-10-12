@@ -29,13 +29,13 @@ class UnFavoritePokemonTest {
         // ----- Arrange -----
         coEvery {
             mockPokemonRepository.unFavoritePokemon(any())
-        }.returns(Result.success(true))
+        }.returns(Result.success(Unit))
 
         // ----- Act -----
         val result = runBlocking { useCase(mockPokemon) }
 
         // ----- Assert -----
-        result shouldBe Result.success(true)
+        result shouldBe Result.success(Unit)
         coVerify { mockPokemonRepository.unFavoritePokemon(mockPokemon) }
     }
 }

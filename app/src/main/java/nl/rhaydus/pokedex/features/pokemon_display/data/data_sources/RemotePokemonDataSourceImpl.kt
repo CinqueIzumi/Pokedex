@@ -16,7 +16,7 @@ class RemotePokemonDataSourceImpl @Inject constructor(
 ) : RemotePokemonDataSource {
 
     private suspend fun getSpecificPokemonFromApi(pokemonId: Int): Pokemon {
-        val response = pokemonApiService.getSpecificPokemon(pokemonId)
+        val response = pokemonApiService.getSpecificPokemon(id = pokemonId)
         return response.body()?.toPokemon() ?: throw EmptyPokemonBody()
     }
 

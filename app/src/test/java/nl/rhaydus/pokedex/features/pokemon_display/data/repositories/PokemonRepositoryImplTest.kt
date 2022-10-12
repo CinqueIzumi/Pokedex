@@ -7,7 +7,6 @@ import nl.rhaydus.pokedex.core.LocalDataError
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.RemotePokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
-import nl.rhaydus.pokedex.fixtures.pokemon
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -31,19 +30,62 @@ class PokemonRepositoryImplTest {
     }
 
     @Nested
+    inner class GetPokemonWithFilter {
+        @Test
+        fun `returns pokemon from local data source`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any())
+            }.returns(pokemonList)
+
+            // ----- Act -----
+            val result = runBlocking {
+                pokemonRepositoryImpl.getPokemonWithFilter(null, null, null, null)
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.success(pokemonList)
+            coVerify { mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+
+        @Test
+        fun `returns error when pokemons could not be loaded`() {
+            // ----- Arrange -----
+            coEvery {
+                mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any())
+            }.throws(exception)
+
+            // ----- Act -----
+            val result = try {
+                runBlocking {
+                    pokemonRepositoryImpl.getPokemonWithFilter(null, null, null, null)
+                }
+            } catch (e: Exception) {
+                e
+            }
+
+            // ----- Assert -----
+            result shouldBe Result.failure<Exception>(exception)
+            coVerify { mockLocalPokemonDataSource.getPokemonWithFilter(any(), any(), any(), any()) }
+            coVerify { mockRemotePokemonDataSource wasNot called }
+        }
+    }
+
+    @Nested
     inner class UnFavoritePokemon {
         @Test
-        fun `returns true if pokemon was removed from favorites within local data source `() {
+        fun `returns unit if pokemon was removed from favorites within local data source `() {
             // ----- Arrange -----
             coEvery {
                 mockLocalPokemonDataSource.unFavoritePokemon(any())
-            }.returns(true)
+            }.returns(Unit)
 
             // ----- Act -----
             val result = runBlocking { pokemonRepositoryImpl.unFavoritePokemon(mockPokemon) }
 
             // ----- Assert -----
-            result shouldBe Result.success(true)
+            result shouldBe Result.success(Unit)
             coVerify { mockLocalPokemonDataSource.unFavoritePokemon(any()) }
             coVerify { mockRemotePokemonDataSource wasNot called }
         }
@@ -74,17 +116,17 @@ class PokemonRepositoryImplTest {
     @Nested
     inner class FavoritePokemon {
         @Test
-        fun `returns true if pokemon was added to favorites within local data source`() {
+        fun `returns unit if pokemon was added to favorites within local data source`() {
             // ----- Arrange -----
             coEvery {
                 mockLocalPokemonDataSource.favoritePokemon(any())
-            }.returns(true)
+            }.returns(Unit)
 
             // ----- Act -----
             val result = runBlocking { pokemonRepositoryImpl.favoritePokemon(mockPokemon) }
 
             // ----- Assert -----
-            result shouldBe Result.success(true)
+            result shouldBe Result.success(Unit)
             coVerify { mockLocalPokemonDataSource.favoritePokemon(any()) }
             coVerify { mockRemotePokemonDataSource wasNot called }
         }
@@ -113,129 +155,6 @@ class PokemonRepositoryImplTest {
     }
 
     @Nested
-    inner class GetPokemonUntilId {
-        @Test
-        fun `returns pokemons from local data source`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getPokemonUntilId(any())
-            }.returns(pokemonList)
-
-            // ----- Act -----
-            val result = runBlocking { pokemonRepositoryImpl.getPokemonUntilId(1) }
-
-            // ----- Assert -----
-            result shouldBe Result.success(pokemonList)
-            coVerify { mockLocalPokemonDataSource.getPokemonUntilId(any()) }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-
-        @Test
-        fun `returns error when pokemons could not be loaded`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getPokemonUntilId(any())
-            }.throws(exception)
-
-            // ----- Act -----
-            val result = try {
-                runBlocking {
-                    pokemonRepositoryImpl.getPokemonUntilId(1)
-                }
-            } catch (e: Exception) {
-                e
-            }
-
-            // ----- Assert -----
-            result shouldBe Result.failure<Exception>(exception)
-            coVerify { mockLocalPokemonDataSource.getPokemonUntilId(any()) }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-    }
-
-    @Nested
-    inner class GetRandomPokemon {
-        @Test
-        fun `returns pokemon from local data source`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getRandomPokemon()
-            }.returns(mockPokemon)
-
-            // ----- Act -----
-            val result = runBlocking { pokemonRepositoryImpl.getRandomPokemon() }
-
-            // ----- Assert -----
-            result shouldBe Result.success(mockPokemon)
-            coVerify { mockLocalPokemonDataSource.getRandomPokemon() }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-
-        @Test
-        fun `returns error when pokemon could not be loaded`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getRandomPokemon()
-            }.throws(exception)
-
-            // ----- Act -----
-            val result = try {
-                runBlocking {
-                    pokemonRepositoryImpl.getRandomPokemon()
-                }
-            } catch (e: Exception) {
-                e
-            }
-
-            // ----- Assert -----
-            result shouldBe Result.failure<Exception>(exception)
-            coVerify { mockLocalPokemonDataSource.getRandomPokemon() }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-    }
-
-    @Nested
-    inner class GetSpecificPokemon {
-        @Test
-        fun `returns pokemon from local data source`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getSpecificPokemon(any())
-            }.returns(mockPokemon)
-
-            // ----- Act -----
-            val result = runBlocking { pokemonRepositoryImpl.getSpecificPokemon(1) }
-
-            // ----- Assert -----
-            result shouldBe Result.success(mockPokemon)
-            coVerify { mockLocalPokemonDataSource.getSpecificPokemon(any()) }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-
-        @Test
-        fun `returns error when pokemon could not be loaded`() {
-            // ----- Arrange -----
-            coEvery {
-                mockLocalPokemonDataSource.getSpecificPokemon(any())
-            }.throws(exception)
-
-            // ----- Act -----
-            val result = try {
-                runBlocking {
-                    pokemonRepositoryImpl.getSpecificPokemon(1)
-                }
-            } catch (e: Exception) {
-                e
-            }
-
-            // ----- Assert -----
-            result shouldBe Result.failure<Exception>(exception)
-            coVerify { mockLocalPokemonDataSource.getSpecificPokemon(any()) }
-            coVerify { mockRemotePokemonDataSource wasNot called }
-        }
-    }
-
-    @Nested
     inner class GetAllPokemon {
         @Test
         fun `returns pokemon from local data source if possible`() {
@@ -255,7 +174,7 @@ class PokemonRepositoryImplTest {
             result shouldBe Result.success(pokemonList)
             coVerify { mockLocalPokemonDataSource.getAllPokemon() }
             coVerify { mockLocalPokemonDataSource.isLocalDataComplete() }
-            coVerify(exactly = 0) { mockRemotePokemonDataSource.getAllPokemon() }
+            coVerify { mockRemotePokemonDataSource wasNot called }
         }
 
         @Test
@@ -305,6 +224,7 @@ class PokemonRepositoryImplTest {
             result shouldBe Result.failure<Exception>(exception)
             coVerify { mockLocalPokemonDataSource.getAllPokemon() }
             coVerify { mockLocalPokemonDataSource.isLocalDataComplete() }
+            coVerify { mockRemotePokemonDataSource wasNot called }
         }
 
         @Test

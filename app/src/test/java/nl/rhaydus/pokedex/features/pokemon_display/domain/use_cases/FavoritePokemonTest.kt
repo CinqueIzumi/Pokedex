@@ -28,12 +28,12 @@ class FavoritePokemonTest {
         // ----- Arrange -----
         coEvery {
             mockPokemonRepository.favoritePokemon(any())
-        }.returns(Result.success(true))
+        }.returns(Result.success(Unit))
 
         // ----- Act -----
         val result = runBlocking { useCase(mockPokemon) }
 
         // ----- Assert -----
-        result shouldBe Result.success(true)
+        result shouldBe Result.success(Unit)
     }
 }
