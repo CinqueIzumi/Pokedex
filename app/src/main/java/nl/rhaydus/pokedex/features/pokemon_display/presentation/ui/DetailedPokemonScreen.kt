@@ -5,7 +5,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,24 +21,44 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.launch
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.DetailedPokemonScreenViewModel
+import nl.rhaydus.pokedex.features.pokemon_display.presentation.widgets.ShowProgressDialog
+import timber.log.Timber
 
 @Composable
 @Destination
 fun DetailedPokemonScreen(
+    viewModel: DetailedPokemonScreenViewModel = hiltViewModel(),
     poke: Pokemon,
     navigator: NavController
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
+    // Check whether the pokemon was added to the favorites on initial launch
+    LaunchedEffect(key1 = true) {
+        viewModel.checkIfFavorite(poke)
+    }
+
+    val isLoading = viewModel.loadingState.observeAsState()
+    val isFavorite = viewModel.isFavoriteState.observeAsState()
+
+    if (isLoading.value == true) {
+        ShowProgressDialog()
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(poke.types[0])
+                id = PokedexHelper.determineTypeColor(type = poke.types[0])
             ),
             title = {
                 Text(stringResource(id = R.string.app_name), color = Color.White)
@@ -41,7 +66,9 @@ fun DetailedPokemonScreen(
             elevation = 0.dp,
             navigationIcon = {
                 if (navigator.previousBackStackEntry != null) {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(onClick = {
+                        navigator.navigateUp()
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back",
@@ -49,13 +76,37 @@ fun DetailedPokemonScreen(
                         )
                     }
                 }
+            },
+            actions = {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            Timber.d("(Un)favorite button has been clicked!")
+                            if (isFavorite.value == true) {
+                                viewModel.unFavoritePokemon(pokemon = poke)
+                            } else {
+                                viewModel.favoritePokemon(pokemon = poke)
+                            }
+                        }
+                    })
+                {
+                    Icon(
+                        imageVector = if (isFavorite.value == true) {
+                            Icons.Filled.Favorite
+                        } else {
+                            Icons.Default.FavoriteBorder
+                        },
+                        contentDescription = "Favorite",
+                        tint = Color.White
+                    )
+                }
             }
         )
 
         Card(
             modifier = Modifier.fillMaxWidth(),
             backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(poke.types[0])
+                id = PokedexHelper.determineTypeColor(type = poke.types[0])
             ),
             elevation = 0.dp,
             shape = RoundedCornerShape(
@@ -85,7 +136,7 @@ fun DetailedPokemonScreen(
                 .padding(dimensionResource(id = R.dimen.default_column_padding)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(poke.name, style = MaterialTheme.typography.h4)
+            Text(text = poke.name, style = MaterialTheme.typography.h4)
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -94,7 +145,7 @@ fun DetailedPokemonScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 for (type in poke.types) {
-                    BuildTypePill(type)
+                    BuildTypePill(type = type)
                 }
             }
 
@@ -106,28 +157,34 @@ fun DetailedPokemonScreen(
             ) {
                 Column {
                     Text(
-                        "${poke.weight} KG",
+                        text = "${poke.weight} KG",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Weight", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        text = "Weight",
+                        style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
 
                 Column {
                     Text(
-                        "${poke.height} M",
+                        text = "${poke.height} M",
                         style = MaterialTheme.typography.h6
                     )
-                    Text("Height", style = MaterialTheme.typography.subtitle1.copy(
-                        color = Color.Gray
-                    ))
+                    Text(
+                        text = "Height",
+                        style = MaterialTheme.typography.subtitle1.copy(
+                            color = Color.Gray
+                        )
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text("Base Stats", style = MaterialTheme.typography.h6)
+            Text(text = "Base Stats", style = MaterialTheme.typography.h6)
 
             BuildStatRow(statName = "HP", value = poke.hpStat)
             BuildStatRow(statName = "ATK", value = poke.atkStat)
@@ -143,12 +200,12 @@ fun DetailedPokemonScreen(
 fun BuildTypePill(type: String) {
     Surface(
         shape = RoundedCornerShape(20.dp),
-        color = colorResource(id = PokedexHelper.determineTypeColor(type)),
+        color = colorResource(id = PokedexHelper.determineTypeColor(type = type)),
         modifier = Modifier.width((LocalConfiguration.current.screenWidthDp * 0.4).dp)
     ) {
         Row(horizontalArrangement = Arrangement.Center) {
             Text(
-                type,
+                text = type,
                 modifier = Modifier.padding(4.dp),
                 style = MaterialTheme.typography.subtitle1
             )

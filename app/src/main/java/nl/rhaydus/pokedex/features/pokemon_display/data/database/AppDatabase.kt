@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 
-@Database(entities = [PokemonEntity::class], version = 5)
+@Database(entities = [PokemonEntity::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun pokemonDao(): PokemonDao
 }

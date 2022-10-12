@@ -17,10 +17,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.database.AppDatabase
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_display.data.repositories.PokemonRepositoryImpl
 import nl.rhaydus.pokedex.features.pokemon_display.domain.repositories.PokemonRepository
-import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetAllPokemon
-import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetPokemonUntilId
-import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetRandomPokemon
-import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetSpecificPokemon
+import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -78,21 +75,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRandomPokemonUseCase(pokemonRepository: PokemonRepository): GetRandomPokemon =
-        GetRandomPokemon(pokemonRepository)
-
-    @Provides
-    @Singleton
-    fun provideSpecificPokemonUseCase(pokemonRepository: PokemonRepository): GetSpecificPokemon =
-        GetSpecificPokemon(pokemonRepository)
-
-    @Provides
-    @Singleton
     fun provideGetAllPokemon(pokemonRepository: PokemonRepository): GetAllPokemon =
         GetAllPokemon(pokemonRepository)
 
     @Provides
     @Singleton
-    fun provideGetPokemonUntilId(pokemonRepository: PokemonRepository): GetPokemonUntilId =
-        GetPokemonUntilId(pokemonRepository)
+    fun provideFavoritePokemon(pokemonRepository: PokemonRepository): FavoritePokemon =
+        FavoritePokemon(pokemonRepository)
+
+    @Provides
+    @Singleton
+    fun provideUnFavoritePokemon(pokemonRepository: PokemonRepository): UnFavoritePokemon =
+        UnFavoritePokemon(pokemonRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetPokemonWithFilter(pokemonRepository: PokemonRepository): GetPokemonWithFilter =
+        GetPokemonWithFilter(pokemonRepository)
 }

@@ -6,6 +6,16 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonApiModel
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
+fun List<PokemonEntity>.toPokemonList(): List<Pokemon> {
+    val pokeList = mutableListOf<Pokemon>()
+
+    this.forEach { pokeEntity ->
+        pokeList.add(pokeEntity.toPokemon())
+    }
+
+    return pokeList.toList()
+}
+
 fun PokemonApiModel.toPokemon(): Pokemon {
     val newTypeList = mutableListOf<String>()
     this.types.forEach { pokemonTypeEntry ->
@@ -27,6 +37,7 @@ fun PokemonApiModel.toPokemon(): Pokemon {
         this.stats[3].baseStat,
         this.stats[4].baseStat,
         this.stats[5].baseStat,
+        favorite = 0 // Pokemon are not favorites by default
     )
 }
 
@@ -44,7 +55,8 @@ fun Pokemon.toPokemonEntity(): PokemonEntity = PokemonEntity(
     pokeStatDef = this.defStat,
     pokeStatSpAtk = this.spAtkStat,
     pokeStatSpDef = this.spDefStat,
-    pokeStatSpd = this.spdStat
+    pokeStatSpd = this.spdStat,
+    favorite = this.favorite
 )
 
 fun PokemonEntity.toPokemon(): Pokemon {
@@ -64,6 +76,7 @@ fun PokemonEntity.toPokemon(): Pokemon {
         defStat = this.pokeStatDef,
         spAtkStat = this.pokeStatSpAtk,
         spDefStat = this.pokeStatSpDef,
-        spdStat = this.pokeStatSpd
+        spdStat = this.pokeStatSpd,
+        favorite = this.favorite
     )
 }
