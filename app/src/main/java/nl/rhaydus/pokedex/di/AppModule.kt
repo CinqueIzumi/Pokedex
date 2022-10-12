@@ -102,4 +102,9 @@ object AppModule {
     @Singleton
     fun provideUnFavoritePokemon(pokemonRepository: PokemonRepository): UnFavoritePokemon =
         UnFavoritePokemon(pokemonRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetPokemonWithFilter(pokemonRepository: PokemonRepository): GetPokemonWithFilter =
+        GetPokemonWithFilter(pokemonRepository)
 }
