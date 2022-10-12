@@ -418,57 +418,6 @@ class LocalPokemonDataSourceImplTest {
     }
 
     @Nested
-    inner class GetSpecificPokemon {
-        @Test
-        fun `returns a pokemon based on id from local database`() {
-            // ----- Act -----
-            val result = runBlocking { localPokemonDataSource.getSpecificPokemon(1) }
-
-            // ----- Assert -----
-            result shouldBe pokemon
-            coVerify { mockPokemonDao.getPokemonById(any()) }
-        }
-    }
-
-    @Nested
-    inner class GetRandomPokemon {
-        @Test
-        fun `returns a random pokemon from local database`() {
-            // ----- Arrange -----
-            coEvery {
-                mockContext.resources.getInteger(any())
-            }.returns(905)
-
-            // ----- Act -----
-            val result = runBlocking { localPokemonDataSource.getRandomPokemon() }
-
-            // ----- Assert -----
-            result shouldBe pokemon
-            coVerify { mockPokemonDao.getPokemonById(any()) }
-        }
-    }
-
-    @Nested
-    inner class GetPokemonUntilId {
-        @Test
-        fun `returns a list until a specific id from local database`() {
-            // ----- Arrange -----
-            val list = mutableListOf<Pokemon>()
-            for (i in 1..5) {
-                list.add(pokemon)
-            }
-            val pokeList = list.toList()
-
-            // ----- Act -----
-            val result = runBlocking { localPokemonDataSource.getPokemonUntilId(5) }
-
-            // ----- Assert -----
-            result shouldBe pokeList
-            coVerify { mockPokemonDao.getPokemonById(any()) }
-        }
-    }
-
-    @Nested
     inner class GetAllPokemon {
         @Test
         fun `returns a list of all pokemon from local database`() {

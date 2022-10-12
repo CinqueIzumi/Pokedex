@@ -75,23 +75,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRandomPokemonUseCase(pokemonRepository: PokemonRepository): GetRandomPokemon =
-        GetRandomPokemon(pokemonRepository)
-
-    @Provides
-    @Singleton
-    fun provideSpecificPokemonUseCase(pokemonRepository: PokemonRepository): GetSpecificPokemon =
-        GetSpecificPokemon(pokemonRepository)
-
-    @Provides
-    @Singleton
     fun provideGetAllPokemon(pokemonRepository: PokemonRepository): GetAllPokemon =
         GetAllPokemon(pokemonRepository)
-
-    @Provides
-    @Singleton
-    fun provideGetPokemonUntilId(pokemonRepository: PokemonRepository): GetPokemonUntilId =
-        GetPokemonUntilId(pokemonRepository)
 
     @Provides
     @Singleton

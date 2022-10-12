@@ -16,30 +16,15 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     private val pokemonDao: PokemonDao,
     @ApplicationContext private val context: Context
 ) : LocalPokemonDataSource {
-    override suspend fun getPokemonUntilId(id: Int): List<Pokemon> {
+    override suspend fun getAllPokemon(): List<Pokemon> {
         val pokeList = mutableListOf<Pokemon>()
 
-        for (i in 1..id) {
-            pokeList.add(getSpecificPokemon(i))
+        for (i in 1..context.resources.getInteger(R.integer.highest_pokemon_id)) {
+            pokeList.add(pokemonDao.getPokemonById(i).toPokemon())
         }
 
         return pokeList
     }
-
-    override suspend fun getRandomPokemon(): Pokemon {
-        val randomId = (0..context.resources.getInteger(R.integer.highest_pokemon_id))
-            .shuffled()
-            .last()
-        return getSpecificPokemon(pokemonId = randomId)
-    }
-
-    override suspend fun getSpecificPokemon(pokemonId: Int) =
-        pokemonDao.getPokemonById(id = pokemonId).toPokemon()
-
-
-    override suspend fun getAllPokemon() =
-        getPokemonUntilId(id = context.resources.getInteger(R.integer.highest_pokemon_id))
-
 
     override suspend fun addPokemons(pokes: List<Pokemon>) {
         for (poke in pokes) {

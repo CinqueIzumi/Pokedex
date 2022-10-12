@@ -10,11 +10,6 @@ class PokemonRepositoryImpl(
     private val remotePokemonDataSource: RemotePokemonDataSource,
     private val localPokemonDataSource: LocalPokemonDataSource,
 ) : PokemonRepository {
-    override suspend fun getRandomPokemon(): Result<Pokemon> =
-        runCatching { localPokemonDataSource.getRandomPokemon() }
-
-    override suspend fun getSpecificPokemon(pokemonId: Int): Result<Pokemon> =
-        runCatching { localPokemonDataSource.getSpecificPokemon(pokemonId = pokemonId) }
 
     override suspend fun getAllPokemon(): Result<List<Pokemon>> {
         return runCatching {
@@ -26,9 +21,6 @@ class PokemonRepositoryImpl(
             localPokemonDataSource.getAllPokemon()
         }
     }
-
-    override suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>> =
-        runCatching { localPokemonDataSource.getPokemonUntilId(id = id) }
 
     override suspend fun favoritePokemon(pokemon: Pokemon): Result<Unit> =
         runCatching { localPokemonDataSource.favoritePokemon(pokemon = pokemon) }
