@@ -24,6 +24,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.ui.destinations.PokemonScreenDestination
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.SplashScreenViewModel
+import timber.log.Timber
 
 @Composable
 @Destination
@@ -35,11 +36,13 @@ fun SplashScreen(
     val toNavigate = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
+        Timber.d("Started loading pokemon in splash screen!")
         viewModel.initializePokemon()
         toNavigate.value = true
     }
 
     if (toNavigate.value) {
+        Timber.d("Starting navigation!")
         // Clear the backstack to prevent going back to splash screen
         navigator.popBackStack()
         navigator.navigate(PokemonScreenDestination())

@@ -33,6 +33,8 @@ class DetailedPokemonScreenViewModel @Inject constructor(
             _isFavoriteState.postValue(false)
         }
 
+        Timber.d("Pokemon is a favorite: ${_isFavoriteState.value}")
+
         _loadingState.postValue(false)
     }
 

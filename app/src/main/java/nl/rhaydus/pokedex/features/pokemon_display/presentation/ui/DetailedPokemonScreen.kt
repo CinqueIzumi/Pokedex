@@ -32,6 +32,7 @@ import nl.rhaydus.pokedex.core.*
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.DetailedPokemonScreenViewModel
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.widgets.ShowProgressDialog
+import timber.log.Timber
 
 @Composable
 @Destination
@@ -80,6 +81,7 @@ fun DetailedPokemonScreen(
                 IconButton(
                     onClick = {
                         coroutineScope.launch {
+                            Timber.d("(Un)favorite button has been clicked!")
                             if (isFavorite.value == true) {
                                 viewModel.unFavoritePokemon(pokemon = poke)
                             } else {

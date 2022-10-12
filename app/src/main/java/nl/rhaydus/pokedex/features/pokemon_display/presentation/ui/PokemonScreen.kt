@@ -42,6 +42,7 @@ fun PokemonScreen(
 ) {
     // When opening the screen for the first time, the pokemons from the local database should be initialized
     LaunchedEffect(true) {
+        Timber.d("Started loading pokemon in overview!")
         viewModel.initializePokemon()
     }
 
@@ -60,6 +61,7 @@ fun PokemonScreen(
     val isLoading = viewModel.loadingState.observeAsState()
 
     suspend fun applyFilter() {
+        Timber.d("Started applying filter!")
         val filterOnFav = if (favoritesFilterEnabled.value) true else null
 
         viewModel.applyFilter(
@@ -142,6 +144,7 @@ fun PokemonScreen(
                                 checked = (favoritesFilterEnabled.value),
                                 onCheckedChange = { newValue ->
                                     favoritesFilterEnabled.value = newValue
+                                    Timber.d("Favorites enabled has been changed to: ${favoritesFilterEnabled.value}")
                                     coScope.launch {
                                         applyFilter()
                                     }
@@ -219,8 +222,9 @@ fun PokemonScreen(
                             singleLine = true,
                             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                             onValueChange = { newValue ->
-                                Timber.d("Value has been changed to $newValue")
                                 currentSearchFilter.value = newValue
+                                Timber.d("Query has been changed to ${currentSearchFilter.value}")
+
                                 coScope.launch {
                                     applyFilter()
                                 }
@@ -259,6 +263,7 @@ fun PokemonScreen(
                         ) {
                             items(pokeList) { poke ->
                                 BuildPokemonCard(givenPokemon = poke) {
+                                    Timber.d("Started navigating to: ${poke.name}")
                                     navigator.navigate(DetailedPokemonScreenDestination(poke))
                                 }
                             }
