@@ -63,9 +63,10 @@ fun PokemonScreen(
     suspend fun applyFilter() {
         Timber.d("Started applying filter!")
         val filterOnFav = if (favoritesFilterEnabled.value) true else null
+        val filterName = if (currentSearchFilter.value != "") currentSearchFilter.value else null
 
         viewModel.applyFilter(
-            givenQuery = currentSearchFilter.value,
+            givenQuery = filterName,
             favorites = filterOnFav,
             mainType = selectedValueMain.value,
             secondaryType = selectedValueSecondary.value
