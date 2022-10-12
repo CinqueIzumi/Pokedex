@@ -5,5 +5,5 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.repositories.PokemonRe
 
 class GetSpecificPokemon(private val repository: PokemonRepository) {
     suspend operator fun invoke(pokemonId: Int): Result<Pokemon> =
-        repository.getSpecificPokemon(pokemonId)
+        repository.getSpecificPokemon(pokemonId = pokemonId)
 }

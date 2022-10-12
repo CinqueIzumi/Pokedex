@@ -33,7 +33,12 @@ class PokemonScreenViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
 
-            val result = getPokemonWithFilterUseCase(givenQuery, favorites, mainType, secondaryType)
+            val result = getPokemonWithFilterUseCase(
+                nameOrId = givenQuery,
+                isFavorite = favorites,
+                mainType = mainType,
+                secondaryType = secondaryType
+            )
 
             result.fold(
                 onSuccess = { pokeList ->
@@ -46,7 +51,7 @@ class PokemonScreenViewModel @Inject constructor(
         }
     }
 
-    suspend fun getPokemonFromRoom() {
+    suspend fun initializePokemon() {
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
 

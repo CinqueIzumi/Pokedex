@@ -40,7 +40,7 @@ class DetailedPokemonScreenViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
 
-            val result = unFavoritePokemonUseCase(pokemon)
+            val result = unFavoritePokemonUseCase(pokemon = pokemon)
 
             result.fold(
                 onSuccess = {
@@ -59,7 +59,7 @@ class DetailedPokemonScreenViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
 
-            val result = favoritePokemonUseCase(pokemon)
+            val result = favoritePokemonUseCase(pokemon = pokemon)
 
             result.fold(
                 onSuccess = {

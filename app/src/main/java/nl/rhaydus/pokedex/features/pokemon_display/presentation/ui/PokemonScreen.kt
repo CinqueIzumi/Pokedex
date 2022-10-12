@@ -40,25 +40,24 @@ fun PokemonScreen(
     viewModel: PokemonScreenViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
+    // When opening the screen for the first time, the pokemons from the local database should be initialized
     LaunchedEffect(true) {
-        viewModel.getPokemonFromRoom()
+        viewModel.initializePokemon()
     }
 
     val currentSearchFilter = remember { mutableStateOf("") }
     val favoritesFilterEnabled = remember { mutableStateOf(false) }
-
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val selectedValueMain = remember { mutableStateOf("All") }
+    val selectedValueSecondary = remember { mutableStateOf("All") }
 
     val coScope = rememberCoroutineScope()
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     val focusManager = LocalFocusManager.current
 
     val currentPokemonList = viewModel.currentPokemonList.observeAsState()
     val isLoading = viewModel.loadingState.observeAsState()
-
-    val selectedValueMain = remember { mutableStateOf("All") }
-    val selectedValueSecondary = remember { mutableStateOf("All") }
 
     suspend fun applyFilter() {
         val filterOnFav = if (favoritesFilterEnabled.value) true else null
@@ -124,7 +123,7 @@ fun PokemonScreen(
             TopAppBar(
                 backgroundColor = colorResource(id = R.color.color_top_bar),
                 title = {
-                    Text(stringResource(id = R.string.app_name), color = Color.White)
+                    Text(text = stringResource(id = R.string.app_name), color = Color.White)
                 }
             )
         }
@@ -148,7 +147,7 @@ fun PokemonScreen(
                                     }
                                 }
                             )
-                            Text("Favorites")
+                            Text(text = "Favorites", style = MaterialTheme.typography.body1)
                         }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -169,7 +168,7 @@ fun PokemonScreen(
                                             selected = isSelectedItemMain(item),
                                             onClick = null
                                         )
-                                        Text(item)
+                                        Text(text = item, style = MaterialTheme.typography.body1)
                                     }
                                 }
                             }
@@ -188,7 +187,7 @@ fun PokemonScreen(
                                             selected = isSelectedItemSecondary(item),
                                             onClick = null
                                         )
-                                        Text(item)
+                                        Text(text = item, style = MaterialTheme.typography.body1)
                                     }
                                 }
                             }

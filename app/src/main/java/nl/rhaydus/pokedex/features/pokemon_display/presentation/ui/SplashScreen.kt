@@ -59,7 +59,7 @@ fun SplashScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Text("Loading...")
+                Text(text = "Loading...")
                 CircularProgressIndicator()
             }
         }

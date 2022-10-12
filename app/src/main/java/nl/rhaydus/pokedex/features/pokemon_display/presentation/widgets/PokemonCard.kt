@@ -56,10 +56,11 @@ fun BuildPokemonCard(
                 placeholder = painterResource(R.drawable.ic_egg_sprite)
             )
             Text(
-                givenPokemon.name, style = MaterialTheme.typography.h5
+                text = givenPokemon.name,
+                style = MaterialTheme.typography.h5
             )
             Text(
-                "#${givenPokemon.id}",
+                text = "#${givenPokemon.id}",
                 style = MaterialTheme.typography.subtitle1
             )
         }

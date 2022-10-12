@@ -27,17 +27,18 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getRandomPokemon(): Pokemon {
-        val randomId =
-            (0..context.resources.getInteger(R.integer.highest_pokemon_id)).shuffled().last()
-        return getSpecificPokemon(randomId)
+        val randomId = (0..context.resources.getInteger(R.integer.highest_pokemon_id))
+            .shuffled()
+            .last()
+        return getSpecificPokemon(pokemonId = randomId)
     }
 
     override suspend fun getSpecificPokemon(pokemonId: Int) =
-        pokemonDao.getPokemonById(pokemonId).toPokemon()
+        pokemonDao.getPokemonById(id = pokemonId).toPokemon()
 
 
     override suspend fun getAllPokemon() =
-        getPokemonUntilId(context.resources.getInteger(R.integer.highest_pokemon_id))
+        getPokemonUntilId(id = context.resources.getInteger(R.integer.highest_pokemon_id))
 
 
     override suspend fun addPokemons(pokes: List<Pokemon>) {
@@ -46,7 +47,7 @@ class LocalPokemonDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun isLocalDataComplete() =
+    override suspend fun isLocalDataComplete(): Boolean =
         pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
 
     private fun updatePokemon(pokemon: Pokemon, favorite: Int) {

@@ -5,5 +5,5 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.repositories.PokemonRe
 
 class UnFavoritePokemon(private val repository: PokemonRepository) {
     suspend operator fun invoke(pokemon: Pokemon): Result<Unit> =
-        repository.unFavoritePokemon(pokemon)
+        repository.unFavoritePokemon(pokemon = pokemon)
 }

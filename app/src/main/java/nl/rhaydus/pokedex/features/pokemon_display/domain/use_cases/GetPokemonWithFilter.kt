@@ -10,5 +10,10 @@ class GetPokemonWithFilter(private val repository: PokemonRepository) {
         mainType: String? = null,
         secondaryType: String? = null
     ): Result<List<Pokemon>> =
-        repository.getPokemonWithFilter(nameOrId, isFavorite, mainType, secondaryType)
+        repository.getPokemonWithFilter(
+            nameOrId = nameOrId,
+            isFavorite = isFavorite,
+            mainType = mainType,
+            secondaryType = secondaryType
+        )
 }

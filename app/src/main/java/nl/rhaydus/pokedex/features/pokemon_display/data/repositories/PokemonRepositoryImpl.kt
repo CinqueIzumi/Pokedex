@@ -14,13 +14,13 @@ class PokemonRepositoryImpl(
         runCatching { localPokemonDataSource.getRandomPokemon() }
 
     override suspend fun getSpecificPokemon(pokemonId: Int): Result<Pokemon> =
-        runCatching { localPokemonDataSource.getSpecificPokemon(pokemonId) }
+        runCatching { localPokemonDataSource.getSpecificPokemon(pokemonId = pokemonId) }
 
     override suspend fun getAllPokemon(): Result<List<Pokemon>> {
         return runCatching {
             if (!localPokemonDataSource.isLocalDataComplete()) {
                 Timber.d("Pokemon data source was not complete!")
-                localPokemonDataSource.addPokemons(remotePokemonDataSource.getAllPokemon())
+                localPokemonDataSource.addPokemons(pokes = remotePokemonDataSource.getAllPokemon())
             }
 
             localPokemonDataSource.getAllPokemon()
@@ -28,13 +28,13 @@ class PokemonRepositoryImpl(
     }
 
     override suspend fun getPokemonUntilId(id: Int): Result<List<Pokemon>> =
-        runCatching { localPokemonDataSource.getPokemonUntilId(id) }
+        runCatching { localPokemonDataSource.getPokemonUntilId(id = id) }
 
     override suspend fun favoritePokemon(pokemon: Pokemon): Result<Unit> =
-        runCatching { localPokemonDataSource.favoritePokemon(pokemon) }
+        runCatching { localPokemonDataSource.favoritePokemon(pokemon = pokemon) }
 
     override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Unit> =
-        runCatching { localPokemonDataSource.unFavoritePokemon(pokemon) }
+        runCatching { localPokemonDataSource.unFavoritePokemon(pokemon = pokemon) }
 
     override suspend fun getPokemonWithFilter(
         nameOrId: String?,
@@ -43,10 +43,10 @@ class PokemonRepositoryImpl(
         secondaryType: String?
     ): Result<List<Pokemon>> = runCatching {
         localPokemonDataSource.getPokemonWithFilter(
-            nameOrId,
-            isFavorite,
-            mainType,
-            secondaryType
+            nameOrId = nameOrId,
+            isFavorite = isFavorite,
+            mainType = mainType,
+            secondaryType = secondaryType
         )
     }
 }
