@@ -297,7 +297,7 @@ class PokemonRepositoryImplTest {
             result shouldBe Result.success(pokemonList)
             coVerify { mockLocalPokemonDataSource.getAllPokemon() }
             coVerify { mockLocalPokemonDataSource.isLocalDataComplete() }
-            coVerify(exactly = 0) { mockRemotePokemonDataSource.getAllPokemon() }
+            coVerify { mockRemotePokemonDataSource wasNot called }
         }
 
         @Test
@@ -347,6 +347,7 @@ class PokemonRepositoryImplTest {
             result shouldBe Result.failure<Exception>(exception)
             coVerify { mockLocalPokemonDataSource.getAllPokemon() }
             coVerify { mockLocalPokemonDataSource.isLocalDataComplete() }
+            coVerify { mockRemotePokemonDataSource wasNot called }
         }
 
         @Test
