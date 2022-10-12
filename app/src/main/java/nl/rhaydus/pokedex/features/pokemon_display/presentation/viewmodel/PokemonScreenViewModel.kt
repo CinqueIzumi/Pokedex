@@ -6,18 +6,16 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
-import nl.rhaydus.pokedex.features.pokemon_display.data.mapper.toPokemon
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetAllPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.use_cases.GetPokemonWithFilter
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.Exception
 
 @HiltViewModel
 class PokemonScreenViewModel @Inject constructor(
-    private val pokeDao: PokemonDao, private val getPokemonWithFilterUseCase: GetPokemonWithFilter
+    private val getPokemonWithFilterUseCase: GetPokemonWithFilter,
+    private val getAllPokemonUseCase: GetAllPokemon
 ) : ViewModel() {
 
     private val _currentPokemonList = MutableLiveData<List<Pokemon>?>()
@@ -37,35 +35,31 @@ class PokemonScreenViewModel @Inject constructor(
 
             val result = getPokemonWithFilterUseCase(givenQuery, favorites, mainType, secondaryType)
 
-            result.fold(onSuccess = { pokeList ->
-                _currentPokemonList.postValue(pokeList)
-            }, onFailure = { error ->
-                Timber.e(error)
-            })
+            result.fold(
+                onSuccess = { pokeList ->
+                    _currentPokemonList.postValue(pokeList)
+                },
+                onFailure = { error ->
+                    Timber.e(error)
+                })
             _loadingState.postValue(false)
         }
-    }
-
-    private fun initializeList(givenEntityList: List<PokemonEntity>) {
-        val pokemonList = mutableListOf<Pokemon>()
-
-        for (pokeEntity in givenEntityList) {
-            pokemonList.add(pokeEntity.toPokemon())
-        }
-
-        _currentPokemonList.postValue(pokemonList)
     }
 
     suspend fun getPokemonFromRoom() {
         withContext(Dispatchers.IO) {
             _loadingState.postValue(true)
 
-            try {
-                val pokeEntityList: List<PokemonEntity> = pokeDao.getAll()
-                initializeList(pokeEntityList)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+            val result = getAllPokemonUseCase()
+
+            result.fold(
+                onSuccess = { pokeList ->
+                    _currentPokemonList.postValue(pokeList)
+                },
+                onFailure = { error ->
+                    Timber.e(error)
+                }
+            )
 
             _loadingState.postValue(false)
         }
