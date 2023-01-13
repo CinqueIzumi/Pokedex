@@ -10,8 +10,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +32,14 @@ fun SplashScreen(
     navigator: DestinationsNavigator,
     viewModel: SplashScreenViewModel = hiltViewModel()
 ) {
-    val toNavigate = remember { mutableStateOf(false) }
+    val finishedLoading = viewModel.finishedLoading.observeAsState()
 
     LaunchedEffect(key1 = true) {
         Timber.d("Started loading pokemon in splash screen!")
         viewModel.initializePokemon()
-        toNavigate.value = true
     }
 
-    if (toNavigate.value) {
+    if (finishedLoading.value == true) {
         Timber.d("Starting navigation!")
         // Clear the backstack to prevent going back to splash screen
         navigator.popBackStack()

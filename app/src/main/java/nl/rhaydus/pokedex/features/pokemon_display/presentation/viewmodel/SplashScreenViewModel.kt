@@ -1,5 +1,6 @@
 package nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +14,9 @@ class SplashScreenViewModel @Inject constructor(
     private val getAllPokemonUseCase: GetAllPokemon,
 ) : ViewModel() {
 
+    private val _finishedLoading = MutableLiveData(false)
+    val finishedLoading = _finishedLoading
+
     suspend fun initializePokemon() {
         withContext(Dispatchers.IO) {
             val result = getAllPokemonUseCase()
@@ -20,6 +24,7 @@ class SplashScreenViewModel @Inject constructor(
             result.fold(
                 onSuccess = { pokeList ->
                     Timber.d("Finished loading pokes!\nSize: ${pokeList.size}")
+                    _finishedLoading.postValue(true)
                 },
                 onFailure = { error ->
                     Timber.e(error)
