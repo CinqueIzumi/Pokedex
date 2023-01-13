@@ -27,12 +27,7 @@ class DetailedPokemonScreenViewModel @Inject constructor(
     fun checkIfFavorite(pokemon: Pokemon) {
         _loadingState.postValue(true)
 
-        if (pokemon.favorite == 1) {
-            _isFavoriteState.postValue(true)
-        } else {
-            _isFavoriteState.postValue(false)
-        }
-
+        _isFavoriteState.postValue(pokemon.favorite == 1)
         Timber.d("Pokemon is a favorite: ${_isFavoriteState.value}")
 
         _loadingState.postValue(false)
@@ -43,16 +38,14 @@ class DetailedPokemonScreenViewModel @Inject constructor(
             _loadingState.postValue(true)
 
             val result = unFavoritePokemonUseCase(pokemon = pokemon)
-
             result.fold(
                 onSuccess = {
                     _isFavoriteState.postValue(false)
                     Timber.d("Pokemon has been removed from favorites!")
                 },
-                onFailure = { error ->
-                    Timber.e(error)
-                }
+                onFailure = { error -> Timber.e(error) }
             )
+
             _loadingState.postValue(false)
         }
     }
@@ -62,15 +55,12 @@ class DetailedPokemonScreenViewModel @Inject constructor(
             _loadingState.postValue(true)
 
             val result = favoritePokemonUseCase(pokemon = pokemon)
-
             result.fold(
                 onSuccess = {
                     _isFavoriteState.postValue(true)
                     Timber.d("Pokemon has been added to fav!")
                 },
-                onFailure = { error ->
-                    Timber.e(error)
-                }
+                onFailure = { error -> Timber.e(error) }
             )
 
             _loadingState.postValue(false)

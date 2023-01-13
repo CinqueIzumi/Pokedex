@@ -20,15 +20,12 @@ class SplashScreenViewModel @Inject constructor(
     suspend fun initializePokemon() {
         withContext(Dispatchers.IO) {
             val result = getAllPokemonUseCase()
-
             result.fold(
                 onSuccess = { pokeList ->
                     Timber.d("Finished loading pokes!\nSize: ${pokeList.size}")
                     _finishedLoading.postValue(true)
                 },
-                onFailure = { error ->
-                    Timber.e(error)
-                }
+                onFailure = { error -> Timber.e(error) }
             )
         }
     }

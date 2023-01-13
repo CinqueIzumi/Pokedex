@@ -39,15 +39,14 @@ class PokemonScreenViewModel @Inject constructor(
                 mainType = mainType,
                 secondaryType = secondaryType
             )
-
             result.fold(
                 onSuccess = { pokeList ->
                     _currentPokemonList.postValue(pokeList)
                     Timber.d("Filter was applied successfully and new list with size ${pokeList.size} has been loaded!")
                 },
-                onFailure = { error ->
-                    Timber.e(error)
-                })
+                onFailure = { error -> Timber.e(error) }
+            )
+
             _loadingState.postValue(false)
         }
     }
@@ -57,15 +56,12 @@ class PokemonScreenViewModel @Inject constructor(
             _loadingState.postValue(true)
 
             val result = getAllPokemonUseCase()
-
             result.fold(
                 onSuccess = { pokeList ->
                     _currentPokemonList.postValue(pokeList)
                     Timber.d("Pokemon have been loaded successfully and new list with size ${pokeList.size} has been loaded!")
                 },
-                onFailure = { error ->
-                    Timber.e(error)
-                }
+                onFailure = { error -> Timber.e(error) }
             )
 
             _loadingState.postValue(false)
