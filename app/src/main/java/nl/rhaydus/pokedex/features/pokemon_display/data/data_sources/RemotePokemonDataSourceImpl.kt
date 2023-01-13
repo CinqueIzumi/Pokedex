@@ -2,12 +2,13 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.data_sources
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.EmptyPokemonBody
 import nl.rhaydus.pokedex.features.pokemon_display.data.mapper.toPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
-import timber.log.Timber
 import javax.inject.Inject
 
 class RemotePokemonDataSourceImpl @Inject constructor(
@@ -23,11 +24,12 @@ class RemotePokemonDataSourceImpl @Inject constructor(
     override suspend fun getAllPokemon(): List<Pokemon> {
         val pokeList = mutableListOf<Pokemon>()
 
-        for (i in 1..context.resources.getInteger(R.integer.highest_pokemon_id)) {
-            if (i % 100 == 0) {
-                Timber.d("Loaded $i pokemons!")
+        coroutineScope {
+            repeat(context.resources.getInteger(R.integer.highest_pokemon_id)) {
+                launch {
+                    pokeList.add(getSpecificPokemonFromApi(1 + it))
+                }
             }
-            pokeList.add(getSpecificPokemonFromApi(i))
         }
 
         return pokeList.toList()
