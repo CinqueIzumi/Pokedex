@@ -6,21 +6,12 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonApiModel
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
-fun List<PokemonEntity>.toPokemonList(): List<Pokemon> {
-    val pokeList = mutableListOf<Pokemon>()
-
-    this.forEach { pokeEntity ->
-        pokeList.add(pokeEntity.toPokemon())
-    }
-
-    return pokeList.toList()
-}
+fun List<PokemonEntity>.toPokemonList(): List<Pokemon> =
+    this.map { pokeEntity -> pokeEntity.toPokemon() }
 
 fun PokemonApiModel.toPokemon(): Pokemon {
-    val newTypeList = mutableListOf<String>()
-    this.types.forEach { pokemonTypeEntry ->
-        val type = pokemonTypeEntry.type.name.replaceFirstChar { it.uppercase() }
-        newTypeList.add(type)
+    val newTypeList = this.types.map { pokeTypeEntry ->
+        pokeTypeEntry.type.name.replaceFirstChar { it.uppercase() }
     }
 
     return Pokemon(
@@ -28,7 +19,7 @@ fun PokemonApiModel.toPokemon(): Pokemon {
         id = this.id,
         imageUrl = this.sprites.other.artwork.artworkUrl ?: Resources.getSystem()
             .getString(R.string.default_egg_sprite),
-        types = newTypeList.toList(),
+        types = newTypeList,
         weight = this.weight / 10,
         height = this.height / 10,
         this.stats[0].baseStat,

@@ -16,18 +16,11 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     private val pokemonDao: PokemonDao,
     @ApplicationContext private val context: Context
 ) : LocalPokemonDataSource {
-    override suspend fun getAllPokemon(): List<Pokemon> {
-        val pokeList = mutableListOf<Pokemon>()
-
-        for (i in 1..context.resources.getInteger(R.integer.highest_pokemon_id)) {
-            pokeList.add(pokemonDao.getPokemonById(i).toPokemon())
-        }
-
-        return pokeList
-    }
+    override suspend fun getAllPokemon(): List<Pokemon> =
+        pokemonDao.getAll().map { pokeEntity -> pokeEntity.toPokemon() }
 
     override suspend fun addPokemons(pokes: List<Pokemon>) {
-        for (poke in pokes) {
+        pokes.forEach { poke ->
             pokemonDao.insert(poke.toPokemonEntity())
         }
     }
@@ -36,8 +29,7 @@ class LocalPokemonDataSourceImpl @Inject constructor(
         pokemonDao.getDatabaseSize() == context.resources.getInteger(R.integer.highest_pokemon_id)
 
     private fun updatePokemon(pokemon: Pokemon, favorite: Int) {
-        val pokemonToSave = pokemon.copy(favorite = favorite)
-        pokemonDao.updatePokemon(pokemonToSave.toPokemonEntity())
+        pokemonDao.updatePokemon(pokemon.copy(favorite = favorite).toPokemonEntity())
     }
 
     override suspend fun favoritePokemon(pokemon: Pokemon) =
