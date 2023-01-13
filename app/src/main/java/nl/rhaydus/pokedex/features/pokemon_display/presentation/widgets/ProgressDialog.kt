@@ -19,19 +19,14 @@ import nl.rhaydus.pokedex.R
 fun ShowProgressDialog() {
     Dialog(
         onDismissRequest = {},
-        DialogProperties(
-            dismissOnBackPress = false,
-            dismissOnClickOutside = false
-        )
+        DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     ) {
         Box(
             modifier = Modifier
                 .size(100.dp)
                 .background(
-                    Color.White,
-                    shape = RoundedCornerShape(
-                        dimensionResource(id = R.dimen.dialog_corners)
-                    )
+                    color = Color.White,
+                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.dialog_corners))
                 ),
             contentAlignment = Alignment.Center
         ) {

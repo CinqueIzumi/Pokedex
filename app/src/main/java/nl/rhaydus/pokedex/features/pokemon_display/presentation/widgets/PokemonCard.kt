@@ -27,22 +27,16 @@ fun BuildPokemonCard(
     onClick: () -> Unit,
 ) {
     Card(
-        backgroundColor = colorResource(
-            id = PokedexHelper.determineTypeColor(givenPokemon.types[0])
-        ),
+        backgroundColor = colorResource(id = PokedexHelper.determineTypeColor(givenPokemon.types[0])),
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 onClick.invoke()
             },
-        shape = RoundedCornerShape(
-            dimensionResource(id = R.dimen.card_corner_small)
-        )
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_small))
     ) {
         Column(
-            modifier = Modifier.padding(
-                dimensionResource(id = R.dimen.card_padding)
-            ),
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.card_padding)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
@@ -55,14 +49,8 @@ fun BuildPokemonCard(
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = painterResource(R.drawable.ic_egg_sprite)
             )
-            Text(
-                text = givenPokemon.name,
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                text = "#${givenPokemon.id}",
-                style = MaterialTheme.typography.subtitle1
-            )
+            Text(text = givenPokemon.name, style = MaterialTheme.typography.h5)
+            Text(text = "#${givenPokemon.id}", style = MaterialTheme.typography.subtitle1)
         }
     }
 }

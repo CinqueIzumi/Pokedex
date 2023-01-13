@@ -57,24 +57,16 @@ fun DetailedPokemonScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(type = poke.types[0])
-            ),
-            title = {
-                Text(stringResource(id = R.string.app_name), color = Color.White)
-            },
+            backgroundColor = colorResource(id = PokedexHelper.determineTypeColor(type = poke.types[0])),
+            title = { Text(stringResource(id = R.string.app_name), color = Color.White) },
             elevation = 0.dp,
             navigationIcon = {
-                if (navigator.previousBackStackEntry != null) {
-                    IconButton(onClick = {
-                        navigator.navigateUp()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
-                    }
+                IconButton(onClick = { navigator.navigateUp() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
                 }
             },
             actions = {
@@ -90,12 +82,10 @@ fun DetailedPokemonScreen(
                         }
                     })
                 {
+                    val imageVector =
+                        if (isFavorite.value == true) Icons.Filled.Favorite else Icons.Default.FavoriteBorder
                     Icon(
-                        imageVector = if (isFavorite.value == true) {
-                            Icons.Filled.Favorite
-                        } else {
-                            Icons.Default.FavoriteBorder
-                        },
+                        imageVector = imageVector,
                         contentDescription = "Favorite",
                         tint = Color.White
                     )
@@ -103,32 +93,7 @@ fun DetailedPokemonScreen(
             }
         )
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            backgroundColor = colorResource(
-                id = PokedexHelper.determineTypeColor(type = poke.types[0])
-            ),
-            elevation = 0.dp,
-            shape = RoundedCornerShape(
-                0.dp,
-                0.dp,
-                dimensionResource(id = R.dimen.card_corner_big),
-                dimensionResource(id = R.dimen.card_corner_big)
-            )
-        ) {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(poke.imageUrl)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Pokemon image",
-                modifier = Modifier
-                    .width(dimensionResource(id = R.dimen.image_max_size))
-                    .height(dimensionResource(id = R.dimen.image_max_size)),
-                placeholder = painterResource(R.drawable.ic_egg_sprite)
-            )
-        }
+        BuildPokemonImage(poke = poke)
 
         Column(
             modifier = Modifier
@@ -144,9 +109,7 @@ fun DetailedPokemonScreen(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                for (type in poke.types) {
-                    BuildTypePill(type = type)
-                }
+                poke.types.forEach { type -> BuildTypePill(type = type) }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -156,10 +119,7 @@ fun DetailedPokemonScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column {
-                    Text(
-                        text = "${poke.weight} KG",
-                        style = MaterialTheme.typography.h6
-                    )
+                    Text(text = "${poke.weight} KG", style = MaterialTheme.typography.h6)
                     Text(
                         text = "Weight",
                         style = MaterialTheme.typography.subtitle1.copy(
@@ -169,10 +129,7 @@ fun DetailedPokemonScreen(
                 }
 
                 Column {
-                    Text(
-                        text = "${poke.height} M",
-                        style = MaterialTheme.typography.h6
-                    )
+                    Text(text = "${poke.height} M", style = MaterialTheme.typography.h6)
                     Text(
                         text = "Height",
                         style = MaterialTheme.typography.subtitle1.copy(
@@ -193,6 +150,36 @@ fun DetailedPokemonScreen(
             BuildStatRow(statName = "SP.DEF", value = poke.spDefStat)
             BuildStatRow(statName = "SPD", value = poke.spdStat)
         }
+    }
+}
+
+@Composable
+fun BuildPokemonImage(poke: Pokemon) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = colorResource(
+            id = PokedexHelper.determineTypeColor(type = poke.types[0])
+        ),
+        elevation = 0.dp,
+        shape = RoundedCornerShape(
+            0.dp,
+            0.dp,
+            dimensionResource(id = R.dimen.card_corner_big),
+            dimensionResource(id = R.dimen.card_corner_big)
+        )
+    ) {
+        AsyncImage(
+            model = ImageRequest
+                .Builder(LocalContext.current)
+                .data(poke.imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = "Pokemon image",
+            modifier = Modifier
+                .width(dimensionResource(id = R.dimen.image_max_size))
+                .height(dimensionResource(id = R.dimen.image_max_size)),
+            placeholder = painterResource(R.drawable.ic_egg_sprite)
+        )
     }
 }
 

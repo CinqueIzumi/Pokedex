@@ -125,9 +125,7 @@ fun PokemonScreen(
         topBar = {
             TopAppBar(
                 backgroundColor = colorResource(id = R.color.color_top_bar),
-                title = {
-                    Text(text = stringResource(id = R.string.app_name), color = Color.White)
-                }
+                title = { Text(text = stringResource(id = R.string.app_name), color = Color.White) }
             )
         }
     ) {
