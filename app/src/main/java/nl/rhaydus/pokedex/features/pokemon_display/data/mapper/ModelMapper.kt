@@ -1,73 +1,67 @@
 package nl.rhaydus.pokedex.features.pokemon_display.data.mapper
 
-import android.content.res.Resources
-import nl.rhaydus.pokedex.R
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonApiModel
-import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
+import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonFlavorTextResponse
+import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonResponse
+import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonSpeciesFlavorTextResponse
+import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonSpeciesResponse
+import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
-fun List<PokemonEntity>.toPokemonList(): List<Pokemon> =
-    this.map { pokeEntity -> pokeEntity.toPokemon() }
 
-fun PokemonApiModel.toPokemon(): Pokemon {
-    val newTypeList = this.types.map { pokeTypeEntry ->
-        pokeTypeEntry.type.name.replaceFirstChar { it.uppercase() }
-    }
-
-    return Pokemon(
-        name = this.name.replaceFirstChar { it.uppercase() },
-        id = this.id,
-        imageUrl = this.sprites.other.artwork.artworkUrl ?: Resources.getSystem()
-            .getString(R.string.default_egg_sprite),
-        types = newTypeList,
-        weight = this.weight / 10,
-        height = this.height / 10,
-        this.stats[0].baseStat,
-        this.stats[1].baseStat,
-        this.stats[2].baseStat,
-        this.stats[3].baseStat,
-        this.stats[4].baseStat,
-        this.stats[5].baseStat,
-        favorite = 0 // Pokemon are not favorites by default
+fun IndividualPokemonFlavorTextResponse.toIndividualPokemonSpeciesFlavorText(): IndividualPokemonSpeciesFlavorTextResponse {
+    val versionCode: Int = this.version.url
+        .removePrefix("https://pokeapi.co/api/v2/version/")
+        .removeSuffix("/")
+        .toInt()
+    return IndividualPokemonSpeciesFlavorTextResponse(
+        // The replace is required due to the API delivering texts with line breaks
+        text = this.flavorText.replace("\n", " "),
+        language = this.language.name,
+        versionCode = versionCode
     )
 }
 
+fun List<IndividualPokemonFlavorTextResponse>.getMostRecentFlavorText(): String {
+    // Get a list of all the flavor texts
+    val unfilteredList: List<IndividualPokemonSpeciesFlavorTextResponse> =
+        this.map { it.toIndividualPokemonSpeciesFlavorText() }
 
-fun Pokemon.toPokemonEntity(): PokemonEntity = PokemonEntity(
-    id = this.id,
-    pokeName = this.name,
-    pokeImageUrl = this.imageUrl,
-    pokeMainType = this.types[0],
-    pokeSecondaryType = if (this.types.size > 1) this.types[1] else null,
-    pokeWeight = this.weight,
-    pokeHeight = this.height,
-    pokeStatHp = this.hpStat,
-    pokeStatAtk = this.atkStat,
-    pokeStatDef = this.defStat,
-    pokeStatSpAtk = this.spAtkStat,
-    pokeStatSpDef = this.spDefStat,
-    pokeStatSpd = this.spdStat,
-    favorite = this.favorite
-)
+    // Get the most recent english flavor text
+    return unfilteredList.filter { it.language == "en" }
+        .sortedByDescending { it.versionCode }[0].text
+}
 
-fun PokemonEntity.toPokemon(): Pokemon {
-    val types = mutableListOf<String>()
-    types.add(this.pokeMainType)
-    this.pokeSecondaryType?.let { type -> types.add(type) }
+fun IndividualPokemonResponse.toPokemon(speciesResponse: IndividualPokemonSpeciesResponse): Pokemon {
+    val mainType: String = this.types[0].type.name.uppercase()
+    val secondaryType: String? =
+        this.types.getOrNull(1)?.type?.name?.uppercase()
+    val artworkUrl: String = this.sprites.other.officialArtwork.spriteUrl
+
+    val weightString = "${this.weight / 10.0} kg"
+    val heightString = "${this.height / 10.0} m"
+
+    // ability-one, ability-two -> Ability One, Ability Two
+    val abilityStringList = this.abilities.joinToString { ability ->
+        ability.ability.name.split('-').joinToString(" ") { oldAbilityString ->
+            oldAbilityString.replaceFirstChar { it.uppercase() }
+        }
+    }
+
+    // TODO: Check implementation when pokemon is genderless!
+    // Gender rate is given, based on the female percentage, in 1/8ths
+    // So if genderRate = 1, then the female percentage is 12.5%, whereas male is 87.5%
+    val malePercentage = ((8 - speciesResponse.genderRate) * 100) / 8.0
 
     return Pokemon(
-        name = this.pokeName,
         id = this.id,
-        imageUrl = this.pokeImageUrl,
-        types = types.toList(),
-        weight = this.pokeWeight,
-        height = this.pokeHeight,
-        hpStat = this.pokeStatHp,
-        atkStat = this.pokeStatAtk,
-        defStat = this.pokeStatDef,
-        spAtkStat = this.pokeStatSpAtk,
-        spDefStat = this.pokeStatSpDef,
-        spdStat = this.pokeStatSpd,
-        favorite = this.favorite
+        name = this.name.replaceFirstChar { it.uppercase() },
+        mainType = PokemonTypeEnum.valueOf(mainType),
+        secondaryType = secondaryType?.let { PokemonTypeEnum.valueOf(it) },
+        artworkUrl = artworkUrl,
+        weight = weightString,
+        height = heightString,
+        abilities = abilityStringList,
+        malePercentage = malePercentage,
+        description = speciesResponse.flavorTestEntries.getMostRecentFlavorText()
     )
 }

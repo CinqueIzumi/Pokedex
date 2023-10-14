@@ -2,20 +2,33 @@ package nl.rhaydus.pokedex.features.pokemon_display.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonSortEnum
+import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 
 @Parcelize
 data class Pokemon(
-    val name: String,
     val id: Int,
-    val imageUrl: String,
-    val types: List<String>,
-    val weight: Double, // In hectogram -> 1 hectogram = 100 gr = 0,1 kg
-    val height: Double, // In decimetres -> 1 dm = 10 cm = 0,1 m
-    val hpStat: Int,
-    val atkStat: Int,
-    val defStat: Int,
-    val spAtkStat: Int,
-    val spDefStat: Int,
-    val spdStat: Int,
-    val favorite: Int, // 0 = false, 1 = true
-) : Parcelable
+    val name: String,
+    val mainType: PokemonTypeEnum? = null,
+    val artworkUrl: String? = null,
+    val weight: String? = null,
+    val height: String? = null,
+    val abilities: String? = null,
+    val description: String? = null,
+    val malePercentage: Double? = null,
+    val secondaryType: PokemonTypeEnum? = null
+) : Parcelable {
+    fun isComplete(): Boolean {
+        // The only field which could be nullable is secondary type if the pokemon is complete
+        return (mainType != null && artworkUrl != null && weight != null && height != null
+                && abilities != null && description != null && malePercentage != null)
+    }
+}
+
+fun List<Pokemon>.handlePokemonOrder(sortType: PokemonSortEnum?): List<Pokemon> = when (sortType) {
+    PokemonSortEnum.NUMBER_ASCENDING -> this.sortedBy { pokemon: Pokemon -> pokemon.id }
+    PokemonSortEnum.NUMBER_DESCENDING -> this.sortedByDescending { pokemon: Pokemon -> pokemon.id }
+    PokemonSortEnum.NAME_ASCENDING -> this.sortedBy { pokemon: Pokemon -> pokemon.name }
+    PokemonSortEnum.NAME_DESCENDING -> this.sortedByDescending { pokemon: Pokemon -> pokemon.name }
+    else -> this
+}

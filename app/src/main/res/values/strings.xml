@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">Pokédex</string>
-    <string name="api_base_url">https://pokeapi.co/api/v2/</string>
-    <string name="default_egg_sprite">https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mystery-egg.png</string>
+
+    <string name="bottom_sheet_order_name_number_title">Select an order</string>
+    <string name="bottom_sheet_order_type_title">Select a type</string>
+    <string name="sort_type_number_ascending">0–9</string>
+    <string name="sort_type_number_descending">9–0</string>
+    <string name="sort_type_name_ascending">A-Z</string>
+    <string name="sort_type_name_descending">Z-A</string>
+
+    <string name="detailed_pokemon_category_weight">WEIGHT</string>
+    <string name="detailed_pokemon_category_height">HEIGHT</string>
+    <string name="detailed_pokemon_category_abilities">ABILITIES</string>
+    <string name="detailed_pokemon_category_gender">GENDER</string>
+
+    <string name="pokemon_overview_type_filter_placeholder">Type</string>
+    <string name="pokemon_overview_name_number_filter_placeholder">Sort By</string>
+    <string name="pokemon_overview_search_filter_placeholder">Search name or ID…</string>
 </resources>

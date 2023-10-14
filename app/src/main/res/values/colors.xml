@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark">#FF1C1B1F</color>
 
-    <color name="color_type_normal">#FFA8A878</color>
-    <color name="color_type_fire">#FFF08030</color>
-    <color name="color_type_fighting">#FFC03028</color>
-    <color name="color_type_water">#FF6890F0</color>
-    <color name="color_type_flying">#FFA890F0</color>
-    <color name="color_type_grass">#FF78C850</color>
-    <color name="color_type_poison">#FFA040A0</color>
-    <color name="color_type_electric">#FFF8D030</color>
-    <color name="color_type_ground">#FFE0C068</color>
-    <color name="color_type_psychic">#FFF85888</color>
-    <color name="color_type_rock">#FFB8A038</color>
-    <color name="color_type_ice">#FF98D8D8</color>
-    <color name="color_type_bug">#FFB8B8D0</color>
-    <color name="color_type_dragon">#FF7038F8</color>
-    <color name="color_type_ghost">#FF705898</color>
-    <color name="color_type_dark">#FF705848</color>
-    <color name="color_type_steel">#FFB8B8D0</color>
-    <color name="color_type_fairy">#FFEE99AC</color>
+    <color name="color_splash">#FF000029</color>
+
+    <color name="color_type_water">#FF5090D6</color>
+    <color name="color_type_dragon">#FF0B6DC3</color>
+    <color name="color_type_electric">#FFF4D23C</color>
+    <color name="color_type_fairy">#FFEC8FE6</color>
+    <color name="color_type_ghost">#FF5269AD</color>
+    <color name="color_type_fire">#FFFF9D55</color>
+    <color name="color_type_ice">#FF73CEC0</color>
+    <color name="color_type_grass">#FF63BC5A</color>
+    <color name="color_type_bug">#FF91C12F</color>
+    <color name="color_type_fighting">#FFCE416B</color>
+    <color name="color_type_normal">#FF919AA2</color>
+    <color name="color_type_dark">#FF5A5465</color>
+    <color name="color_type_steel">#FF5A8EA2</color>
+    <color name="color_type_psychic">#FFFA7179</color>
+    <color name="color_type_poison">#FFB567CE</color>
+    <color name="color_type_flying">#FF89AAE3</color>
+    <color name="color_type_ground">#FFD97845</color>
+    <color name="color_type_rock">#FFC5B78C</color>
     <color name="color_type_unknown">#FF68A090</color>
 
-    <color name="color_stat_hp">#FFFF0000</color>
-    <color name="color_stat_atk">#FFF08030</color>
-    <color name="color_stat_def">#FFF8D030</color>
-    <color name="color_stat_sp_atk">#FF6890F0</color>
-    <color name="color_stat_sp_def">#FF78C850</color>
-    <color name="color_stat_spd">#FFF85888</color>
-
-    <color name="color_background">#FF2B292C</color>
-    <color name="color_top_bar">#FFD53B47</color>
+    <color name="color_gender_male">#FF2551C3</color>
+    <color name="color_gender_female">#FFFF7596</color>
 </resources>
