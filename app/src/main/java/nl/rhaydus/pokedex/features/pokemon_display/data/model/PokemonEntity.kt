@@ -3,21 +3,18 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 
 @Entity
 data class PokemonEntity(
     @PrimaryKey val id: Int,
-    @ColumnInfo(name = "poke_name") val pokeName: String,
-    @ColumnInfo(name = "poke_image_url") val pokeImageUrl: String,
-    @ColumnInfo(name = "poke_main_type") val pokeMainType: String,
-    @ColumnInfo(name = "poke_secondary_type") val pokeSecondaryType: String?,
-    @ColumnInfo(name = "poke_weight") val pokeWeight: Double,
-    @ColumnInfo(name = "poke_height") val pokeHeight: Double,
-    @ColumnInfo(name = "poke_stat_hp") val pokeStatHp: Int,
-    @ColumnInfo(name = "poke_stat_atk") val pokeStatAtk: Int,
-    @ColumnInfo(name = "poke_stat_def") val pokeStatDef: Int,
-    @ColumnInfo(name = "poke_stat_sp_atk") val pokeStatSpAtk: Int,
-    @ColumnInfo(name = "poke_stat_sp_def") val pokeStatSpDef: Int,
-    @ColumnInfo(name = "poke_stat_spd") val pokeStatSpd: Int,
-    @ColumnInfo(name = "favorite") val favorite: Int,
+    @ColumnInfo("poke_name") val name: String,
+    @ColumnInfo("poke_main_type") val mainType: PokemonTypeEnum? = null,
+    @ColumnInfo("poke_artwork_url") val artworkUrl: String? = null,
+    @ColumnInfo("poke_weight") val weight: String? = null,
+    @ColumnInfo("poke_height") val height: String? = null,
+    @ColumnInfo("poke_abilities") val abilities: String? = null,
+    @ColumnInfo("poke_description") val description: String? = null,
+    @ColumnInfo("poke_male_percentage") val malePercentage: Double? = null,
+    @ColumnInfo("poke_secondary_type") val secondaryType: PokemonTypeEnum? = null
 )

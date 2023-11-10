@@ -1,44 +1,31 @@
 package nl.rhaydus.pokedex.features.pokemon_display.data.repositories
 
-import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.LocalPokemonDataSource
-import nl.rhaydus.pokedex.features.pokemon_display.data.data_sources.RemotePokemonDataSource
+import nl.rhaydus.pokedex.features.pokemon_display.data.datasource.LocalPokemonDataSource
+import nl.rhaydus.pokedex.features.pokemon_display.data.datasource.RemotePokemonDataSource
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.repositories.PokemonRepository
-import timber.log.Timber
+import javax.inject.Inject
 
-class PokemonRepositoryImpl(
+class PokemonRepositoryImpl @Inject constructor(
     private val remotePokemonDataSource: RemotePokemonDataSource,
     private val localPokemonDataSource: LocalPokemonDataSource,
 ) : PokemonRepository {
+    override suspend fun getSpecificPokemon(id: Int): Pokemon {
+        val poke = remotePokemonDataSource.getSpecificPokemon(id)
+        localPokemonDataSource.addPokemon(poke)
 
-    override suspend fun getAllPokemon(): Result<List<Pokemon>> {
-        return runCatching {
-            if (!localPokemonDataSource.isLocalDataComplete()) {
-                Timber.d("Pokemon data source was not complete!")
-                localPokemonDataSource.addPokemons(pokes = remotePokemonDataSource.getAllPokemon())
-            }
-
-            localPokemonDataSource.getAllPokemon()
-        }
+        return poke
     }
 
-    override suspend fun favoritePokemon(pokemon: Pokemon): Result<Unit> =
-        runCatching { localPokemonDataSource.favoritePokemon(pokemon = pokemon) }
-
-    override suspend fun unFavoritePokemon(pokemon: Pokemon): Result<Unit> =
-        runCatching { localPokemonDataSource.unFavoritePokemon(pokemon = pokemon) }
+    override suspend fun getAllPokemon(): List<Pokemon> = localPokemonDataSource.getAllPokemon()
 
     override suspend fun getPokemonWithFilter(
         nameOrId: String?,
         isFavorite: Boolean?,
         mainType: String?,
-        secondaryType: String?
-    ): Result<List<Pokemon>> = runCatching {
-        localPokemonDataSource.getPokemonWithFilter(
-            nameOrId = nameOrId,
-            isFavorite = isFavorite,
-            mainType = mainType,
-            secondaryType = secondaryType
-        )
-    }
+    ): List<Pokemon> = localPokemonDataSource.getPokemonWithFilter(
+        nameOrId,
+        isFavorite,
+        mainType,
+    )
 }

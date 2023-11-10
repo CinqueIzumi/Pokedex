@@ -28,5 +28,5 @@ interface PokemonDao {
     fun delete(pokemon: PokemonEntity)
 
     @Update
-    fun updatePokemon(vararg pokemons: PokemonEntity)
+    fun updatePokemon(vararg pokemon: PokemonEntity)
 }
