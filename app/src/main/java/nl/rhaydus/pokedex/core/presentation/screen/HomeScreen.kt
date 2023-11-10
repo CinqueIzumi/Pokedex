@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -16,6 +17,7 @@ import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import nl.rhaydus.pokedex.NavGraphs
+import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
 import nl.rhaydus.pokedex.core.presentation.component.BottomNavBar
 import nl.rhaydus.pokedex.core.presentation.component.SystemUiController
 
@@ -25,12 +27,14 @@ import nl.rhaydus.pokedex.core.presentation.component.SystemUiController
 @Composable
 fun HomeScreen() {
     val navController = rememberAnimatedNavController()
-    SystemUiController() {
+    val showBottomNavBar = BottomNavBarManager.bottomNavBarVisible.collectAsState()
+
+    SystemUiController {
         Scaffold(
             bottomBar = {
                 BottomNavBar(
                     navController = navController,
-                    showNavBar = true
+                    showNavBar = showBottomNavBar.value
                 )
             },
         ) { innerPadding ->
