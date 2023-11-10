@@ -55,6 +55,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.component.TypePill
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonDisplayDetailedUiEvent
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonDetailedViewModel
+import timber.log.Timber
 
 @BottomNavGraph
 @Destination
@@ -147,7 +148,9 @@ fun PokemonDetailedScreen(
 
 @Composable
 private fun DetailedGenderPercentageView(pokemon: Pokemon) {
-    pokemon.malePercentage?.let {
+    pokemon.malePercentage?.let { percentage: Double ->
+        if (percentage == -(1.0)) return@let
+
         Column {
             Spacer(modifier = Modifier.height(PokedexTheme.dimensions.spacingLarge))
 
@@ -159,48 +162,55 @@ private fun DetailedGenderPercentageView(pokemon: Pokemon) {
 
             Spacer(modifier = Modifier.height(PokedexTheme.dimensions.spacingSmall))
 
-            LinearProgressIndicator(
-                progress = (pokemon.malePercentage / 100).toFloat(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-                    // This clip is used as a replacement for StrokeCap, as it also modifies the middle part
-                    .clip(RoundedCornerShape(8.dp)),
-                color = colorResource(id = R.color.color_gender_male),
-                trackColor = colorResource(id = R.color.color_gender_female),
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Filled.Male,
-                        contentDescription = null,
-                        tint = Color.Black.copy(alpha = 0.7f)
-                    )
-
-                    Spacer(modifier = Modifier.width(PokedexTheme.dimensions.spacingXSmall))
-
-                    Text(text = "${pokemon.malePercentage}%")
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Filled.Female,
-                        contentDescription = null,
-                        tint = Color.Black.copy(alpha = 0.7f)
-                    )
-
-                    Spacer(modifier = Modifier.width(PokedexTheme.dimensions.spacingXSmall))
-
-                    Text(text = "${100 - pokemon.malePercentage}%")
-                }
-            }
+            Timber.d("Percentage: $percentage")
+            GenderIndicator(malePercentage = percentage)
         }
     }
 }
+
+@Composable
+fun GenderIndicator(malePercentage: Double) {
+    LinearProgressIndicator(
+        progress = (malePercentage / 100).toFloat(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(8.dp)
+            // This clip is used as a replacement for StrokeCap, as it also modifies the middle part
+            .clip(RoundedCornerShape(8.dp)),
+        color = colorResource(id = R.color.color_gender_male),
+        trackColor = colorResource(id = R.color.color_gender_female),
+    )
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Male,
+                contentDescription = null,
+                tint = Color.Black.copy(alpha = 0.7f)
+            )
+
+            Spacer(modifier = Modifier.width(PokedexTheme.dimensions.spacingXSmall))
+
+            Text(text = "${malePercentage}%")
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Female,
+                contentDescription = null,
+                tint = Color.Black.copy(alpha = 0.7f)
+            )
+
+            Spacer(modifier = Modifier.width(PokedexTheme.dimensions.spacingXSmall))
+
+            Text(text = "${100 - malePercentage}%")
+        }
+    }
+}
+
 @Composable
 private fun DetailedCategorySection(
     categoryName: String,

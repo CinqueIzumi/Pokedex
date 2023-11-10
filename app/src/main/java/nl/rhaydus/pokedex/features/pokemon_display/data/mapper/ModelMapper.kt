@@ -6,7 +6,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.Individ
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonSpeciesResponse
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
-
+import timber.log.Timber
 
 fun IndividualPokemonFlavorTextResponse.toIndividualPokemonSpeciesFlavorText(): IndividualPokemonSpeciesFlavorTextResponse {
     val versionCode: Int = this.version.url
@@ -47,10 +47,15 @@ fun IndividualPokemonResponse.toPokemon(speciesResponse: IndividualPokemonSpecie
         }
     }
 
-    // TODO: Check implementation when pokemon is genderless!
     // Gender rate is given, based on the female percentage, in 1/8ths
     // So if genderRate = 1, then the female percentage is 12.5%, whereas male is 87.5%
-    val malePercentage = ((8 - speciesResponse.genderRate) * 100) / 8.0
+    // If the pokemon is genderless, -1 is returned
+    Timber.d("Percentage: ${speciesResponse.genderRate}")
+    val malePercentage = if (speciesResponse.genderRate == -1) {
+        -(1.0)
+    } else {
+        ((8 - speciesResponse.genderRate) * 100) / 8.0
+    }
 
     return Pokemon(
         id = this.id,
