@@ -1,6 +1,5 @@
-package nl.rhaydus.pokedex.core.data.datasource
+package nl.rhaydus.pokedex.features.splash.data.datasource
 
-import nl.rhaydus.pokedex.core.domain.exception.SplashScreenException
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
 interface RemoteSplashScreenDataSource {

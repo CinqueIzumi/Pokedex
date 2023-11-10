@@ -1,9 +1,9 @@
-package nl.rhaydus.pokedex.core.data.repository
+package nl.rhaydus.pokedex.features.splash.data.repository
 
-import nl.rhaydus.pokedex.core.data.datasource.LocalSplashScreenDataSource
-import nl.rhaydus.pokedex.core.data.datasource.RemoteSplashScreenDataSource
-import nl.rhaydus.pokedex.core.domain.repository.SplashScreenRepository
 import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.features.splash.data.datasource.LocalSplashScreenDataSource
+import nl.rhaydus.pokedex.features.splash.data.datasource.RemoteSplashScreenDataSource
+import nl.rhaydus.pokedex.features.splash.domain.repository.SplashScreenRepository
 import timber.log.Timber
 import javax.inject.Inject
 

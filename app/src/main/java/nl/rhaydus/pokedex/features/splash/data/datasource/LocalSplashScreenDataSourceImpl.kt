@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.core.data.datasource
+package nl.rhaydus.pokedex.features.splash.data.datasource
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

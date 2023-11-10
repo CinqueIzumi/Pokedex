@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.core.domain.exception
+package nl.rhaydus.pokedex.features.splash.domain.exception
 
 sealed class SplashScreenException : Exception() {
     data object EmptyResponseBody : SplashScreenException()

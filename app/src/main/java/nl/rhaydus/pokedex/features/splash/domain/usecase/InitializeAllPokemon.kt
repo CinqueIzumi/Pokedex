@@ -1,6 +1,6 @@
-package nl.rhaydus.pokedex.core.domain.usecase
+package nl.rhaydus.pokedex.features.splash.domain.usecase
 
-import nl.rhaydus.pokedex.core.domain.repository.SplashScreenRepository
+import nl.rhaydus.pokedex.features.splash.domain.repository.SplashScreenRepository
 import javax.inject.Inject
 
 class InitializeAllPokemon @Inject constructor(

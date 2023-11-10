@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import nl.rhaydus.pokedex.core.data.network.SplashScreenApiService
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.PokemonApiService
+import nl.rhaydus.pokedex.features.splash.data.network.SplashScreenApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

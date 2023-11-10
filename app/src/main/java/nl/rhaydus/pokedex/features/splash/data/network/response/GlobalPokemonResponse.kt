@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.core.data.network.response
+package nl.rhaydus.pokedex.features.splash.data.network.response
 
 import com.google.gson.annotations.SerializedName
 

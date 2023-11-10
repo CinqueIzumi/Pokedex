@@ -26,9 +26,9 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     }
 
     override suspend fun addPokemon(pokemon: Pokemon) {
-       withContext(Dispatchers.IO) {
-           pokemonDao.updatePokemon(pokemon.toPokemonEntity())
-       }
+        withContext(Dispatchers.IO) {
+            pokemonDao.updatePokemon(pokemon.toPokemonEntity())
+        }
 
         Timber.d("Pokemon with ID ${pokemon.id} has been added!")
     }
