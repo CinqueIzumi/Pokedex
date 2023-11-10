@@ -58,6 +58,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonD
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonDetailedViewModel
 import timber.log.Timber
 
+// TODO: Loading icon should be centered
 @OverviewNavGraph
 @Destination
 @Composable

@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
             if (!splashState) {
                 PokedexTheme {
                     SystemUiController {
-                        val navController = rememberAnimatedNavController()
+                        val navController = rememberNavController()
                         Box(modifier = Modifier.fillMaxSize()) {
                             DestinationsNavHost(
                                 navController = navController,

@@ -9,7 +9,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
@@ -26,7 +26,7 @@ import nl.rhaydus.pokedex.core.presentation.component.SystemUiController
 @Destination
 @Composable
 fun HomeScreen() {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
     val showBottomNavBar = BottomNavBarManager.bottomNavBarVisible.collectAsState()
 
     SystemUiController {
