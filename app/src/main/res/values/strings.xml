@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Pokédex</string>
 
+    <string name="navigation_pokedex">@string/app_name</string>
+    <string name="navigation_regions">Regions</string>
+    <string name="navigation_favorites">Favorites</string>
+    <string name="navigation_account">Account</string>
+
     <string name="bottom_sheet_order_name_number_title">Select an order</string>
     <string name="bottom_sheet_order_type_title">Select a type</string>
     <string name="sort_type_number_ascending">0–9</string>

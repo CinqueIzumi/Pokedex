@@ -47,7 +47,7 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
-import nl.rhaydus.pokedex.core.presentation.navigation.BottomNavGraph
+import nl.rhaydus.pokedex.core.presentation.navigation.OverviewNavGraph
 import nl.rhaydus.pokedex.core.presentation.theme.DefaultPreviews
 import nl.rhaydus.pokedex.core.presentation.theme.PokedexTheme
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
@@ -57,7 +57,8 @@ import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonD
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonDetailedViewModel
 import timber.log.Timber
 
-@BottomNavGraph
+// TODO: Remove bottom bar!
+@OverviewNavGraph
 @Destination
 @Composable
 fun PokemonDetailedScreen(

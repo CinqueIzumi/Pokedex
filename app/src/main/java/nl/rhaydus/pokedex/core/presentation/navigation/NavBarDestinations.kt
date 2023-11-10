@@ -11,6 +11,8 @@ enum class NavBarDestination(
     @DrawableRes val icon: Int,
     @StringRes val label: Int
 ) {
-    Overview(NavGraphs.overview, R.drawable.ic_pokeball, R.string.app_name),
-    Test(NavGraphs.test, R.drawable.ic_height, R.string.app_name),
+    Overview(NavGraphs.overview, R.drawable.ic_poke_ball_nav, R.string.navigation_pokedex),
+    Regions(NavGraphs.region, R.drawable.ic_poke_pin_nav, R.string.navigation_regions),
+    Favorites(NavGraphs.favorites, R.drawable.ic_poke_pin_nav, R.string.navigation_favorites),
+    Account(NavGraphs.account, R.drawable.ic_poke_pin_nav, R.string.navigation_account),
 }

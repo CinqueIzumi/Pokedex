@@ -52,13 +52,14 @@ fun BottomNavBar(
                     selectedTextColor = if (isSystemInDarkTheme()) MaterialTheme.colors.onSurface else Color.Cyan,
                     indicatorColor = MaterialTheme.colors.surface,
                 ),
+                alwaysShowLabel = false,
                 label = {
                     Text(
                         stringResource(destination.label),
                         style = MaterialTheme.typography.body1
                     )
                 },
-                selected = currentDestination?.hierarchy?.any { it.route == destination.direction.route } == true,
+                selected = currentDestination?.hierarchy?.any { it.route == destination.direction.route} == true,
                 onClick = {
                     // Make sure that there is no navigation when the currently active screen is
                     // the same as the bottomNavBar screen that the user is trying to open
