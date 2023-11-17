@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Male
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,6 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
 import nl.rhaydus.pokedex.core.domain.model.Pokemon
@@ -65,9 +67,12 @@ import timber.log.Timber
 @Composable
 fun PokemonDetailedScreen(
     pokemon: Pokemon,
+    navigator: DestinationsNavigator,
     vm: PokemonDetailedViewModel = hiltViewModel()
 ) {
     val state by vm.pokemonDisplayScreenState.collectAsStateWithLifecycle()
+
+    fun onBackPressed() = navigator.popBackStack()
 
     LaunchedEffect(true) {
         HomeWidgetManager.showBottomNavBar(show = false)
@@ -77,6 +82,7 @@ fun PokemonDetailedScreen(
     PokemonDetailedScreen(
         pokemon = state.pokemon,
         isLoading = state.isLoading,
+        onBackPressed = ::onBackPressed
     )
 }
 
@@ -84,6 +90,7 @@ fun PokemonDetailedScreen(
 fun PokemonDetailedScreen(
     pokemon: Pokemon?,
     isLoading: Boolean,
+    onBackPressed: () -> Unit,
 ) {
     val color: Color = colorResource(id = pokemon?.mainType?.colorId ?: R.color.color_type_unknown)
     HomeWidgetManager.setTrayColor(color)
@@ -115,6 +122,30 @@ fun PokemonDetailedScreen(
                     ) {
                         CircularProgressIndicator()
                     }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = color)
+                    .padding(horizontal = PokedexTheme.padding.small),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(onClick = onBackPressed) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_back),
+                        contentDescription = "Back",
+                        tint = Color.Unspecified
+                    )
+                }
+
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_favorite_outline_taskbar),
+                        contentDescription = "Favorite",
+                        tint = Color.Unspecified
+                    )
                 }
             }
 
@@ -359,6 +390,7 @@ private fun PokemonDetailedSummary(pokemon: Pokemon) {
 fun PokemonDetailedScreenPreview() {
     PokemonDetailedScreen(
         pokemon = PREVIEW_POKEMON,
-        isLoading = false
+        isLoading = false,
+        onBackPressed = {}
     )
 }
