@@ -57,8 +57,6 @@ class PokemonDetailedViewModel @Inject constructor(
     }
 
     private fun setCurrentPokemon(poke: Pokemon) {
-        _pokemonDisplayScreenState.update {
-            it.copy(pokemon = poke)
-        }
+        _pokemonDisplayScreenState.update { it.copy(pokemon = poke) }
     }
 }

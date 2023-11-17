@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
+import nl.rhaydus.pokedex.core.domain.util.HomeWidgetManager
 import nl.rhaydus.pokedex.core.presentation.navigation.AccountNavGraph
 import nl.rhaydus.pokedex.core.presentation.navigation.FavoritesNavGraph
 import nl.rhaydus.pokedex.core.presentation.navigation.RegionNavGraph
@@ -16,7 +16,10 @@ import nl.rhaydus.pokedex.core.presentation.navigation.RegionNavGraph
 @Destination
 @Composable
 fun RegionScreen(navigator: DestinationsNavigator) {
-    LaunchedEffect(true) { BottomNavBarManager.showBottomNavBar(true) }
+    LaunchedEffect(true) {
+        HomeWidgetManager.showBottomNavBar(true)
+        HomeWidgetManager.setTrayColor(null)
+    }
 
     Text(text = "Regions", modifier = Modifier.fillMaxSize())
 }
@@ -25,7 +28,10 @@ fun RegionScreen(navigator: DestinationsNavigator) {
 @Destination
 @Composable
 fun FavoritesScreen(navigator: DestinationsNavigator) {
-    LaunchedEffect(true) { BottomNavBarManager.showBottomNavBar(true) }
+    LaunchedEffect(true) {
+        HomeWidgetManager.showBottomNavBar(true)
+        HomeWidgetManager.setTrayColor(null)
+    }
 
     Text(text = "Favorites", modifier = Modifier.fillMaxSize())
 }
@@ -34,7 +40,10 @@ fun FavoritesScreen(navigator: DestinationsNavigator) {
 @Destination
 @Composable
 fun AccountScreen(navigator: DestinationsNavigator) {
-    LaunchedEffect(true) { BottomNavBarManager.showBottomNavBar(true) }
+    LaunchedEffect(true) {
+        HomeWidgetManager.showBottomNavBar(true)
+        HomeWidgetManager.setTrayColor(null)
+    }
 
     Text(text = "Account", modifier = Modifier.fillMaxSize())
 }

@@ -45,7 +45,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
 import nl.rhaydus.pokedex.core.domain.model.Pokemon
-import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
+import nl.rhaydus.pokedex.core.domain.util.HomeWidgetManager
 import nl.rhaydus.pokedex.core.presentation.navigation.OverviewNavGraph
 import nl.rhaydus.pokedex.core.presentation.theme.DefaultPreviews
 import nl.rhaydus.pokedex.core.presentation.theme.PokedexTheme
@@ -67,7 +67,8 @@ fun PokemonOverViewScreen(
 
     // You'll always want the screen to be redrawn, as opening a 'new' pokemon 'unlocks' the detailed entries when going back
     LaunchedEffect(true) {
-        BottomNavBarManager.showBottomNavBar(show = true)
+        HomeWidgetManager.showBottomNavBar(show = true)
+        HomeWidgetManager.setTrayColor(color = null)
         vm.handleEvent(PokemonDisplayOverviewUiEvent.GetAllPokemon)
     }
 

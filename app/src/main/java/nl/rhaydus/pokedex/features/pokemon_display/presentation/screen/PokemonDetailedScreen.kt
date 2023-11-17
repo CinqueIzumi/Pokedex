@@ -50,7 +50,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
 import nl.rhaydus.pokedex.core.domain.model.Pokemon
-import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
+import nl.rhaydus.pokedex.core.domain.util.HomeWidgetManager
 import nl.rhaydus.pokedex.core.presentation.navigation.OverviewNavGraph
 import nl.rhaydus.pokedex.core.presentation.theme.DefaultPreviews
 import nl.rhaydus.pokedex.core.presentation.theme.PokedexTheme
@@ -70,7 +70,7 @@ fun PokemonDetailedScreen(
     val state by vm.pokemonDisplayScreenState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        BottomNavBarManager.showBottomNavBar(show = false)
+        HomeWidgetManager.showBottomNavBar(show = false)
         vm.handleEvent(PokemonDisplayDetailedUiEvent.InitializePokemon(pokemon = pokemon))
     }
 
@@ -85,6 +85,9 @@ fun PokemonDetailedScreen(
     pokemon: Pokemon?,
     isLoading: Boolean,
 ) {
+    val color: Color = colorResource(id = pokemon?.mainType?.colorId ?: R.color.color_type_unknown)
+    HomeWidgetManager.setTrayColor(color)
+
     Scaffold {
         Column(
             modifier = Modifier

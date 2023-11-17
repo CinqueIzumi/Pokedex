@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,7 +18,7 @@ import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import nl.rhaydus.pokedex.NavGraphs
-import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
+import nl.rhaydus.pokedex.core.domain.util.HomeWidgetManager
 import nl.rhaydus.pokedex.core.presentation.component.BottomNavBar
 import nl.rhaydus.pokedex.core.presentation.component.SystemUiController
 
@@ -27,9 +28,11 @@ import nl.rhaydus.pokedex.core.presentation.component.SystemUiController
 @Composable
 fun HomeScreen() {
     val navController = rememberNavController()
-    val showBottomNavBar = BottomNavBarManager.bottomNavBarVisible.collectAsState()
 
-    SystemUiController {
+    val showBottomNavBar = HomeWidgetManager.bottomNavBarVisible.collectAsState()
+    val trayColor = HomeWidgetManager.notificationTrayColor.collectAsState()
+
+    SystemUiController(systemColor = trayColor.value ?: MaterialTheme.colors.background) {
         Scaffold(
             bottomBar = {
                 BottomNavBar(
