@@ -40,6 +40,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,7 +60,6 @@ import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonD
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonDetailedViewModel
 import timber.log.Timber
 
-// TODO: Loading icon should be centered
 @OverviewNavGraph
 @Destination
 @Composable
@@ -93,10 +94,27 @@ fun PokemonDetailedScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (isLoading) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+                Dialog(
+                    onDismissRequest = { /* Do nothing as it can not be dismissed */ },
+                    properties = DialogProperties(
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false
+                    )
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(PokedexTheme.sizes.dialog)
+                            .background(
+                                color = Color.White,
+                                shape = PokedexTheme.shapes.cornerSmall
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
+
             pokemon?.let {
                 Column {
                     PokemonDetailedImage(pokemon = pokemon)
