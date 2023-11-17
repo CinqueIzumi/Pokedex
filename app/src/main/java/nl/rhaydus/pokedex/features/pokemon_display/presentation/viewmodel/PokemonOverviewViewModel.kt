@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
+import nl.rhaydus.pokedex.core.domain.model.handlePokemonOrder
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.handlePokemonOrder
 import nl.rhaydus.pokedex.features.pokemon_display.domain.usecase.GetAllPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.usecase.GetPokemonWithFilter
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonDisplayOverviewUiEvent

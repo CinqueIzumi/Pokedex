@@ -1,6 +1,6 @@
 package nl.rhaydus.pokedex.features.splash.data.repository
 
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.splash.data.datasource.LocalSplashScreenDataSource
 import nl.rhaydus.pokedex.features.splash.data.datasource.RemoteSplashScreenDataSource
 import nl.rhaydus.pokedex.features.splash.domain.repository.SplashScreenRepository

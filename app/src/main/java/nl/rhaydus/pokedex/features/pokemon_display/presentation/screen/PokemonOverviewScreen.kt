@@ -44,6 +44,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.core.domain.util.BottomNavBarManager
 import nl.rhaydus.pokedex.core.presentation.navigation.OverviewNavGraph
 import nl.rhaydus.pokedex.core.presentation.theme.DefaultPreviews
@@ -51,7 +52,6 @@ import nl.rhaydus.pokedex.core.presentation.theme.PokedexTheme
 import nl.rhaydus.pokedex.destinations.PokemonDetailedScreenDestination
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonSortEnum
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.component.PokemonCardListItem
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonDisplayOverviewUiEvent
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.viewmodel.PokemonOverviewViewModel

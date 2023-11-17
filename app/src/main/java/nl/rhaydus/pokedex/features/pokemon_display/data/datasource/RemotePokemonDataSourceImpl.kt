@@ -2,10 +2,10 @@ package nl.rhaydus.pokedex.features.pokemon_display.data.datasource
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.mapper.toPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.PokemonApiService
 import nl.rhaydus.pokedex.features.pokemon_display.domain.exception.PokemonDisplayException
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import javax.inject.Inject
 
 class RemotePokemonDataSourceImpl @Inject constructor(

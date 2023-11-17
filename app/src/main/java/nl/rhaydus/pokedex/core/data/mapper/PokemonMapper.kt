@@ -1,7 +1,7 @@
 package nl.rhaydus.pokedex.core.data.mapper
 
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
 fun Pokemon.toPokemonEntity(): PokemonEntity = PokemonEntity(
     id = this.id,

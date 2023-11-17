@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.usecase.GetSpecificPokemon
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.uievent.PokemonDisplayDetailedUiEvent
 import nl.rhaydus.pokedex.features.pokemon_display.presentation.uistate.PokemonDetailedState

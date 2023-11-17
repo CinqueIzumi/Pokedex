@@ -5,9 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import nl.rhaydus.pokedex.core.data.mapper.toPokemon
 import nl.rhaydus.pokedex.core.data.mapper.toPokemonEntity
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.dao.PokemonDao
 import nl.rhaydus.pokedex.features.pokemon_display.data.model.PokemonEntity
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import timber.log.Timber
 import javax.inject.Inject
 

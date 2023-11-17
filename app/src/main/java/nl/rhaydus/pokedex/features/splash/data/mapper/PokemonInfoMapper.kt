@@ -1,6 +1,6 @@
 package nl.rhaydus.pokedex.features.splash.data.mapper
 
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.splash.data.network.response.GlobalPokemonInformationResponse
 import nl.rhaydus.pokedex.features.splash.data.network.response.GlobalPokemonResponse
 

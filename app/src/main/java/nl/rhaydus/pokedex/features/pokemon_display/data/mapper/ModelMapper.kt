@@ -1,11 +1,11 @@
 package nl.rhaydus.pokedex.features.pokemon_display.data.mapper
 
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonFlavorTextResponse
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonResponse
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonSpeciesFlavorTextResponse
 import nl.rhaydus.pokedex.features.pokemon_display.data.network.response.IndividualPokemonSpeciesResponse
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 import timber.log.Timber
 
 fun IndividualPokemonFlavorTextResponse.toIndividualPokemonSpeciesFlavorText(): IndividualPokemonSpeciesFlavorTextResponse {

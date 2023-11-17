@@ -1,7 +1,7 @@
 package nl.rhaydus.pokedex.core.data.constant
 
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
 // For testing purposes, the pokemon are currently limited to the first generation
 const val HIGHEST_POKEMON_ID = 151

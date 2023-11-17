@@ -27,10 +27,10 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import nl.rhaydus.pokedex.R
 import nl.rhaydus.pokedex.core.data.constant.PREVIEW_POKEMON
+import nl.rhaydus.pokedex.core.domain.model.Pokemon
 import nl.rhaydus.pokedex.core.presentation.theme.DefaultPreviews
 import nl.rhaydus.pokedex.core.presentation.theme.PokedexTheme
 import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
-import nl.rhaydus.pokedex.features.pokemon_display.domain.model.Pokemon
 
 @Composable
 fun PokemonCardListItem(pokemon: Pokemon, onClicked: (Pokemon) -> Unit) {
@@ -53,7 +53,8 @@ fun PokemonCardListItem(pokemon: Pokemon, onClicked: (Pokemon) -> Unit) {
                 .height(IntrinsicSize.Min)
         ) {
             PokemonCardListItemInfo(
-                pokemon = pokemon, columnModifier = Modifier
+                pokemon = pokemon,
+                modifier = Modifier
                     .padding(
                         top = PokedexTheme.padding.small,
                         start = PokedexTheme.padding.medium,
@@ -105,9 +106,9 @@ fun PokemonCardListItemImage(pokemon: Pokemon) {
 @Composable
 fun PokemonCardListItemInfo(
     pokemon: Pokemon,
-    columnModifier: Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = columnModifier) {
+    Column(modifier = modifier) {
         Text(
             text = "Nº" + "%04d".format(pokemon.id),
             style = PokedexTheme.typography.subTitleMedium

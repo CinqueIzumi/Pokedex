@@ -1,4 +1,4 @@
-package nl.rhaydus.pokedex.features.pokemon_display.domain.model
+package nl.rhaydus.pokedex.core.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
