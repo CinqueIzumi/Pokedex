@@ -45,10 +45,10 @@ object QueryHelper {
 
         // Add the main type filter if required
         mainType?.let { givenMainType ->
-            if (givenMainType != "All") {
-                queryString += addCondition() + " poke_main_type = ?"
-                args.add(givenMainType)
-            }
+            if (mainType == "All") return@let
+
+            queryString += addCondition() + " poke_main_type = ?"
+            args.add(givenMainType)
         }
 
         // End of the query
