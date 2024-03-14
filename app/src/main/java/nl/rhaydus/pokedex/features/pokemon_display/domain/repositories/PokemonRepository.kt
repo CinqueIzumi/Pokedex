@@ -10,4 +10,6 @@ interface PokemonRepository {
         isFavorite: Boolean?,
         mainType: String?
     ): List<Pokemon>
+
+    suspend fun favoritePokemon(pokemon: Pokemon)
 }
