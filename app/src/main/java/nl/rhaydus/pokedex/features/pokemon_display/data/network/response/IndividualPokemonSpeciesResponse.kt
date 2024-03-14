@@ -13,17 +13,17 @@ data class IndividualPokemonFlavorTextResponse(
     @SerializedName("flavor_text")
     val flavorText: String,
     @SerializedName("language")
-    val language: IndividualSpecifiesFlavorTextLanguageResponse,
+    val language: IndividualSpeciesFlavorTextLanguageResponse,
     @SerializedName("version")
-    val version: IndividualSpecifiesFlavorTextVersionResponse
+    val version: IndividualSpeciesFlavorTextVersionResponse
 )
 
-data class IndividualSpecifiesFlavorTextLanguageResponse(
+data class IndividualSpeciesFlavorTextLanguageResponse(
     @SerializedName("name")
     val name: String,
 )
 
-data class IndividualSpecifiesFlavorTextVersionResponse(
+data class IndividualSpeciesFlavorTextVersionResponse(
     @SerializedName("url")
     val url: String
 )
