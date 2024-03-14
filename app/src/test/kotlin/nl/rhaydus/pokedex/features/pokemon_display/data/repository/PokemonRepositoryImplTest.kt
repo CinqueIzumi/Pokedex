@@ -166,4 +166,20 @@ class PokemonRepositoryImplTest {
             result shouldBe expectedList
         }
     }
+
+    @Nested
+    inner class FavoritePokemon {
+        @Test
+        fun `should call local data source to favorite pokemon`() {
+            // ----- Arrange -----
+            val mockPokemon: Pokemon = mockk()
+            coEvery { mockLocalPokemonDataSource.favoritePokemon(any()) }.just(runs)
+
+            // ----- Act -----
+            runBlocking { pokemonRepositoryImpl.favoritePokemon(mockPokemon) }
+
+            // ----- Assert -----
+            coVerify(exactly = 1) { mockLocalPokemonDataSource.favoritePokemon(mockPokemon) }
+        }
+    }
 }

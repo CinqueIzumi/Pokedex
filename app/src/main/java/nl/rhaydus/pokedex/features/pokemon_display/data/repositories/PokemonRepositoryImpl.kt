@@ -28,4 +28,7 @@ class PokemonRepositoryImpl @Inject constructor(
         isFavorite,
         mainType,
     )
+
+    override suspend fun favoritePokemon(pokemon: Pokemon) =
+        localPokemonDataSource.favoritePokemon(pokemon)
 }

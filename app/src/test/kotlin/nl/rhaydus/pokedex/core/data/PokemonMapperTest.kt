@@ -23,6 +23,7 @@ class PokemonMapperTest {
     private val pokemon = Pokemon(
         id = pokemonId,
         name = pokemonName,
+        favorite = false,
         mainType = pokemonMainType,
         secondaryType = pokemonSecondaryType,
         artworkUrl = pokemonArtworkUrl,
@@ -43,7 +44,8 @@ class PokemonMapperTest {
         height = pokemonHeight,
         abilities = pokemonAbilities,
         description = pokemonDescription,
-        malePercentage = pokemonMalePercentage
+        malePercentage = pokemonMalePercentage,
+        favorite = false
     )
 
     @Test

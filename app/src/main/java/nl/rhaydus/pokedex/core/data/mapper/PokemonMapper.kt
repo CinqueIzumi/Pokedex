@@ -13,7 +13,8 @@ fun Pokemon.toPokemonEntity(): PokemonEntity = PokemonEntity(
     abilities = this.abilities,
     description = this.description,
     malePercentage = this.malePercentage,
-    secondaryType = this.secondaryType
+    secondaryType = this.secondaryType,
+    favorite = this.favorite,
 )
 
 fun PokemonEntity.toPokemon(): Pokemon = Pokemon(
@@ -26,5 +27,6 @@ fun PokemonEntity.toPokemon(): Pokemon = Pokemon(
     abilities = this.abilities,
     description = this.description,
     malePercentage = this.malePercentage,
-    secondaryType = this.secondaryType
+    secondaryType = this.secondaryType,
+    favorite = this.favorite,
 )

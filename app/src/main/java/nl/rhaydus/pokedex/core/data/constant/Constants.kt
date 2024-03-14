@@ -19,5 +19,6 @@ val PREVIEW_POKEMON = Pokemon(
     height = "0.7 m",
     abilities = "One, Two, Three",
     description = "For some time after its birth, it grows by taking nourishment from the seed on its back. ",
-    malePercentage = 50.0
+    malePercentage = 50.0,
+    favorite = false
 )

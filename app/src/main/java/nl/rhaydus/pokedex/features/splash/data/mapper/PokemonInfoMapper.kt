@@ -12,5 +12,5 @@ fun GlobalPokemonInformationResponse.toPokemon(): Pokemon {
         .removeSuffix("/")
         .toInt()
 
-    return Pokemon(name = this.name.replaceFirstChar { it.uppercase() }, id = id)
+    return Pokemon(name = this.name.replaceFirstChar { it.uppercase() }, id = id, favorite = false)
 }

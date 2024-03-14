@@ -9,6 +9,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 data class PokemonEntity(
     @PrimaryKey val id: Int,
     @ColumnInfo("poke_name") val name: String,
+    @ColumnInfo("favorite") val favorite: Boolean,
     @ColumnInfo("poke_main_type") val mainType: PokemonTypeEnum? = null,
     @ColumnInfo("poke_artwork_url") val artworkUrl: String? = null,
     @ColumnInfo("poke_weight") val weight: String? = null,

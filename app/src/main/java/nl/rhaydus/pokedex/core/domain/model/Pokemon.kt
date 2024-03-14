@@ -9,6 +9,7 @@ import nl.rhaydus.pokedex.features.pokemon_display.domain.enums.PokemonTypeEnum
 data class Pokemon(
     val id: Int,
     val name: String,
+    val favorite: Boolean,
     val mainType: PokemonTypeEnum? = null,
     val artworkUrl: String? = null,
     val weight: String? = null,

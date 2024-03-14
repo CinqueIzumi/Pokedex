@@ -44,4 +44,9 @@ class LocalPokemonDataSourceImpl @Inject constructor(
             pokemonDao.getFilteredPokemons(query).map { it.toPokemon() }
         }
     }
+
+    override suspend fun favoritePokemon(pokemon: Pokemon) = withContext(Dispatchers.IO) {
+        pokemonDao.updatePokemon(pokemon.toPokemonEntity().copy(favorite = true))
+        Timber.d("Pokemon with ID ${pokemon.id} has been favorited!")
+    }
 }

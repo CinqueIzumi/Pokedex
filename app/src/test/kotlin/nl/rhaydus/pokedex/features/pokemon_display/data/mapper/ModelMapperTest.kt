@@ -166,7 +166,8 @@ class ModelMapperTest {
             abilities = expectedAbilityString,
             description = expectedFlavorString,
             malePercentage = expectedMalePercentage,
-            secondaryType = null
+            secondaryType = null,
+            favorite = false
         )
 
         // ----- Act -----

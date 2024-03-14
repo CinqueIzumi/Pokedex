@@ -67,6 +67,7 @@ fun IndividualPokemonResponse.toPokemon(speciesResponse: IndividualPokemonSpecie
         height = heightString,
         abilities = abilityStringList,
         malePercentage = malePercentage,
-        description = speciesResponse.flavorTestEntries.getMostRecentFlavorText()
+        description = speciesResponse.flavorTestEntries.getMostRecentFlavorText(),
+        favorite = false
     )
 }

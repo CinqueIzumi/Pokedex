@@ -15,7 +15,7 @@ class PokemonInfoMapperTest {
         url = "https://pokeapi.co/api/v2/pokemon/$expectedId/"
     )
 
-    private val pokemon = Pokemon(name = expectedName, id = expectedId)
+    private val pokemon = Pokemon(name = expectedName, id = expectedId, favorite = false)
 
     @Test
     fun `GlobalPokemonInformationResponse should be mapped to pokemon successfully`() {
