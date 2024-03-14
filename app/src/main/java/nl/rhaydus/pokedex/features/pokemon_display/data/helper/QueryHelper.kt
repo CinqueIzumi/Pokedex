@@ -33,8 +33,6 @@ object QueryHelper {
                     args.add(givenNameOrId)
                 }
             }
-
-            containsConditions = true
         }
 
         // Add the favorites filter if required
