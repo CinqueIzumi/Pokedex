@@ -61,7 +61,7 @@ fun TypePill(type: PokemonTypeEnum) {
             Text(
                 text = type.getName(),
                 style = PokedexTheme.typography.typeText,
-                color = type.getTextColor(),
+                color = type.getOnTypeColor(),
                 maxLines = 1
             )
         }

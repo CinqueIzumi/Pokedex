@@ -13,5 +13,8 @@ data class PokedexTypography(
     val bodyText: TextStyle,
     val categoryText: TextStyle,
     val categoryBodyText: TextStyle,
-    val searchText: TextStyle
+    val searchText: TextStyle,
+
+    // ----- UPDATED TEXT STYLE REGION -----
+    val dropdownTextStyle: TextStyle,
 )

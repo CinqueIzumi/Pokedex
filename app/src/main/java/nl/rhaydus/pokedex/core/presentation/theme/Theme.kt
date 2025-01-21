@@ -28,7 +28,8 @@ val LocalPokedexTypography = staticCompositionLocalOf {
         bodyText = bodyText,
         categoryText = categoryText,
         categoryBodyText = categoryBodyText,
-        searchText = searchText
+        searchText = searchText,
+        dropdownTextStyle = dropdownTextStyle,
     )
 }
 

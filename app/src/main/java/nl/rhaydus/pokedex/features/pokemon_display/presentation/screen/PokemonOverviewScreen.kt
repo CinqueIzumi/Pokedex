@@ -248,7 +248,7 @@ fun BuildTypeSelectorSheet(
                             },
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = type.getName(), color = type.getTextColor())
+                        Text(text = type.getName(), color = type.getOnTypeColor())
                     }
                 }
             }
@@ -282,18 +282,22 @@ private fun SortRow(
                 },
             contentAlignment = Alignment.Center
         ) {
-            Row {
-                val text = typeFilter?.getName()
-                    ?: stringResource(id = R.string.pokemon_overview_type_filter_placeholder)
-                val textColor = typeFilter?.getTextColor() ?: Color.White
+            val typeText = typeFilter?.getName()
+                ?: stringResource(id = R.string.pokemon_overview_type_filter_placeholder)
+            val itemColor = typeFilter?.getOnTypeColor() ?: Color.White
 
-                Text(text = text, color = textColor, modifier = Modifier.weight(1f))
-                Icon(
-                    Icons.Default.ExpandMore,
-                    contentDescription = "Expand",
-                    tint = Color.White
-                )
-            }
+            Text(
+                text = typeText,
+                color = itemColor,
+                style = PokedexTheme.typography.dropdownTextStyle
+            )
+
+            Icon(
+                imageVector = Icons.Default.ExpandMore,
+                contentDescription = "Expand",
+                tint = itemColor,
+                modifier = Modifier.align(alignment = Alignment.CenterEnd)
+            )
         }
 
         Spacer(modifier = Modifier.width(PokedexTheme.dimensions.spacingMedium))
@@ -309,16 +313,21 @@ private fun SortRow(
                 .clickable { onSortClicked() },
             contentAlignment = Alignment.Center
         ) {
-            Row {
-                val text: String = sortType?.description?.getString()
-                    ?: stringResource(id = R.string.pokemon_overview_name_number_filter_placeholder)
-                Text(text = text, color = Color.White, modifier = Modifier.weight(1f))
-                Icon(
-                    Icons.Default.ExpandMore,
-                    contentDescription = "Expand",
-                    tint = Color.White
-                )
-            }
+            val text: String = sortType?.description?.getString()
+                ?: stringResource(id = R.string.pokemon_overview_name_number_filter_placeholder)
+
+            Text(
+                text = text,
+                color = Color.White,
+                style = PokedexTheme.typography.dropdownTextStyle
+            )
+
+            Icon(
+                imageVector = Icons.Default.ExpandMore,
+                contentDescription = "Expand",
+                tint = Color.White,
+                modifier = Modifier.align(alignment = Alignment.CenterEnd)
+            )
         }
     }
 }

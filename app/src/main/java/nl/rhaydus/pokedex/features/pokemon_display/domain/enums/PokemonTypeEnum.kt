@@ -28,7 +28,7 @@ enum class PokemonTypeEnum(@ColorRes val colorId: Int, @DrawableRes val typeImag
     // STEEL -> Steel
     fun getName(): String = this.name.lowercase().replaceFirstChar { it.uppercase() }
 
-    fun getTextColor(): Color {
+    fun getOnTypeColor(): Color {
         return if (this == DRAGON || this == GHOST || this == FIGHTING || this == DARK) {
             Color.White
         } else {
