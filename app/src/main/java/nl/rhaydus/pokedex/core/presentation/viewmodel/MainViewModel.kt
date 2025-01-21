@@ -7,12 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import nl.rhaydus.pokedex.features.splash.domain.usecase.InitializeAllPokemon
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val initializeAllPokemonUseCase: InitializeAllPokemon
+    private val initializeAllPokemonUseCase: InitializeAllPokemon,
 ) : ViewModel() {
     private val _showSplashScreen = MutableStateFlow(true)
     val showSplashScreen = _showSplashScreen.asStateFlow()
@@ -20,7 +19,7 @@ class MainViewModel @Inject constructor(
     fun initialize() {
         viewModelScope.launch {
             initializeAllPokemonUseCase()
-            Timber.d("Finished initializing")
+
             _showSplashScreen.value = false
         }
     }

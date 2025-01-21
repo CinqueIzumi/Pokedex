@@ -13,14 +13,14 @@ class SplashScreenRepositoryImpl @Inject constructor(
 ) : SplashScreenRepository {
     override suspend fun initializeAllPokemon() {
         if (localSplashScreenDataSource.isLocalDataSourceComplete()) {
-            Timber.d("Database was complete!")
+            Timber.d("-=- Database was complete!")
             return
         }
 
-        Timber.d("Database was not complete!")
+        Timber.d("-=- Database was not complete!")
 
         val pokemon: List<Pokemon> = remoteSplashScreenDataSource.initializeAllPokemon()
-        Timber.d("Amount of pokemon which are being added: ${pokemon.size}")
+        Timber.d("-=- Amount of pokemon which are being added: ${pokemon.size}")
 
         localSplashScreenDataSource.addPokemon(pokemon)
     }

@@ -19,7 +19,7 @@ class LocalPokemonDataSourceImpl @Inject constructor(
             pokemonDao.getAll().map { pokemonEntity: PokemonEntity -> pokemonEntity.toPokemon() }
         }
 
-        Timber.d("Pokemon list found with size: ${pokemonList.size}")
+        Timber.d("-=- Pokemon list found with size: ${pokemonList.size}")
         return pokemonList
     }
 
@@ -28,7 +28,7 @@ class LocalPokemonDataSourceImpl @Inject constructor(
             pokemonDao.updatePokemon(pokemon.toPokemonEntity())
         }
 
-        Timber.d("Pokemon with ID ${pokemon.id} has been added!")
+        Timber.d("-=- Pokemon with ID ${pokemon.id} has been added!")
     }
 
     override suspend fun getPokemonWithFilter(
@@ -38,7 +38,7 @@ class LocalPokemonDataSourceImpl @Inject constructor(
     ): List<Pokemon> {
         val query =
             QueryHelper.getQuery(nameOrId = nameOrId, mainType = mainType, isFavorite = isFavorite)
-        Timber.d("Query string: ${query.sql}")
+        Timber.d("-=- Query string: ${query.sql}")
 
         return withContext(Dispatchers.IO) {
             pokemonDao.getFilteredPokemons(query).map { it.toPokemon() }
@@ -47,6 +47,6 @@ class LocalPokemonDataSourceImpl @Inject constructor(
 
     override suspend fun favoritePokemon(pokemon: Pokemon) = withContext(Dispatchers.IO) {
         pokemonDao.updatePokemon(pokemon.toPokemonEntity().copy(favorite = true))
-        Timber.d("Pokemon with ID ${pokemon.id} has been favorited!")
+        Timber.d("-=- Pokemon with ID ${pokemon.id} has been favorited!")
     }
 }

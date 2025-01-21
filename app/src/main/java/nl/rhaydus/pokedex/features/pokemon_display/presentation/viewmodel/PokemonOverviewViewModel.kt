@@ -61,7 +61,6 @@ class PokemonOverviewViewModel @Inject constructor(
         isFavorite: Boolean?,
         mainType: PokemonTypeEnum?,
     ) {
-        Timber.d("Started getting pokemon!")
         viewModelScope.launch {
             setLoading(true)
 
@@ -88,7 +87,6 @@ class PokemonOverviewViewModel @Inject constructor(
     }
 
     private fun getAllPokemon() {
-        Timber.d("Started getting pokemon!")
         viewModelScope.launch {
             setLoading(true)
 

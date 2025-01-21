@@ -217,7 +217,7 @@ private fun DetailedGenderPercentageView(pokemon: Pokemon) {
 
             Spacer(modifier = Modifier.height(PokedexTheme.dimensions.spacingSmall))
 
-            Timber.d("Percentage: $percentage")
+            Timber.d("-=- Percentage: $percentage")
             GenderIndicator(malePercentage = percentage)
         }
     }

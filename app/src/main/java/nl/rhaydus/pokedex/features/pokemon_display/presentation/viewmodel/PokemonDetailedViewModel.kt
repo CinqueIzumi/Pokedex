@@ -25,7 +25,6 @@ class PokemonDetailedViewModel @Inject constructor(
         when (event) {
             is PokemonDisplayDetailedUiEvent.InitializePokemon -> {
                 val pokemonIsComplete = event.pokemon.isComplete()
-                Timber.d("Pokemon was complete: $pokemonIsComplete")
 
                 if (pokemonIsComplete) {
                     setCurrentPokemon(event.pokemon)
@@ -37,13 +36,12 @@ class PokemonDetailedViewModel @Inject constructor(
     }
 
     private fun getSpecificPokemon(id: Int) {
-        Timber.d("Started loading pokemon...")
         viewModelScope.launch {
             setLoading(true)
 
             getSpecificPokemonUseCase(id).fold(
                 onSuccess = { pokemon -> setCurrentPokemon(pokemon) },
-                onFailure = { Timber.e("Something went wrong!") }
+                onFailure = { Timber.e("-=- Something went wrong!") }
             )
 
             setLoading(false)
